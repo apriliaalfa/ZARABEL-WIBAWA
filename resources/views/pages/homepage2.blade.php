@@ -374,7 +374,6 @@
     });
   })();
 
-<script>
   // Scroll halus ke section (semua tombol ber-atribut data-scroll)
   document.querySelectorAll('[data-scroll]').forEach(function(btn){
     btn.addEventListener('click', function(){
