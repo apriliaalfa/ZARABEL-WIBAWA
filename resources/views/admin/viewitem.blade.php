@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zarabel â€” View Item</title>
+
+<link rel="icon" type="image/png" href="{{ asset('assets/img/zarabelbg.png') }}">
+<link rel="apple-touch-icon" href="{{ asset('assets/img/zarabelbg.png') }}">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@400;700&family=Jost:wght@400&family=Lato:wght@400;500;700&family=Plus+Jakarta+Sans:wght@500&family=Playfair+Display:wght@400;500&family=Poppins:wght@400;500;600;700&family=Volkhov:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ asset('css/home.css') }}">
+<link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+<link rel="stylesheet" href="{{ asset('css/product.css') }}">
+<link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-search" viewBox="0 0 30 30"><path d="M26.25 26.25L20.8125 20.8125M23.75 13.75C23.75 19.2728 19.2728 23.75 13.75 23.75C8.22715 23.75 3.75 19.2728 3.75 13.75C3.75 8.22715 8.22715 3.75 13.75 3.75C19.2728 3.75 23.75 8.22715 23.75 13.75Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 20 20"><path d="M16.25 6.875L10 13.125L3.75 6.875" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-ig" viewBox="0 0 48 48"><path fill="currentColor" d="M23.9999 15.6666C26.264 15.6666 26.5465 15.6749 27.4349 15.7166C28.3224 15.7583 28.9265 15.8974 29.4582 16.1041C30.0082 16.3158 30.4715 16.6024 30.9349 17.0649C31.3586 17.4815 31.6865 17.9854 31.8957 18.5416C32.1015 19.0724 32.2415 19.6774 32.2832 20.5649C32.3224 21.4533 32.3332 21.7358 32.3332 23.9999C32.3332 26.2641 32.3249 26.5466 32.2832 27.4349C32.2415 28.3224 32.1015 28.9266 31.8957 29.4583C31.6871 30.0147 31.3591 30.5188 30.9349 30.9349C30.5182 31.3585 30.0143 31.6864 29.4582 31.8958C28.9274 32.1016 28.3224 32.2416 27.4349 32.2833C26.5465 32.3224 26.264 32.3333 23.9999 32.3333C21.7357 32.3333 21.4532 32.3249 20.5649 32.2833C19.6774 32.2416 19.0732 32.1016 18.5415 31.8958C17.9851 31.687 17.4811 31.359 17.0649 30.9349C16.641 30.5184 16.3131 30.0145 16.104 29.4583C15.8974 28.9274 15.7582 28.3224 15.7165 27.4349C15.6774 26.5466 15.6665 26.2641 15.6665 23.9999C15.6665 21.7358 15.6749 21.4533 15.7165 20.5649C15.7582 19.6766 15.8974 19.0733 16.104 18.5416C16.3126 17.9851 16.6405 17.481 17.0649 17.0649C17.4813 16.6409 17.9852 16.313 18.5415 16.1041C19.0732 15.8974 19.6765 15.7583 20.5649 15.7166C21.4532 15.6774 21.7357 15.6666 23.9999 15.6666ZM23.9999 19.8333C22.8948 19.8333 21.835 20.2722 21.0536 21.0536C20.2722 21.835 19.8332 22.8949 19.8332 23.9999C19.8332 25.105 20.2722 26.1648 21.0536 26.9462C21.835 27.7276 22.8948 28.1666 23.9999 28.1666C25.1049 28.1666 26.1647 27.7276 26.9461 26.9462C27.7276 26.1648 28.1665 25.105 28.1665 23.9999C28.1665 22.8949 27.7276 21.835 26.9461 21.0536C26.1647 20.2722 25.1049 19.8333 23.9999 19.8333ZM29.4165 19.6249C29.4165 19.3487 29.3068 19.0837 29.1114 18.8884C28.9161 18.693 28.6511 18.5833 28.3749 18.5833C28.0986 18.5833 27.8337 18.693 27.6383 18.8884C27.443 19.0837 27.3332 19.3487 27.3332 19.6249C27.3332 19.9012 27.443 20.1661 27.6383 20.3615C27.8337 20.5568 28.0986 20.6666 28.3749 20.6666C28.6511 20.6666 28.9161 20.5568 29.1114 20.3615C29.3068 20.1661 29.4165 19.9012 29.4165 19.6249ZM23.9999 21.4999C24.6629 21.4999 25.2988 21.7633 25.7676 22.2322C26.2365 22.701 26.4999 23.3369 26.4999 23.9999C26.4999 24.663 26.2365 25.2988 25.7676 25.7677C25.2988 26.2365 24.6629 26.4999 23.9999 26.4999C23.3368 26.4999 22.7009 26.2365 22.2321 25.7677C21.7633 25.2988 21.4999 24.663 21.4999 23.9999C21.4999 23.3369 21.7633 22.701 22.2321 22.2322C22.7009 21.7633 23.3368 21.4999 23.9999 21.4999Z"/></symbol>
+  <symbol id="i-call" viewBox="0 0 48 48"><path d="M26.5417 18.1667C27.3556 18.3255 28.1037 18.7235 28.6901 19.3099C29.2765 19.8963 29.6745 20.6444 29.8333 21.4583M26.5417 14.8333C28.2327 15.0212 29.8097 15.7785 31.0135 16.9808C32.2174 18.1832 32.9767 19.7592 33.1667 21.45M32.3333 28.1V30.6C32.3343 30.8321 32.2867 31.0618 32.1938 31.2745C32.1008 31.4871 31.9644 31.678 31.7934 31.8349C31.6224 31.9918 31.4205 32.1112 31.2006 32.1856C30.9808 32.2599 30.7478 32.2876 30.5167 32.2667C27.9524 31.988 25.4892 31.1118 23.325 29.7083C21.3115 28.4289 19.6044 26.7218 18.325 24.7083C16.9166 22.5343 16.0402 20.0592 15.7667 17.4833C15.7458 17.2529 15.7732 17.0206 15.8471 16.8014C15.9209 16.5821 16.0396 16.3806 16.1956 16.2097C16.3516 16.0388 16.5415 15.9023 16.7532 15.8088C16.9648 15.7153 17.1936 15.6669 17.425 15.6667H19.925C20.3294 15.6627 20.7215 15.8059 21.0281 16.0696C21.3348 16.3333 21.5351 16.6995 21.5917 17.1C21.6972 17.9001 21.8929 18.6856 22.175 19.4417C22.2871 19.7399 22.3114 20.0641 22.2449 20.3757C22.1785 20.6874 22.0241 20.9734 21.8 21.2L20.7417 22.2583C21.928 24.3446 23.6554 26.072 25.7417 27.2583L26.8 26.2C27.0266 25.9759 27.3126 25.8215 27.6243 25.7551C27.9359 25.6886 28.2601 25.7129 28.5583 25.825C29.3144 26.1071 30.0999 26.3028 30.9 26.4083C31.3048 26.4654 31.6745 26.6693 31.9388 26.9812C32.2031 27.2932 32.3435 27.6913 32.3333 28.1Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 48 48"><path fill="currentColor" d="M16 32C15.45 32 14.9792 31.8042 14.5875 31.4125C14.1958 31.0208 14 30.55 14 30V18C14 17.45 14.1958 16.9792 14.5875 16.5875C14.9792 16.1958 15.45 16 16 16H32C32.55 16 33.0208 16.1958 33.4125 16.5875C33.8042 16.9792 34 17.45 34 18V30C34 30.55 33.8042 31.0208 33.4125 31.4125C33.0208 31.8042 32.55 32 32 32H16ZM24 25L16 20V30H32V20L24 25ZM24 23L32 18H16L24 23Z"/></symbol>
+  <symbol id="i-bag" viewBox="0 0 48 48"><path d="M33 18V32C33 32.5304 32.7893 33.0391 32.4142 33.4142C32.0391 33.7893 31.5304 34 31 34H17C16.4696 34 15.9609 33.7893 15.5858 33.4142C15.2107 33.0391 15 32.5304 15 32V18L18 14H30L33 18ZM15 18H33M28 22C28 23.0609 27.5786 24.0783 26.8284 24.8284C26.0783 25.5786 25.0609 26 24 26C22.9391 26 21.9217 25.5786 21.1716 24.8284C20.4214 24.0783 20 23.0609 20 22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 48 48"><path fill="currentColor" d="M24 34C22.6333 34 21.3417 33.7375 20.125 33.2125C18.9083 32.6875 17.8458 31.9708 16.9375 31.0625C16.0292 30.1542 15.3125 29.0917 14.7875 27.875C14.2625 26.6583 14 25.3667 14 24C14 22.6167 14.2625 21.3208 14.7875 20.1125C15.3125 18.9042 16.0292 17.8458 16.9375 16.9375C17.8458 16.0292 18.9083 15.3125 20.125 14.7875C21.3417 14.2625 22.6333 14 24 14C25.3833 14 26.6792 14.2625 27.8875 14.7875C29.0958 15.3125 30.1542 16.0292 31.0625 16.9375C31.9708 17.8458 32.6875 18.9042 33.2125 20.1125C33.7375 21.3208 34 22.6167 34 24C34 25.3667 33.7375 26.6583 33.2125 27.875C32.6875 29.0917 31.9708 30.1542 31.0625 31.0625C30.1542 31.9708 29.0958 32.6875 27.8875 33.2125C26.6792 33.7375 25.3833 34 24 34ZM24 31.95C24.4333 31.35 24.8083 30.725 25.125 30.075C25.4417 29.425 25.7 28.7333 25.9 28H22.1C22.3 28.7333 22.5583 29.425 22.875 30.075C23.1917 30.725 23.5667 31.35 24 31.95ZM21.4 31.55C21.1 31 20.8375 30.4292 20.6125 29.8375C20.3875 29.2458 20.2 28.6333 20.05 28H17.1C17.5833 28.8333 18.1875 29.5583 18.9125 30.175C19.6375 30.7917 20.4667 31.25 21.4 31.55ZM26.6 31.55C27.5333 31.25 28.3625 30.7917 29.0875 30.175C29.8125 29.5583 30.4167 28.8333 30.9 28H27.95C27.8 28.6333 27.6125 29.2458 27.3875 29.8375C27.1625 30.4292 26.9 31 26.6 31.55ZM16.25 26H19.65C19.6 25.6667 19.5625 25.3375 19.5375 25.0125C19.5125 24.6875 19.5 24.35 19.5 24C19.5 23.65 19.5125 23.3125 19.5375 22.9875C19.5625 22.6625 19.6 22.3333 19.65 22H16.25C16.1667 22.3333 16.1042 22.6625 16.0625 22.9875C16.0208 23.3125 16 23.65 16 24C16 24.35 16.0208 24.6875 16.0625 25.0125C16.1042 25.3375 16.1667 25.6667 16.25 26ZM21.65 26H26.35C26.4 25.6667 26.4375 25.3375 26.4625 25.0125C26.4875 24.6875 26.5 24.35 26.5 24C26.5 23.65 26.4875 23.3125 26.4625 22.9875C26.4375 22.6625 26.4 22.3333 26.35 22H21.65C21.6 22.3333 21.5625 22.6625 21.5375 22.9875C21.5125 23.3125 21.5 23.65 21.5 24C21.5 24.35 21.5125 24.6875 21.5375 25.0125C21.5625 25.3375 21.6 25.6667 21.65 26ZM28.35 26H31.75C31.8333 25.6667 31.8958 25.3375 31.9375 25.0125C31.9792 24.6875 32 24.35 32 24C32 23.65 31.9792 23.3125 31.9375 22.9875C31.8958 22.6625 31.8333 22.3333 31.75 22H28.35C28.4 22.3333 28.4375 22.6625 28.4625 22.9875C28.4875 23.3125 28.5 23.65 28.5 24C28.5 24.35 28.4875 24.6875 28.4625 25.0125C28.4375 25.3375 28.4 25.6667 28.35 26ZM27.95 20H30.9C30.4167 19.1667 29.8125 18.4417 29.0875 17.825C28.3625 17.2083 27.5333 16.75 26.6 16.45C26.9 17 27.1625 17.5708 27.3875 18.1625C27.6125 18.7542 27.8 19.3667 27.95 20ZM22.1 20H25.9C25.7 19.2667 25.4417 18.575 25.125 17.925C24.8083 17.275 24.4333 16.65 24 16.05C23.5667 16.65 23.1917 17.275 22.875 17.925C22.5583 18.575 22.3 19.2667 22.1 20ZM17.1 20H20.05C20.2 19.3667 20.3875 18.7542 20.6125 18.1625C20.8375 17.5708 21.1 17 21.4 16.45C20.4667 16.75 19.6375 17.2083 18.9125 17.825C18.1875 18.4417 17.5833 19.1667 17.1 20Z"/></symbol>
+<symbol id="i-ad-grid" viewBox="0 0 25 25"><g fill="none" stroke="currentColor" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"><path d="M4.16667 3.125H9.375C9.9503 3.125 10.4167 3.59137 10.4167 4.16667V11.4583C10.4167 12.0336 9.9503 12.5 9.375 12.5H4.16667C3.59137 12.5 3.125 12.0336 3.125 11.4583V4.16667C3.125 3.59137 3.59137 3.125 4.16667 3.125Z"/><path d="M15.6237 3.125H20.832C21.4073 3.125 21.8737 3.59137 21.8737 4.16667V7.29167C21.8737 7.86696 21.4073 8.33333 20.832 8.33333H15.6237C15.0484 8.33333 14.582 7.86696 14.582 7.29167V4.16667C14.582 3.59137 15.0484 3.125 15.6237 3.125Z"/><path d="M15.6237 12.5H20.832C21.4073 12.5 21.8737 12.9664 21.8737 13.5417V20.8333C21.8737 21.4086 21.4073 21.875 20.832 21.875H15.6237C15.0484 21.875 14.582 21.4086 14.582 20.8333V13.5417C14.582 12.9664 15.0484 12.5 15.6237 12.5Z"/><path d="M4.16667 16.6666H9.375C9.9503 16.6666 10.4167 17.133 10.4167 17.7083V20.8333C10.4167 21.4086 9.9503 21.875 9.375 21.875H4.16667C3.59137 21.875 3.125 21.4086 3.125 20.8333V17.7083C3.125 17.133 3.59137 16.6666 4.16667 16.6666Z"/></g></symbol>
+
+<symbol id="i-ad-card" viewBox="0 0 26 26"><g fill="currentColor" stroke="none"><path d="M22.9608 7.16342V6.80775C22.9608 5.17274 21.6306 3.84253 19.9956 3.84253H2.96522C1.33016 3.84258 0 5.17274 0 6.80775V7.16342H22.9608Z"/><path d="M13.5651 16.7017C13.5651 15.1636 14.0598 13.7017 14.9731 12.4968H0V16.6331C0 18.2681 1.33016 19.5983 2.96522 19.5983H14.1911C13.7813 18.7007 13.5651 17.7179 13.5651 16.7017ZM11.4804 15.803H8.92125V14.2796H11.4804V15.803ZM3.41545 14.2796H7.39781V15.803H3.41545V14.2796Z"/><path d="M16.5547 10.9734C17.7165 10.1606 19.0967 9.72262 20.5443 9.72262C21.3822 9.72262 22.1973 9.86974 22.9608 10.1509V8.68689H0V10.9734H16.5547Z"/><path d="M26.0013 16.7018C26.0013 13.6887 23.5587 11.2461 20.5456 11.2461C17.5325 11.2461 15.0898 13.6887 15.0898 16.7018C15.0898 19.7149 17.5324 22.1575 20.5456 22.1575C23.5587 22.1575 26.0013 19.7149 26.0013 16.7018ZM21.281 19.6164V20.2364H20.5193H19.7576V19.6209C19.297 19.465 18.9202 19.1906 18.5523 18.9215L19.4516 17.6919C19.946 18.0534 20.1989 18.2272 20.5456 18.2272C20.7416 18.2272 20.9003 18.1339 20.9598 17.9838C21.0318 17.802 20.93 17.6345 20.6874 17.5357C20.6874 17.5357 19.5986 17.1726 19.0952 16.6593C18.6729 16.2288 18.5385 15.622 18.673 15.0447C18.8083 14.4635 19.2008 14.0091 19.7576 13.7822V13.1671H21.281V13.7567C21.6679 13.8641 21.9954 14.0229 22.1837 14.1251L21.4568 15.464C20.9749 15.2024 20.5316 15.1239 20.3591 15.1829C20.1916 15.2401 20.1662 15.3493 20.1566 15.3904C20.143 15.4486 20.1358 15.538 20.2289 15.6418C20.3185 15.7417 21.2618 16.1248 21.2618 16.1248C22.2796 16.5391 22.7585 17.5795 22.376 18.5449C22.1773 19.0467 21.7774 19.4267 21.281 19.6164Z"/></g></symbol>
+
+<symbol id="i-ad-truck" viewBox="0 0 30 30"><g fill="currentColor" stroke="none"><path d="M4.21875 5.625C2.92433 5.625 1.875 6.67433 1.875 7.96875V16.875H16.875V7.96875C16.875 6.67433 15.8257 5.625 14.5312 5.625H4.21875Z"/><path d="M16.875 18.75H1.875V22.0312C1.875 23.3257 2.92433 24.375 4.21875 24.375H4.6875C4.6875 22.3039 6.36643 20.625 8.4375 20.625C10.5086 20.625 12.1875 22.3039 12.1875 24.375H15.9375C16.4553 24.375 16.875 23.9553 16.875 23.4375V18.75Z"/><path d="M10.3125 24.375C10.3125 23.3395 9.47303 22.5 8.4375 22.5C7.40197 22.5 6.5625 23.3395 6.5625 24.375C6.5625 25.4105 7.40197 26.25 8.4375 26.25C9.47303 26.25 10.3125 25.4105 10.3125 24.375Z"/><path d="M19.6875 8.4375C19.1697 8.4375 18.75 8.85723 18.75 9.375V23.4375C18.75 23.546 18.7684 23.6502 18.8023 23.7471C19.1011 21.975 20.6429 20.625 22.5 20.625C24.5552 20.625 26.2243 22.2783 26.2497 24.3275C27.3164 24.1087 28.153 23.1583 28.08 21.9743C27.7888 17.2488 26.0969 12.9013 23.4155 9.34362C22.9725 8.75578 22.2832 8.4375 21.5776 8.4375H19.6875Z"/><path d="M24.375 24.375C24.375 23.3395 23.5355 22.5 22.5 22.5C21.4645 22.5 20.625 23.3395 20.625 24.375C20.625 25.4105 21.4645 26.25 22.5 26.25C23.5355 26.25 24.375 25.4105 24.375 24.375Z"/></g></symbol>
+
+<symbol id="i-ad-store" viewBox="0 0 25 25"><g fill="currentColor" stroke="none"><path d="M3.92074 10.2272H1.1367C0.509043 10.2272 0 10.7362 0 11.3639V23.8639C0 24.491 0.509043 25 1.1367 25H3.92074C4.5484 25 5.05692 24.491 5.05692 23.8639V11.3639C5.05692 10.7362 4.5484 10.2272 3.92074 10.2272Z"/><path d="M10.5692 13.6356H7.78514C7.15695 13.6356 6.64844 14.1447 6.64844 14.7723V23.8627C6.64844 24.4909 7.15695 24.9994 7.78514 24.9994H10.5692C11.1968 24.9994 11.7054 24.4904 11.7054 23.8627V14.7723C11.7054 14.1447 11.1968 13.6356 10.5692 13.6356Z"/><path d="M17.2171 13.6356H14.433C13.8054 13.6356 13.2969 14.1447 13.2969 14.7723V23.8627C13.2969 24.4909 13.8054 24.9994 14.433 24.9994H17.2171C17.8453 24.9994 18.3538 24.4904 18.3538 23.8627V14.7723C18.3538 14.1447 17.8453 13.6356 17.2171 13.6356Z"/><path d="M23.8616 10.2272H21.0776C20.4499 10.2272 19.9414 10.7362 19.9414 11.3639V23.8639C19.9414 24.4915 20.4499 25 21.0776 25H23.8616C24.4893 25 24.9983 24.4905 24.9983 23.8639V11.3639C24.9983 10.7362 24.4893 10.2272 23.8616 10.2272Z"/><path d="M12.832 6.8457V8.89145C13.4512 8.85049 14.1038 8.56007 14.1038 7.87868C14.1038 7.17549 13.3884 6.96964 12.832 6.8457Z"/><path d="M11.0508 4.39732C11.0508 4.91434 11.4354 5.21328 12.2104 5.3686V3.51807C11.5061 3.53881 11.0508 3.95264 11.0508 4.39732Z"/><path d="M12.5 0C9.05372 0 6.25 2.80426 6.25 6.25C6.25 9.69468 9.05372 12.4989 12.5 12.4989C15.9463 12.4989 18.75 9.69468 18.75 6.25C18.75 2.80426 15.9463 0 12.5 0ZM12.8314 9.94628V10.5862C12.8314 10.7622 12.6963 10.9378 12.5197 10.9378C12.3452 10.9378 12.2117 10.7622 12.2117 10.5862V9.94628C10.4654 9.90372 9.59681 8.86011 9.59681 8.04362C9.59681 7.63138 9.84628 7.39309 10.2367 7.39309C11.3941 7.39309 10.4941 8.81915 12.2117 8.89096V6.73138C10.6798 6.45319 9.75213 5.78138 9.75213 4.63457C9.75213 3.22979 10.9202 2.50532 12.2117 2.46489V1.91383C12.2117 1.73777 12.3452 1.56223 12.5197 1.56223C12.6963 1.56223 12.8314 1.73777 12.8314 1.91383V2.46489C13.6367 2.48617 15.2904 2.99149 15.2904 4.00479C15.2904 4.40745 14.9894 4.64468 14.6378 4.64468C13.9654 4.64468 13.975 3.53989 12.8314 3.51862V5.48191C14.1952 5.77181 15.4032 6.17447 15.4032 7.76596C15.4032 9.15 14.3702 9.85213 12.8314 9.94628Z"/></g></symbol>
+
+<symbol id="i-ad-user" viewBox="0 0 25 25"><g fill="currentColor" stroke="none"><path d="M12.3223 12.0426C13.9767 12.0426 15.4093 11.4492 16.5799 10.2785C17.7504 9.10793 18.3438 7.67571 18.3438 6.02109C18.3438 4.36705 17.7504 2.93463 16.5797 1.76372C15.4089 0.593374 13.9765 0 12.3223 0C10.6677 0 9.23543 0.593374 8.06489 1.76391C6.89435 2.93444 6.30078 4.36686 6.30078 6.02109C6.30078 7.67571 6.89435 9.10813 8.06508 10.2787C9.23581 11.449 10.6682 12.0426 12.3223 12.0426Z"/><path d="M22.8579 19.2237C22.8241 18.7366 22.7558 18.2052 22.6553 17.644C22.5538 17.0787 22.4232 16.5443 22.2668 16.0558C22.1052 15.5509 21.8855 15.0523 21.6139 14.5745C21.332 14.0786 21.0009 13.6468 20.6293 13.2915C20.2408 12.9197 19.7651 12.6209 19.215 12.4028C18.6668 12.186 18.0593 12.0761 17.4095 12.0761C17.1543 12.0761 16.9075 12.1808 16.4309 12.4912C16.1375 12.6825 15.7944 12.9037 15.4114 13.1484C15.0839 13.3571 14.6402 13.5526 14.0923 13.7296C13.5576 13.9026 13.0148 13.9903 12.479 13.9903C11.9432 13.9903 11.4006 13.9026 10.8654 13.7296C10.318 13.5528 9.87434 13.3573 9.54723 13.1486C9.16786 12.9062 8.82454 12.6849 8.5268 12.491C8.05073 12.1806 7.80373 12.0759 7.54852 12.0759C6.8985 12.0759 6.2912 12.186 5.74322 12.403C5.19352 12.6207 4.71764 12.9195 4.32873 13.2917C3.95737 13.6472 3.62606 14.0788 3.34454 14.5745C3.07312 15.0523 2.85339 15.5507 2.69165 16.056C2.53544 16.5444 2.40479 17.0787 2.30331 17.644C2.2028 18.2044 2.13451 18.736 2.10075 19.2243C2.06757 19.7026 2.05078 20.1991 2.05078 20.7005C2.05078 22.0055 2.46563 23.062 3.28369 23.8412C4.09164 24.61 5.16071 25.0001 6.46076 25.0001H18.4984C19.7985 25.0001 20.8672 24.6102 21.6753 23.8412C22.4936 23.0626 22.9084 22.0059 22.9084 20.7003C22.9082 20.1966 22.8912 19.6998 22.8579 19.2237Z"/></g></symbol>
+  <symbol id="i-logout" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4H5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h4M16 8l4 4-4 4M20 12H9"/></g></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></g></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></g></symbol>
+  <symbol id="i-star" viewBox="0 0 16 16"><path d="M7.19209 2.14046C7.49099 1.42183 8.50901 1.42183 8.80791 2.14046L10.1959 5.4776L13.7986 5.76643C14.5744 5.82863 14.889 6.79682 14.2979 7.30316L11.553 9.65445L12.3917 13.1701C12.5722 13.9272 11.7486 14.5255 11.0844 14.1199L8 12.2359L4.91556 14.1199C4.25135 14.5255 3.42776 13.9272 3.60835 13.1701L4.44696 9.65445L1.70206 7.30316C1.11097 6.79682 1.42555 5.82863 2.20137 5.76643L5.8041 5.4776L7.19209 2.14046Z" fill="#FFE605"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Zm10 3a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/></symbol>
+  <symbol id="i-compare" viewBox="0 0 20 20"><path fill="currentColor" d="M8.90625 15H7.1875V1.875C7.1875 1.70924 7.12166 1.55027 7.00445 1.43306C6.88723 1.31585 6.72826 1.25 6.5625 1.25H5.9375C5.77174 1.25 5.61277 1.31585 5.49556 1.43306C5.37835 1.55027 5.3125 1.70924 5.3125 1.875V15H3.59375C3.50216 15 3.41256 15.0267 3.33602 15.0771C3.25948 15.1274 3.19936 15.199 3.16309 15.2831C3.12681 15.3672 3.11597 15.4601 3.1319 15.5503C3.14784 15.6405 3.18984 15.724 3.25274 15.7906L5.90899 18.6031C5.9528 18.6495 6.0056 18.6864 6.06417 18.7116C6.12274 18.7368 6.18584 18.7498 6.24961 18.7498C6.31338 18.7498 6.37648 18.7368 6.43505 18.7116C6.49362 18.6864 6.54643 18.6495 6.59024 18.6031L9.24649 15.7906C9.30934 15.7241 9.35133 15.6406 9.36729 15.5505C9.38325 15.4604 9.37247 15.3675 9.33629 15.2835C9.30011 15.1994 9.24011 15.1277 9.16369 15.0774C9.08727 15.027 8.99778 15.0001 8.90625 15ZM16.7469 4.20938L14.0906 1.39687C14.0468 1.35053 13.994 1.31362 13.9354 1.28839C13.8769 1.26316 13.8138 1.25015 13.75 1.25015C13.6862 1.25015 13.6231 1.26316 13.5646 1.28839C13.506 1.31362 13.4532 1.35053 13.4094 1.39687L10.7531 4.20938C10.6903 4.27594 10.6483 4.35945 10.6323 4.44962C10.6164 4.53978 10.6272 4.63263 10.6634 4.71672C10.6996 4.80081 10.7597 4.87245 10.8362 4.92279C10.9126 4.97313 11.0022 4.99997 11.0938 5H12.8125V18.125C12.8125 18.2908 12.8784 18.4497 12.9956 18.5669C13.1128 18.6842 13.2717 18.75 13.4375 18.75H14.0625C14.2283 18.75 14.3872 18.6842 14.5044 18.5669C14.6217 18.4497 14.6875 18.2908 14.6875 18.125V5H16.4063C16.4978 4.99997 16.5874 4.97313 16.6638 4.92279C16.7403 4.87245 16.8004 4.80081 16.8366 4.71672C16.8728 4.63263 16.8836 4.53978 16.8677 4.44962C16.8518 4.35945 16.8098 4.27594 16.7469 4.20938Z"/></symbol>
+  <symbol id="i-ask" viewBox="0 0 20 20"><path fill="currentColor" stroke="currentColor" stroke-width="0.0390625" d="M10 13.2812C9.39594 13.2812 8.90625 13.7709 8.90625 14.375C8.90625 14.9791 9.39594 15.4688 10 15.4688C10.6041 15.4688 11.0938 14.9791 11.0938 14.375C11.0938 13.7709 10.6041 13.2812 10 13.2812ZM10.2996 12.3438H9.67461C9.41574 12.3438 9.20586 12.1339 9.20586 11.875V11.8601C9.20586 9.11234 12.2309 9.375 12.2309 7.66449C12.2309 6.88262 11.5371 6.09375 9.98711 6.09375C8.84867 6.09375 8.25801 6.47066 7.67418 7.21453C7.52152 7.40906 7.24238 7.44871 7.03949 7.30734L6.52645 6.94992C6.30672 6.79684 6.25848 6.49012 6.42313 6.27894C7.25227 5.21539 8.23602 4.53125 9.98711 4.53125C12.0309 4.53125 13.7934 5.6934 13.7934 7.66449C13.7934 10.2979 10.7684 10.1586 10.7684 11.8601V11.875C10.7684 12.1339 10.5585 12.3438 10.2996 12.3438ZM10 1.5625C14.6336 1.5625 18.4375 5.31543 18.4375 10C18.4375 14.6598 14.6637 18.4375 10 18.4375C5.34203 18.4375 1.5625 14.6655 1.5625 10C1.5625 5.34363 5.33602 1.5625 10 1.5625ZM10 0.3125C4.65012 0.3125 0.3125 4.65168 0.3125 10C0.3125 15.3514 4.65012 19.6875 10 19.6875C15.3499 19.6875 19.6875 15.3514 19.6875 10C19.6875 4.65168 15.3499 0.3125 10 0.3125Z"/></symbol>
+  <symbol id="i-share" viewBox="0 0 20 20"><path fill="currentColor" d="M15 12.5C16.0416 12.5 16.9271 12.8646 17.6562 13.5938C18.3854 14.3229 18.75 15.2084 18.75 16.25C18.75 17.2916 18.3854 18.1771 17.6562 18.9062C16.9271 19.6354 16.0416 20 15 20C13.9584 20 13.0729 19.6354 12.3438 18.9062C11.6146 18.1771 11.25 17.2916 11.25 16.25C11.25 15.8594 11.3021 15.4817 11.4062 15.1172L7.57812 12.7344C6.84896 13.4115 5.98959 13.75 5 13.75C3.95834 13.75 3.07291 13.3854 2.34375 12.6562C1.61458 11.9271 1.25 11.0417 1.25 10C1.25 8.95834 1.61458 8.07291 2.34375 7.34375C3.07291 6.61459 3.95834 6.25 5 6.25C5.98959 6.25 6.84896 6.58854 7.57812 7.26562L11.4062 4.88281C11.3021 4.51823 11.25 4.14062 11.25 3.75C11.25 2.70834 11.6146 1.82291 12.3438 1.09375C13.0729 0.364584 13.9584 0 15 0C16.0416 0 16.9271 0.364584 17.6562 1.09375C18.3854 1.82291 18.75 2.70834 18.75 3.75C18.75 4.79166 18.3854 5.67709 17.6562 6.40625C16.9271 7.13541 16.0416 7.5 15 7.5C14.0104 7.5 13.151 7.16146 12.4219 6.48438L8.59375 8.86719C8.82812 9.6224 8.82812 10.3776 8.59375 11.1328L12.4219 13.5156C13.151 12.8385 14.0104 12.5 15 12.5ZM16.3281 2.42188C15.9635 2.05729 15.5209 1.875 15 1.875C14.4791 1.875 14.0365 2.05729 13.6719 2.42188C13.3073 2.78646 13.125 3.22916 13.125 3.75C13.125 4.27084 13.3073 4.71354 13.6719 5.07812C14.0365 5.44271 14.4791 5.625 15 5.625C15.5209 5.625 15.9635 5.44271 16.3281 5.07812C16.6927 4.71354 16.875 4.27084 16.875 3.75C16.875 3.22916 16.6927 2.78646 16.3281 2.42188ZM3.67188 11.3281C4.03646 11.6927 4.47916 11.875 5 11.875C5.52084 11.875 5.96354 11.6927 6.32812 11.3281C6.69271 10.9635 6.875 10.5208 6.875 10C6.875 9.47916 6.69271 9.03646 6.32812 8.67188C5.96354 8.30729 5.52084 8.125 5 8.125C4.47916 8.125 4.03646 8.30729 3.67188 8.67188C3.30729 9.03646 3.125 9.47916 3.125 10C3.125 10.5208 3.30729 10.9635 3.67188 11.3281ZM13.6719 17.5781C14.0365 17.9428 14.4791 18.125 15 18.125C15.5209 18.125 15.9635 17.9428 16.3281 17.5781C16.6927 17.2135 16.875 16.7709 16.875 16.25C16.875 15.7291 16.6927 15.2865 16.3281 14.9219C15.9635 14.5573 15.5209 14.375 15 14.375C14.4791 14.375 14.0365 14.5573 13.6719 14.9219C13.3073 15.2865 13.125 15.7291 13.125 16.25C13.125 16.7709 13.3073 17.2135 13.6719 17.5781Z"/></symbol>
+</svg>
+
+<main>
+
+  <!-- ================= HEADER ADMIN ================= -->
+  <header class="site-header ad-header">
+    <a class="brand" href="{{ route('homepage2') }}" aria-label="Zarabel home">
+      <img src="{{ asset('assets/img/zarabelbg.png') }}" alt="">
+      <span>arabel</span>
+    </a>
+
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+
+    <nav id="mainNav" aria-label="Main navigation">
+      <button onclick="location.href='{{ route('homepage2') }}'">Home</button>
+      <button class="active" onclick="location.href='{{ route('admin.dashboard') }}'">Admin</button>
+    </nav>
+
+    <div class="header-actions">
+      <button aria-label="Search"><svg class="ic"><use href="#i-search"/></svg></button>
+    </div>
+  </header>
+
+  <!-- ================= BANNER ADMIN ================= -->
+  <section class="ad-banner">
+    <h2>Admin</h2>
+    <nav class="ad-tabs" aria-label="Admin menu">
+      <a class="ad-tab {{ request()->routeIs('admin.dashboard') || request()->routeIs('admin.index') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}"><svg class="ic"><use href="#i-ad-grid"/></svg>Dashboard</a>
+      <a class="ad-tab {{ request()->routeIs('admin.sales*') ? 'active' : '' }}" href="{{ route('admin.sales') }}"><svg class="ic"><use href="#i-ad-card"/></svg>Sales Reports</a>
+      <a class="ad-tab {{ request()->routeIs('admin.orders*') ? 'active' : '' }}" href="{{ route('admin.orders') }}"><svg class="ic"><use href="#i-ad-truck"/></svg>Orders</a>
+      <a class="ad-tab {{ request()->routeIs('admin.products*') ? 'active' : '' }}" href="{{ route('admin.products') }}"><svg class="ic"><use href="#i-ad-store"/></svg>Products</a>
+      <a class="ad-tab {{ request()->routeIs('admin.users*') ? 'active' : '' }}" href="{{ route('admin.users') }}"><svg class="ic"><use href="#i-ad-user"/></svg>Users</a>
+    </nav>
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+        @csrf
+    </form>
+    <a class="ad-logout" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Log Out <svg class="ic"><use href="#i-logout"/></svg></a>
+  </section>
+
+  <!-- ================= ISI: VIEW ITEM ================= -->
+  @php
+    $pName = $product->name ?? "White casual t-shirt";
+    $pCat = $product->category_name ?? "Pleats";
+    $pPrice = $product ? number_format($product->price, 0, ",", ".") : "100.000";
+    $pStock = $product->stock ?? 9;
+    $pDesc = $product->description ?? "Koleksi busana lipit artistik khas Zarabel.";
+    $pInfo = $product->additional_information ?? "-";
+    
+    $mainImg = "assets/img/cat1.jpg";
+    if (!empty($product->main_image)) {
+        $mainImg = $product->main_image;
+    }
+    $mainImgUrl = Str::startsWith($mainImg, ["http://", "https://", "assets/", "storage/", "uploads/"]) ? asset($mainImg) : asset("assets/img/cat1.jpg");
+    
+    $gallery = is_array($product->gallery_images ?? null) ? $product->gallery_images : [];
+    // Masukkan foto utama ke urutan pertama galeri jika belum ada
+    if (!empty($mainImg) && !in_array($mainImg, $gallery)) {
+        array_unshift($gallery, $mainImg);
+    }
+    if (empty($gallery)) {
+        $gallery = [$mainImg];
+    }
+  @endphp
+  <section class="pd-main av-main">
+    <div class="pd-top">
+
+      <!-- KIRI: galeri + tab -->
+      <div class="av-left">
+        <div class="pd-gallery">
+          <img class="pd-photo" id="mainPhoto" src="{{ $mainImgUrl }}" alt="{{ $pName }}" style="object-fit:cover;">
+          <div class="pd-thumbs" id="thumbs">
+            @foreach($gallery as $i => $gImg)
+              @php
+                $gUrl = Str::startsWith($gImg, ["http://", "https://", "assets/", "storage/", "uploads/"]) ? asset($gImg) : asset("assets/img/cat1.jpg");
+              @endphp
+              <button class="{{ $i === 0 ? "on" : "" }}" data-src="{{ $gUrl }}"><img src="{{ $gUrl }}" alt="" style="object-fit:cover;"></button>
+            @endforeach
+          </div>
+        </div>
+
+        <div class="pd-tabs-wrap">
+          <div class="pd-tabs" id="tabs">
+            <button class="on" data-tab="desc">Description</button>
+            <button data-tab="info">Additional Information</button>
+            <button data-tab="rev">Reviews [{{ $reviews->count() }}]</button>
+          </div>
+
+          <!-- Description -->
+          <div class="pd-panel on" id="tab-desc">
+            <div id="descBody">
+              <h3>{{ $pName }}</h3>
+              <p style="white-space: pre-line;">{{ $pDesc }}</p>
+            </div>
+          </div>
+
+          <!-- Additional Information -->
+          <div class="pd-panel" id="tab-info">
+            <div id="infoBody">
+              <p style="white-space: pre-line;">{{ $pInfo }}</p>
+            </div>
+          </div>
+
+          <!-- Reviews -->
+          <div class="pd-panel" id="tab-rev">
+            <div class="rv-head">Reviews <span class="badge">{{ $reviews->count() }}</span></div>
+
+            @forelse($reviews as $review)
+            @php $rvAvatar2 = $review->user_avatar ? asset($review->user_avatar) : asset('assets/img/zarabelbg.png'); @endphp
+            <div class="rv">
+              <div class="av"><img src="{{ $rvAvatar2 }}" alt="{{ $review->user_name }}"></div>
+              <div>
+                <div class="top">
+                  <div><div class="name">{{ $review->user_name }}</div><div class="role">{{ $review->user_role ?? 'Customer' }}</div></div>
+                  <div class="meta"><div class="date">{{ $review->created_at->format('d F Y') }}</div><div class="stars">{{ str_repeat('★', $review->rating) }}{{ str_repeat('☆', 5 - $review->rating) }}</div></div>
+                </div>
+                <p>{{ $review->comment }}</p>
+              </div>
+            </div>
+            @empty
+            <p style="color:#888; text-align:center; padding:16px;">Belum ada ulasan untuk produk ini.</p>
+            @endforelse
+
+            <button type="button" class="show-all">Show All</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- KANAN: info produk -->
+      <div class="pd-info">
+
+        <div class="pd-head">
+          <div class="pd-title-block">
+            <div class="pd-cat-row">
+              <span class="pd-cat" id="vCat">{{ $pCat }}</span>
+              <span class="pd-rate"><svg class="ic"><use href="#i-star"/></svg> 4.95</span>
+            </div>
+            <h1 class="pd-title" id="vTitle">{{ $pName }}</h1>
+            <div class="pd-viewing"><svg class="ic"><use href="#i-eye"/></svg> 24 people are viewing this right now</div>
+          </div>
+
+          <div class="pd-price">
+            @if(!empty($product->old_price))
+            <div class="row" id="vOldRow"><span class="old">IDR {{ number_format($product->old_price, 0, ',', '.') }}</span><span class="pill">{{ round((1 - $product->price / $product->old_price) * 100) }}%</span></div>
+            @endif
+            <span class="now" id="vPrice">IDR {{ $pPrice }}</span>
+          </div>
+
+          <div class="pd-stock">
+            <p id="vStock">Only {{ $pStock }} item(s) left in stock!</p>
+            <div class="bar"><i id="vBar" style="width: {{ min(100, max(10, ($pStock / 20) * 100)) }}%;"></i></div>
+          </div>
+        </div>
+
+        <div class="pd-tools">
+          <button type="button"><svg class="ic"><use href="#i-compare"/></svg> Compare</button>
+          <button type="button"><svg class="ic"><use href="#i-ask"/></svg> Ask a question</button>
+          <button type="button"><svg class="ic"><use href="#i-share"/></svg> Share</button>
+        </div>
+
+        <div class="pd-pay">
+          <div class="payment-icons">
+            <div class="pay-wrap"><img src="https://img.icons8.com/color/48/visa.png" alt="Visa"></div>
+            <div class="pay-wrap"><img src="https://img.icons8.com/color/48/mastercard.png" alt="Mastercard"></div>
+            <div class="pay-wrap"><img src="https://img.icons8.com/color/48/amex.png" alt="Amex"></div>
+            <div class="pay-wrap"><img src="https://img.icons8.com/color/48/jcb.png" alt="JCB"></div>
+            <div class="pay-wrap"><img src="https://img.icons8.com/color/48/discover.png" alt="Discover"></div>
+            <div class="pay-wrap"><img src="https://img.icons8.com/color/48/paypal.png" alt="PayPal"></div>
+            <div class="pay-wrap"><img src="https://img.icons8.com/color/48/bank-card-front-side.png" alt="Card"></div>
+            <div class="pay-wrap"><img src="{{ asset('assets/img/bca.png') }}" alt="BCA"></div>
+            <div class="pay-wrap"><img src="{{ asset('assets/img/bni.png') }}" alt="BNI"></div>
+            <div class="pay-wrap"><img src="{{ asset('assets/img/mandiri.png') }}" alt="Mandiri"></div>
+            <div class="pay-wrap"><img src="{{ asset('assets/img/bri.png') }}" alt="BRI"></div>
+            <div class="pay-wrap"><img src="{{ asset('assets/img/bsi.png') }}" alt="BSI"></div>
+            <div class="pay-wrap"><img src="{{ asset('assets/img/gopay.png') }}" alt="GoPay"></div>
+            <div class="pay-wrap"><img src="{{ asset('assets/img/ovo.png') }}" alt="OVO"></div>
+            <div class="pay-wrap"><img src="{{ asset('assets/img/dana.png') }}" alt="DANA"></div>
+            <div class="pay-wrap"><img src="{{ asset('assets/img/spay.png') }}" alt="ShopeePay"></div>
+          </div>
+          <p>Guarantee safe &amp; secure checkout</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer id="about">
+    <div class="footer-brand">
+      <div class="brand footer-logo">
+        <img src="{{ asset('assets/img/zarabelbg.png') }}" alt="">
+        <span>arabel</span>
+      </div>
+      <p>Artistic Printed Wonderful Indonesian Textile Design</p>
+      <div class="socials">
+        <button aria-label="Instagram"><svg class="ic"><use href="#i-ig"/></svg></button>
+        <button aria-label="Phone"><svg class="ic"><use href="#i-call"/></svg></button>
+        <button aria-label="Email"><svg class="ic"><use href="#i-mail"/></svg></button>
+        <button aria-label="Shop"><svg class="ic"><use href="#i-bag"/></svg></button>
+        <button aria-label="Website"><svg class="ic"><use href="#i-globe"/></svg></button>
+      </div>
+    </div>
+
+    <div class="footer-links">
+      <div><strong>Information</strong><button>About Us</button><button>Contact</button><button>Blog</button></div>
+      <div><strong>Company</strong><button>Community</button><button>Career</button><button>Our story</button></div>
+      <div><strong>Contact</strong><button>Getting Started</button><button>Pricing</button><button>Resources</button></div>
+    </div>
+
+    <p class="copyright">Copyright Â© 2026 Xpro. All Rights Reserved Â· Terms of use ZARABEL</p>
+  </footer>
+
+</main>
+
+<script>
+  // ---------- Menu HP ----------
+  var nav = document.getElementById('mainNav');
+  var toggle = document.getElementById('menuToggle');
+  toggle.addEventListener('click', function(){
+    toggle.setAttribute('aria-expanded', nav.classList.toggle('open'));
+  });
+
+  // ---------- Data item (opsional) ----------
+  // Buka dengan ?id=0 untuk menampilkan item ke-0 dari localStorage 'zarabelProducts'.
+  // Tanpa ?id, halaman menampilkan contoh produk di atas.
+  // TODO backend: ganti dengan ambil data item dari server berdasarkan id.
+  var idx = new URLSearchParams(location.search).get('id');
+  var list = [];
+  try { list = JSON.parse(localStorage.getItem('zarabelProducts') || '[]'); } catch (e) {}
+  var cur = (idx !== null && list[+idx]) ? list[+idx] : null;
+
+  var mainPhoto = document.getElementById('mainPhoto');
+  var thumbsBox = document.getElementById('thumbs');
+
+  // ---------- Ganti foto utama lewat thumbnail ----------
+  if (thumbsBox && mainPhoto) {
+    thumbsBox.addEventListener('click', function(e){
+      var t = e.target.closest('button');
+      if (!t) return;
+      mainPhoto.src = t.dataset.src;
+      thumbsBox.querySelectorAll('button').forEach(function(x){ x.classList.toggle('on', x === t); });
+    });
+  }
+
+  // ---------- Ukuran ----------
+  var sizes = Array.prototype.slice.call(document.querySelectorAll('#sizes button:not([disabled])'));
+  sizes.forEach(function(s){
+    s.addEventListener('click', function(){
+      sizes.forEach(function(x){ x.classList.toggle('on', x === s); });
+    });
+  });
+
+  // ---------- Tab ----------
+  var tabBtns = Array.prototype.slice.call(document.querySelectorAll('#tabs button'));
+  tabBtns.forEach(function(b){
+    b.addEventListener('click', function(){
+      tabBtns.forEach(function(x){ x.classList.toggle('on', x === b); });
+      document.querySelectorAll('.pd-panel').forEach(function(p){
+        p.classList.toggle('on', p.id === 'tab-' + b.dataset.tab);
+      });
+    });
+  });
+
+  // ---------- Read more ----------
+  var more = document.getElementById('moreText');
+  var rm = document.getElementById('readMore');
+  if (rm) rm.addEventListener('click', function(){
+    more.hidden = !more.hidden;
+    rm.textContent = more.hidden ? 'Read more' : 'Read less';
+  });
+</script>
+
+</body>
+</html>
+

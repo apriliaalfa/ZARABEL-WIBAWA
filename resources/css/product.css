@@ -1,0 +1,622 @@
+/* =========================================================
+   productdetail.css — halaman Product Details
+   Panggil SETELAH home.css dan catalog.css
+   ========================================================= */
+
+/* ---------- HEADER (ikut alur halaman, menu di tengah) ---------- */
+.site-header.pd-header {
+    position: relative;
+    padding-bottom: 10px;
+}
+
+@media (min-width:761px) {
+    header.site-header.pd-header nav {
+        flex: 1 1 auto !important;
+        margin: 0 !important;
+        justify-content: center !important;
+        position: static !important;
+        transform: none !important;
+        height: auto !important;
+    }
+
+    header.site-header.pd-header .header-actions {
+        margin-left: 0 !important;
+    }
+}
+
+/* ---------- LAYOUT ---------- */
+.pd-main {
+    padding: 30px 42px 100px;
+}
+
+.pd-top {
+    display: grid;
+    grid-template-columns: 656px minmax(0, 1fr);
+    gap: 42px;
+    align-items: start;
+}
+
+/* ---------- GALERI ---------- */
+.pd-gallery .pd-photo {
+    width: 100%;
+    height: 875px;
+    object-fit: cover;
+    background: #d9d9d9;
+}
+
+.pd-thumbs {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 23px;
+    margin-top: 26px;
+}
+
+.pd-thumbs button {
+    aspect-ratio: 1/1;
+    background: #d9d9d9;
+    overflow: hidden;
+    border: 2px solid transparent;
+}
+
+.pd-thumbs button.on {
+    border-color: var(--warm-brown);
+}
+
+.pd-thumbs img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ---------- INFO PRODUK ---------- */
+.pd-info {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.pd-head {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.pd-title-block {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.pd-cat-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.pd-cat {
+    flex: 1;
+    color: #757575;
+    font-size: 24px;
+    line-height: 1.35;
+    text-transform: uppercase;
+}
+
+.pd-rate {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--ink);
+    font-size: 24px;
+}
+
+.pd-rate .ic {
+    width: 24px;
+    height: 24px;
+}
+
+.pd-title {
+    color: var(--ink);
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 500;
+    font-size: 76px;
+    line-height: 1.3;
+    text-transform: uppercase;
+}
+
+.pd-viewing {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #8a8a8a;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+}
+
+.pd-viewing .ic {
+    width: 20px;
+    height: 20px;
+    color: #000;
+}
+
+.pd-price {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.pd-price .row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pd-price .old {
+    color: #b4b4b4;
+    font-weight: 500;
+    font-size: 24px;
+    text-decoration: line-through;
+}
+
+.pd-price .pill {
+    padding: 4px 12px;
+    background: #e90000;
+    color: #fff;
+    border-radius: 100px;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.pd-price .now {
+    color: #000;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 1.35;
+}
+
+.pd-stock {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.pd-stock p {
+    color: #666;
+    font-size: 16px;
+}
+
+.pd-stock .bar {
+    height: 5px;
+    background: #dedede;
+    border-radius: 2px;
+}
+
+.pd-stock .bar i {
+    display: block;
+    height: 100%;
+    width: 5%;
+    background: #ef2d2d;
+    border-radius: 2px;
+}
+
+/* ukuran */
+.pd-sizes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.pd-sizes button {
+    min-width: 64px;
+    height: 51px;
+    padding: 12px;
+    background: #c7b8b0;
+    color: #fff;
+    font-weight: 500;
+    font-size: 20px;
+    text-transform: uppercase;
+}
+
+.pd-sizes button.on {
+    background: var(--warm-brown);
+}
+
+.pd-sizes button:disabled {
+    background: #ebebeb;
+    cursor: not-allowed;
+}
+
+/* quantity + tombol */
+.pd-buy {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.pd-buy .label {
+    color: #b4b4b4;
+    font-weight: 500;
+    font-size: 24px;
+}
+
+.pd-buy-row {
+    display: flex;
+    align-items: stretch;
+    gap: 24px;
+    height: 72px;
+}
+
+.pd-qty {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    padding: 12px 8px;
+    border: 1px solid var(--ink);
+}
+
+.pd-qty button {
+    width: 24px;
+    height: 24px;
+    color: var(--ink);
+}
+
+.pd-qty .ic {
+    width: 24px;
+    height: 24px;
+}
+
+.pd-qty span {
+    font-weight: 500;
+    font-size: 24px;
+    min-width: 14px;
+    text-align: center;
+}
+
+.pd-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 24px 12px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.pd-btn.add {
+    background: var(--cream);
+    color: var(--warm-brown);
+}
+
+.pd-btn.add .ic {
+    width: 24px;
+    height: 24px;
+}
+
+.pd-btn.checkout {
+    background: var(--warm-brown);
+    color: #fff;
+}
+
+.pd-btn.checkout:hover {
+    background: #6f350e;
+}
+
+/* tools */
+.pd-tools {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #eee;
+}
+
+.pd-tools button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #000;
+}
+
+.pd-tools .ic {
+    width: 20px;
+    height: 20px;
+}
+
+/* pembayaran */
+.pd-pay {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    padding: 20px;
+    background: rgb(254 247 238 / 50%);
+    border-radius: 5px;
+}
+
+.payment-icons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+}
+
+.pay-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    padding: 4px 8px;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 4px;
+}
+
+.pay-wrap img {
+    height: 26px;
+    width: auto;
+    object-fit: contain;
+}
+
+.pd-pay p {
+    font-family: 'Volkhov', Georgia, serif;
+    font-size: 16px;
+    color: #000;
+}
+
+/* ---------- TAB ---------- */
+.pd-tabs-wrap {
+    margin-top: 60px;
+}
+
+.pd-tabs {
+    display: flex;
+    gap: 40px;
+}
+
+.pd-tabs button {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    color: #9f9f9f;
+    padding-bottom: 10px;
+    border-bottom: 2px solid transparent;
+}
+
+.pd-tabs button.on {
+    color: #000;
+    font-weight: 500;
+    border-bottom-color: var(--warm-brown);
+}
+
+.pd-panel {
+    display: none;
+    padding-top: 40px;
+    max-width: 860px;
+    color: #181a18;
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.pd-panel.on {
+    display: block;
+}
+
+.pd-panel h3 {
+    font-size: 18px;
+    margin: 0 0 12px;
+}
+
+.pd-panel p {
+    margin: 0 0 14px;
+}
+
+.pd-panel ul {
+    margin: 0 0 18px;
+    padding-left: 22px;
+}
+
+.pd-panel li {
+    margin-bottom: 4px;
+}
+
+.pd-more[hidden] {
+    display: none;
+}
+
+.read-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+}
+
+.read-more {
+    padding: 12px 32px;
+    background: var(--warm-brown);
+    color: #fff;
+    border-radius: 40px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+}
+
+/* review */
+.rv-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    margin-bottom: 24px;
+}
+
+.rv-head .badge {
+    padding: 2px 10px;
+    background: var(--warm-brown);
+    color: #fff;
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+.rv {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 16px;
+    padding: 20px 0;
+    border-top: 1px solid #eee;
+}
+
+.rv .av {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #d9d9d9;
+    overflow: hidden;
+}
+
+.rv .av img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.rv .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.rv .name {
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.rv .role {
+    color: #757575;
+    font-size: 13px;
+}
+
+.rv .meta {
+    text-align: right;
+}
+
+.rv .date {
+    color: var(--warm-brown);
+    font-size: 13px;
+}
+
+.rv .stars {
+    color: #fca120;
+    font-size: 15px;
+    letter-spacing: 2px;
+}
+
+.rv p {
+    margin: 10px 0 0;
+    color: var(--warm-brown);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.show-all {
+    display: block;
+    margin: 10px auto 0;
+    color: #757575;
+    font-size: 14px;
+}
+
+/* toast */
+.toast {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 50;
+    padding: 14px 20px;
+    background: #3e3e3e;
+    color: #fff;
+    font-size: 14px;
+    box-shadow: 0 8px 30px #0002;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s;
+}
+
+.toast.show {
+    opacity: 1;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width:1100px) {
+    .pd-top {
+        grid-template-columns: 1fr;
+    }
+
+    .pd-gallery .pd-photo {
+        height: auto;
+        aspect-ratio: 3/4;
+    }
+
+    .pd-title {
+        font-size: 52px;
+    }
+}
+
+@media (max-width:760px) {
+    .pd-main {
+        padding: 20px 18px 60px;
+    }
+
+    .pd-title {
+        font-size: 38px;
+    }
+
+    .pd-cat,
+    .pd-rate {
+        font-size: 16px;
+    }
+
+    .pd-price .now {
+        font-size: 26px;
+    }
+
+    .pd-sizes button {
+        min-width: 52px;
+        height: 44px;
+        font-size: 16px;
+    }
+
+    .pd-buy-row {
+        flex-wrap: wrap;
+        height: auto;
+    }
+
+    .pd-btn {
+        min-height: 58px;
+        font-size: 15px;
+        padding: 14px;
+    }
+
+    .pd-tabs {
+        gap: 18px;
+        overflow-x: auto;
+    }
+
+    .pd-tabs button {
+        font-size: 15px;
+        white-space: nowrap;
+    }
+
+    .pd-thumbs {
+        gap: 10px;
+    }
+}

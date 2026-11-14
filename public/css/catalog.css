@@ -1,0 +1,297 @@
+/* ---------- HEADER (di halaman ini ikut alur halaman, tidak melayang di atas hero) ---------- */
+.site-header.catalog-header {
+  position: relative;
+  padding-bottom: 10px;
+}
+
+/* ---------- JUDUL + LAYOUT ---------- */
+.catalog-main {
+  padding: 30px 42px 96px;
+}
+
+.catalog-main h1 {
+  margin: 0 0 32px;
+  color: var(--ink);
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 500;
+  font-size: 76px;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.catalog-layout {
+  display: grid;
+  grid-template-columns: 323px minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+/* ---------- FILTER ---------- */
+/* Category dan Price memakai aturan yang sama */
+.filter-heading,
+.price-heading {
+  background: #fff;
+  color: var(--ink);
+  border-top: 1px solid #ebebeb;
+  transition: background-color .2s, color .2s;
+}
+
+.filter-heading {
+  border-top: 0;
+}
+
+/* Saat dibuka: coklat, teks dan panah putih */
+.filter-heading[aria-expanded="true"],
+.price-heading[aria-expanded="true"] {
+  background: var(--brown);
+  color: #fff;
+  border-top-color: var(--brown);
+}
+
+/* Arah panah */
+/* ---------- FILTER HEADING (Category & Price) ---------- */
+.filter-heading,
+.price-heading {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 12px;
+  font-size: 16px;
+  text-transform: uppercase;
+  text-align: left;
+  background: #fff;
+  color: var(--ink);
+  border-top: 1px solid #ebebeb;
+  transition: background-color .2s, color .2s;
+}
+
+.filter-heading {
+  border-top: 0;
+}
+
+.filter-heading .ic,
+.price-heading .ic {
+  width: 20px;
+  height: 20px;
+  flex: none;
+  transition: transform .2s;
+}
+
+/* Saat dibuka: coklat, teks dan panah putih */
+.filter-heading[aria-expanded="true"],
+.price-heading[aria-expanded="true"] {
+  background: var(--brown);
+  color: #fff;
+  border-top-color: var(--brown);
+}
+
+.filter-heading[aria-expanded="true"] .ic,
+.price-heading[aria-expanded="true"] .ic {
+  transform: rotate(180deg);
+}
+
+.filter-options {
+  margin-left: 24px;
+  padding-bottom: 2px;
+}
+
+.filter-options[hidden],
+.price-filter[hidden] {
+  display: none;
+}
+
+.filter-options label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 12px;
+  color: var(--ink);
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.filter-options input {
+  position: absolute;
+  opacity: 0;
+}
+
+.checkmark {
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--ink);
+  border-radius: 2px;
+  flex: none;
+}
+
+.filter-options input:checked+.checkmark {
+  background: var(--brown);
+  box-shadow: inset 0 0 0 3px #fff;
+}
+
+.filter-options label>span:nth-of-type(2) {
+  flex: 1;
+}
+
+.filter-options small {
+  min-width: 26px;
+  padding: 4px;
+  border-radius: 10px;
+  background: #ebebeb;
+  text-align: center;
+  font-size: 10px;
+}
+
+.price-filter {
+  padding: 12px;
+  color: #757575;
+  font-size: 13px;
+}
+
+.price-filter input {
+  width: 100%;
+  margin-top: 13px;
+  accent-color: var(--brown);
+}
+
+/* ---------- GRID PRODUK ---------- */
+.catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px 24px;
+}
+
+.catalog-grid .product-card.hide {
+  display: none;
+}
+
+.empty-state {
+  display: none;
+  padding: 80px 0;
+  text-align: center;
+  color: #757575;
+}
+
+.empty-state.show {
+  display: block;
+}
+
+/* ---------- PAGINATION ---------- */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 52px;
+}
+
+.pagination button {
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #b4b4b4;
+  color: #b4b4b4;
+  background: #fff;
+  font-size: 12px;
+}
+
+.pagination button.current {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+.pagination button.arrow {
+  border: 0;
+}
+
+.pagination button.arrow .ic {
+  width: 16px;
+  height: 16px;
+}
+
+.pagination button:disabled {
+  opacity: .35;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  color: #b4b4b4;
+  font-size: 12px;
+}
+
+/* ---------- TOAST ---------- */
+.toast {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 50;
+  padding: 14px 20px;
+  background: #3e3e3e;
+  color: #fff;
+  font-size: 14px;
+  box-shadow: 0 8px 30px #0002;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s;
+}
+
+.toast.show {
+  opacity: 1;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width:1100px) {
+  .catalog-layout {
+    grid-template-columns: 240px minmax(0, 1fr);
+  }
+
+  .catalog-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width:760px) {
+  .catalog-main {
+    padding: 20px 18px 54px;
+  }
+
+  .catalog-main h1 {
+    font-size: 42px;
+    margin-bottom: 22px;
+  }
+
+  .catalog-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .catalog-grid {
+    gap: 28px 12px;
+  }
+
+  .pagination {
+    margin-top: 36px;
+  }
+}
+
+.site-header.logged.catalog-header nav {
+  flex: none;
+  margin-left: auto;
+  justify-content: flex-end;
+}
+
+.site-header.logged.catalog-header .header-actions {
+  margin-left: 6px;
+  gap: 14px;
+}
+
+@media (max-width:760px) {
+  .site-header.logged.catalog-header nav {
+    margin-left: 0;
+  }
+
+  .site-header.logged.catalog-header .header-actions {
+    margin-left: auto;
+  }
+}

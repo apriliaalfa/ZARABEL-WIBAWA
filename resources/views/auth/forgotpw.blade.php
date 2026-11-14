@@ -1,4 +1,3 @@
-{{-- Tempel kode halaman lupa password di file ini. --}}
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -6,13 +5,43 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Zarabel — Forget Password</title>
 
-<link rel="icon" type="image/png" href="assets/img/zarabelbg.png">
-<link rel="apple-touch-icon" href="assets/img/zarabelbg.png">
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="{{ asset('images/zarabelbg.png') }}">
+<link rel="apple-touch-icon" href="{{ asset('images/zarabelbg.png') }}">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Poppins:wght@400;700;800&family=Lato:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="{{ asset('css/auth.css') }}">
+<style>
+.photo-panel {
+  background: url('{{ asset('images/hero2.jpeg') }}') 85% center / cover no-repeat;
+}
+  .brand-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+  }
+  .alert {
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-bottom: 12px;
+    width: 100%;
+    max-width: 592px;
+  }
+  .alert-error {
+    background-color: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+  }
+  .field-error {
+    color: #dc2626;
+    font-size: 13px;
+    margin-top: 4px;
+  }
+</style>
 </head>
 <body>
 
@@ -21,8 +50,10 @@
   <!-- LEFT: photo panel -->
   <div class="photo-panel">
     <div class="brand">
-      <div class="brand-mark"><img src="assets/img/zarabelbg.png" alt="ZARABEL"></div>
-      <h1 class="brand-name">ARABEL</h1>
+      <a href="{{ route('homepage1') }}" class="brand-link">
+        <div class="brand-mark"><img src="{{ asset('images/zarabelbg.png') }}" alt="ZARABEL"></div>
+        <h1 class="brand-name">ARABEL</h1>
+      </a>
     </div>
   </div>
 
@@ -30,62 +61,62 @@
   <div class="form-panel forget">
     <h2 class="title-signin">Forget<br>Password</h2>
 
-    <div class="fields">
-      <div class="field">
-        <label for="firstname">First Name</label>
-        <div class="input-wrap">
-          <input id="firstname" type="text" placeholder="example@mail.com">
+    @if (isset($errors) && $errors->any())
+      <div class="alert alert-error">
+        <span>{{ $errors->first() }}</span>
+      </div>
+    @endif
+
+    <form method="POST" action="{{ route('password.send_code') }}" style="width: 100%; display: flex; flex-direction: column; align-items: center; gap: clamp(24px, 2.8vw, 40px);">
+      @csrf
+
+      <div class="fields">
+        <div class="field">
+          <label for="firstname">First Name</label>
+          <div class="input-wrap">
+            <input id="firstname" name="firstname" type="text" placeholder="Sarah" value="{{ old('firstname') }}">
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="lastname">Last Name</label>
+          <div class="input-wrap">
+            <input id="lastname" name="lastname" type="text" placeholder="Amberi" value="{{ old('lastname') }}">
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="email">Email</label>
+          <div class="input-wrap">
+            <input id="email" name="email" type="email" placeholder="example@mail.com" value="{{ old('email') }}" required>
+          </div>
+          @error('email')
+            <span class="field-error">{{ $message }}</span>
+          @enderror
+        </div>
+
+        <div class="field">
+          <label for="phone">Phone Number</label>
+          <div class="input-wrap">
+            <input id="phone" name="phone" type="text" placeholder="+62 812-3456-7890" value="{{ old('phone') }}">
+          </div>
         </div>
       </div>
 
-      <div class="field">
-        <label for="lastname">Last Name</label>
-        <div class="input-wrap">
-          <input id="lastname" type="text" placeholder="example@mail.com">
-        </div>
-      </div>
+      <button type="submit" class="submit-btn">
+        <span>Send Confirmation Code</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M13 6l6 6-6 6"/>
+        </svg>
+      </button>
 
-      <div class="field">
-        <label for="email">Email</label>
-        <div class="input-wrap">
-          <input id="email" type="email" placeholder="example@mail.com">
-        </div>
+      <div class="bottom-row">
+        <a href="{{ route('login') }}" class="forget-link">Back to Sign In</a>
       </div>
-
-      <div class="field">
-        <label for="phone">Phone Number</label>
-        <div class="input-wrap">
-          <input id="phone" type="password" placeholder="********">
-          <button type="button" class="toggle-eye" aria-label="Show phone number" data-target="phone">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 3l18 18"/>
-              <path d="M10.6 5.1a10.9 10.9 0 0 1 1.4-.1c6 0 9.3 5.1 10.4 7-.4.7-1.4 2.2-2.9 3.6M6.1 6.1C3.6 7.8 2 10.2 1.2 11c1.1 1.9 4.4 7 10.8 7 1.5 0 2.8-.3 4-.7"/>
-              <path d="M9.9 10a3 3 0 0 0 4.1 4.1"/>
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <button type="button" class="submit-btn">
-      <span>Send Confirmation Code</span>
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M5 12h14M13 6l6 6-6 6"/>
-      </svg>
-    </button>
+    </form>
   </div>
 
 </div>
-
-<script>
-  // Tombol mata: tampilkan / sembunyikan isi field
-  document.querySelectorAll('.toggle-eye').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      var input = document.getElementById(btn.dataset.target);
-      input.type = input.type === 'password' ? 'text' : 'password';
-    });
-  });
-</script>
 
 </body>
 </html>

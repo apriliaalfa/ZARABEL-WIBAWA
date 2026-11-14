@@ -1,0 +1,467 @@
+/* =========================================================
+   cart.css  — halaman Shopping Cart
+   Panggil SETELAH home.css dan catalog.css
+   ========================================================= */
+
+/* ---------- HEADER (ikut alur halaman, menu di tengah) ---------- */
+.site-header.cart-header {
+    position: relative;
+    padding-bottom: 10px;
+}
+
+@media (min-width:761px) {
+    header.site-header.cart-header nav {
+        flex: 1 1 auto !important;
+        margin: 0 !important;
+        justify-content: center !important;
+        position: static !important;
+        transform: none !important;
+        height: auto !important;
+    }
+
+    header.site-header.cart-header .header-actions {
+        margin-left: 0 !important;
+    }
+}
+
+/* ---------- ISI CART ---------- */
+.cart-main {
+    padding: 30px 42px 120px;
+    min-height: 1000px;
+}
+
+.cart-main h1 {
+    margin: 0 0 50px;
+    color: var(--ink);
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 500;
+    font-size: 76px;
+    line-height: 1.3;
+    text-transform: uppercase;
+}
+
+.cart-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 756px) minmax(0, 541px);
+    justify-content: space-between;
+    gap: 56px;
+    align-items: start;
+}
+
+/* ---------- DAFTAR PRODUK ---------- */
+.cart-list {
+    display: flex;
+    flex-direction: column;
+    gap: 44px;
+}
+
+.cart-product {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.product-main {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+}
+
+.cart-product .cp-image {
+    flex: none;
+    width: 116px;
+    height: 155px;
+    object-fit: cover;
+}
+
+.cart-product.big .cp-image {
+    width: 140px;
+    height: 187px;
+}
+
+.cp-details {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.cp-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    text-transform: uppercase;
+}
+
+.cp-copy h2 {
+    color: var(--ink);
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 1.35;
+}
+
+.cp-copy>p,
+.old-price {
+    color: #757575;
+    font-size: 20px;
+    line-height: 1.35;
+}
+
+.old-price {
+    text-decoration: line-through;
+}
+
+.discount-price {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.discount-price>div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.discount-pill {
+    padding: 4px 12px;
+    color: #fff;
+    background: #e90000;
+    border-radius: 100px;
+    font-size: 12px;
+    line-height: 1.35;
+}
+
+.sale-price {
+    color: #e90000;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 1.35;
+}
+
+.cp-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.quantity {
+    height: 56px;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    border: 1px solid var(--ink);
+}
+
+.quantity button {
+    width: 24px;
+    height: 24px;
+    color: var(--ink);
+}
+
+.quantity button:disabled {
+    color: #dadada;
+    cursor: not-allowed;
+}
+
+.quantity .ic {
+    width: 24px;
+    height: 24px;
+}
+
+.quantity span {
+    font-size: 20px;
+    font-weight: 500;
+    min-width: 14px;
+    text-align: center;
+}
+
+.delete-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #929292;
+    border-bottom: 1px solid #929292;
+    font-size: 20px;
+    line-height: 1.35;
+}
+
+.delete-button .ic {
+    width: 24px;
+    height: 24px;
+}
+
+/* ---------- NOTES ---------- */
+.notes-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    color: #b4b4b4;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 1.35;
+}
+
+.notes-field[hidden] {
+    display: none;
+}
+
+.notes-field input {
+    width: 100%;
+    height: 64px;
+    padding: 12px;
+    border: 1px solid var(--ink);
+    color: var(--ink);
+    font-family: inherit;
+    font-size: 18px;
+    background: #fff;
+    outline: none;
+}
+
+.notes-field input::placeholder {
+    color: #b4b4b4;
+    opacity: 1;
+}
+
+.add-notes {
+    width: fit-content;
+    color: var(--warm-brown);
+    border-bottom: 1px solid currentColor;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 1.35;
+}
+
+.add-notes[hidden] {
+    display: none;
+}
+
+/* ---------- SHOPPING INFO ---------- */
+.shopping-info h2 {
+    margin-bottom: 39px;
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 1.35;
+    text-transform: uppercase;
+}
+
+.promo-banner {
+    min-height: 47px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    background: #ede5e1;
+    border: 1px solid #dfd1c8;
+    font-size: 16px;
+    color: var(--ink);
+}
+
+.promo-banner[hidden] {
+    display: none;
+}
+
+.promo-banner>div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.promo-banner .use-promo {
+    color: var(--warm-brown);
+    text-decoration: underline;
+}
+
+.promo-banner .use-promo[hidden] {
+    display: none;
+}
+
+.promo-banner .close {
+    flex: none;
+    width: 20px;
+    height: 20px;
+    color: #929292;
+}
+
+.promo-banner .close .ic {
+    width: 20px;
+    height: 20px;
+}
+
+.totals {
+    margin: 24px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    font-size: 24px;
+    line-height: 1.35;
+}
+
+.totals>div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.totals>div:first-child {
+    color: #757575;
+}
+
+.totals>div:last-child {
+    color: var(--ink);
+    font-weight: 600;
+}
+
+.totals dt,
+.totals dd {
+    margin: 0;
+}
+
+.totals dd {
+    text-transform: uppercase;
+}
+
+.checkout-button {
+    width: 100%;
+    min-height: 74px;
+    margin-top: 41px;
+    padding: 24px;
+    color: #fff;
+    background: var(--warm-brown);
+    font-size: 20px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: background .16s;
+}
+
+.checkout-button:hover {
+    background: #6f350e;
+}
+
+.checkout-button:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+}
+
+.checkout-notice {
+    margin-top: 14px;
+    padding: 12px 16px;
+    border: 1px solid #dfd1c8;
+    font-size: 16px;
+}
+
+.checkout-notice[hidden] {
+    display: none;
+}
+
+/* ---------- CART KOSONG ---------- */
+.empty-cart {
+    display: none;
+    min-height: 250px;
+    padding: 44px;
+    border: 1px solid #dedfde;
+}
+
+.empty-cart.show {
+    display: block;
+}
+
+.empty-cart h2 {
+    font-weight: 600;
+    font-size: 30px;
+    text-transform: uppercase;
+}
+
+.empty-cart a {
+    display: inline-block;
+    margin-top: 24px;
+    color: var(--warm-brown);
+    text-decoration: underline;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width:1100px) {
+    .cart-layout {
+        grid-template-columns: minmax(0, 1.35fr) minmax(300px, .8fr);
+        gap: 32px;
+    }
+
+    .quantity {
+        gap: 22px;
+    }
+}
+
+@media (max-width:860px) {
+    .cart-layout {
+        grid-template-columns: 1fr;
+        gap: 56px;
+    }
+
+    .shopping-info {
+        order: -1;
+    }
+}
+
+@media (max-width:760px) {
+    .cart-main {
+        padding: 20px 18px 60px;
+        min-height: 0;
+    }
+
+    .cart-main h1 {
+        font-size: 42px;
+        margin-bottom: 28px;
+    }
+
+    .cart-product .cp-image,
+    .cart-product.big .cp-image {
+        width: 96px;
+        height: 128px;
+    }
+
+    .cp-copy h2 {
+        font-size: 18px;
+    }
+
+    .cp-copy>p,
+    .old-price,
+    .sale-price {
+        font-size: 16px;
+    }
+
+    .quantity {
+        height: 46px;
+        gap: 14px;
+        padding: 6px;
+    }
+
+    .quantity .ic {
+        width: 20px;
+        height: 20px;
+    }
+
+    .quantity span,
+    .delete-button {
+        font-size: 16px;
+    }
+
+    .shopping-info h2 {
+        font-size: 27px;
+        margin-bottom: 24px;
+    }
+
+    .totals {
+        font-size: 20px;
+    }
+
+    .checkout-button {
+        min-height: 62px;
+        font-size: 16px;
+    }
+}

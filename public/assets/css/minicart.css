@@ -1,0 +1,304 @@
+/* =========================================================
+   minicart.css — Mini cart (sidebar kanan) — versi kecil
+   Panggil SETELAH home.css (dan css halaman, mis. product.css)
+   ========================================================= */
+
+.mc-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgb(30 30 30 / 40%);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .25s, visibility .25s;
+}
+
+.mc-backdrop.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mc {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 201;
+  display: flex;
+  flex-direction: column;
+  width: min(340px, 100%);
+  height: 100dvh;
+  background: #fff;
+  box-shadow: -8px 0 32px rgb(0 0 0 / 16%);
+  transform: translateX(100%);
+  transition: transform .3s cubic-bezier(.4, 0, .2, 1);
+}
+
+.mc.show {
+  transform: none;
+}
+
+body.mc-open {
+  overflow: hidden;
+}
+
+/* ---------- header ---------- */
+.mc-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px 0;
+}
+
+.mc-head h2 {
+  margin: 0;
+  color: #3e3e3e;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.3;
+}
+
+.mc-close {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+  color: #1e1e1e;
+  font: 300 24px/1 'Lato', sans-serif;
+  background: none;
+  border: 0;
+  transition: transform .15s, color .15s;
+}
+
+.mc-close:hover {
+  color: #8b4513;
+  transform: rotate(90deg);
+}
+
+/* ---------- daftar produk ---------- */
+.mc-items {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 14px 20px 0;
+}
+
+.mc-item {
+  display: grid;
+  grid-template-columns: 56px 1fr 18px;
+  gap: 11px;
+  align-items: start;
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid rgb(0 0 0 / 30%);
+}
+
+.mc-item img {
+  display: block;
+  width: 56px;
+  height: 74px;
+  object-fit: cover;
+  background: #ede5e1;
+}
+
+.mc-info {
+  min-width: 0;
+  color: #3e3e3e;
+  font-family: 'Lato', sans-serif;
+  line-height: 1.3;
+}
+
+.mc-name {
+  margin: 0;
+  font-weight: 500;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.mc-size {
+  margin: 2px 0 0;
+  color: #757575;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.mc-price {
+  margin: 3px 0 0;
+  color: #757575;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.mc-qty {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 7px;
+  background: #8b4513;
+  color: #fff;
+  font-family: 'Lato', sans-serif;
+}
+
+.mc-qty button {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  background: none;
+  border: 0;
+  color: #fff;
+  font-size: 13px;
+  line-height: 1;
+  transition: background .15s;
+}
+
+.mc-qty button:hover {
+  background: #6f350e;
+}
+
+.mc-qty span {
+  min-width: 26px;
+  text-align: center;
+  font-size: 11px;
+}
+
+.mc-remove {
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  padding: 0;
+  cursor: pointer;
+  background: none;
+  border: 0;
+  color: #9f9f9f;
+  transition: color .15s, transform .15s;
+}
+
+.mc-remove:hover {
+  color: #e90000;
+  transform: scale(1.1);
+}
+
+.mc-remove svg {
+  width: 14px;
+  height: 14px;
+}
+
+.mc-empty {
+  padding: 60px 0;
+  text-align: center;
+  color: #757575;
+  font-family: 'Lato', sans-serif;
+  font-size: 14px;
+}
+
+/* ---------- footer ---------- */
+.mc-foot {
+  padding: 0 20px 22px;
+}
+
+.mc-sub {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 4px 0 14px;
+  color: #1e1e1e;
+  font-family: 'Playfair Display', Georgia, serif;
+  text-transform: uppercase;
+  font-size: 13px;
+}
+
+.mc-sub strong {
+  font-weight: 600;
+}
+
+.mc-checkout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 38px;
+  margin: 0 auto;
+  background: #8b4513;
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
+  border: 0;
+  font: 400 10px 'Poppins', sans-serif;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  transition: background .16s;
+}
+
+.mc-checkout:hover {
+  background: #6f350e;
+}
+
+.mc-checkout[aria-disabled="true"] {
+  background: #b9a595;
+  pointer-events: none;
+}
+
+.mc-view {
+  display: block;
+  width: max-content;
+  margin: 12px auto 0;
+  color: #000;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 12px;
+}
+
+.mc-view:hover {
+  color: #8b4513;
+}
+
+/* ---------- efek terbang ke keranjang ---------- */
+.mc-fly {
+  position: fixed;
+  z-index: 300;
+  margin: 0;
+  object-fit: cover;
+  pointer-events: none;
+  border-radius: 10px;
+  box-shadow: 0 10px 24px rgb(0 0 0 / 28%);
+  will-change: transform, opacity;
+}
+
+div.mc-fly {
+  background: #8b4513;
+  border-radius: 50%;
+}
+
+.cart-button.mc-bump {
+  animation: mc-bump .5s ease;
+}
+
+@keyframes mc-bump {
+  0% {
+    transform: scale(1);
+  }
+
+  30% {
+    transform: scale(1.35) rotate(-8deg);
+  }
+
+  60% {
+    transform: scale(.92) rotate(4deg);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion:reduce) {
+  .cart-button.mc-bump {
+    animation: none;
+  }
+}

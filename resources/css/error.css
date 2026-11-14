@@ -1,0 +1,102 @@
+/* =========================================================
+   error-404.css — Halaman 404 Page Not Found
+   Panggil SETELAH home.css, catalog.css
+   ========================================================= */
+
+.err-main {
+    padding: 22px 42px 120px;
+}
+
+.err-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 1273px;
+    margin: 160px auto 0;
+}
+
+/* gambar ilustrasi */
+.err-img {
+    display: block;
+    width: 100%;
+    max-width: 1273px;
+    height: auto;
+    object-fit: contain;
+}
+
+/* judul: Jomolhari 110px, satu baris */
+.err-title {
+    margin: 40px 0 0;
+    color: #000;
+    font-family: 'Jomolhari', Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(36px, 7.7vw, 110px);
+    line-height: 1.05;
+    letter-spacing: .03em;
+    white-space: nowrap;
+}
+
+/* deskripsi: Ponomar 20px */
+.err-desc {
+    max-width: 785px;
+    margin: 40px 0 0;
+    color: #000;
+    font-family: 'Ponomar', Georgia, serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+}
+
+/* tombol */
+.btn-home {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 607px;
+    height: 66px;
+    margin-top: 56px;
+    background: #8B4513;
+    border-radius: 10px;
+    box-shadow: 0 20px 35px rgb(0 0 0 / 15%);
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 1;
+    text-decoration: none;
+    transition: background .16s;
+}
+
+.btn-home:hover {
+    background: #6f350e;
+}
+
+@media (max-width:760px) {
+    .err-main {
+        padding: 10px 16px 60px;
+    }
+
+    .err-wrap {
+        margin-top: 32px;
+    }
+
+    .err-title {
+        margin-top: 24px;
+        font-size: clamp(28px, 9vw, 44px);
+        white-space: normal;
+    }
+
+    .err-desc {
+        margin-top: 20px;
+        font-size: 16px;
+        line-height: 1.5;
+    }
+
+    .btn-home {
+        height: 56px;
+        font-size: 18px;
+        margin-top: 36px;
+    }
+}

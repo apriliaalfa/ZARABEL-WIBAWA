@@ -1,0 +1,80 @@
+/* =========================================================
+   profile.css — halaman Profile
+   Panggil SETELAH home.css, catalog.css, my-orders.css
+   ========================================================= */
+.profile-section{
+  display:grid; grid-template-columns:minmax(280px,5fr) minmax(0,6.5fr);
+  align-items:stretch; min-height:640px;
+}
+.profile-section[hidden]{ display:none; }
+
+.profile-side{
+  display:flex; flex-direction:column; align-items:center; text-align:center;
+  padding:120px 24px 60px; border-right:1px solid #e6e6e6;
+}
+.profile-avatar{
+  width:150px; height:150px; overflow:hidden; border-radius:50%;
+  border:5px solid #69481b; background:#d4c4ba;
+}
+.profile-avatar img{ display:block; width:100%; height:100%; object-fit:cover; }
+.profile-name{
+  margin:50px 0 0; color:#000;
+  font-family:'Volkhov',serif; font-weight:700; font-size:28px; line-height:36px;
+}
+.profile-role, .profile-loc{
+  margin:0; color:#69481b; font-family:'Lato',sans-serif; font-weight:300; font-size:24px; line-height:29px;
+}
+.profile-loc{ display:flex; align-items:center; gap:6px; margin-top:27px; }
+.profile-loc .ic{ width:28px; height:28px; }
+.upload-btn{
+  margin-top:70px; padding:0 26px; height:50px; border-radius:10px; cursor:pointer;
+  background:#69481b; color:#fff; font-family:'Lateef',serif; font-weight:300; font-size:36px; line-height:1;
+  transition:background .16s;
+}
+.upload-btn:hover{ background:#8b5f27; }
+
+.profile-form{
+  display:grid; align-content:start; gap:22px; max-width:760px; width:100%;
+  padding:120px 60px 50px 87px;
+}
+.pf-head{
+  display:flex; align-items:center; justify-content:space-between; gap:16px;
+  padding-bottom:20px; border-bottom:2px solid #e5e5e5; margin-bottom:6px;
+}
+.pf-head h2{ margin:0; color:#000; font-family:'Abhaya Libre',serif; font-weight:700; font-size:30px; line-height:35px; }
+.pf-actions{ display:flex; gap:20px; }
+.pf-cancel, .pf-save{
+  width:90px; height:40px; border:2px solid #69481b; border-radius:7px; cursor:pointer;
+  font-family:'Lato',sans-serif; font-weight:700; font-size:14px;
+}
+.pf-cancel{ background:#fff; color:#000; }
+.pf-save{ background:#69481b; color:#fff; font-size:17px; }
+.pf-save:hover{ background:#8b5f27; }
+
+.pf-row{ display:grid; grid-template-columns:360fr 265fr; gap:20px; }
+.pf-field{ display:grid; gap:10px; min-width:0; }
+.pf-field > span{
+  color:#000; font-family:'Abhaya Libre',serif; font-weight:400; font-size:20px; line-height:24px; text-transform:uppercase;
+}
+.pf-field input, .pf-field textarea{
+  width:100%; border:2px solid #e5e5e5; border-radius:7px; background:#fff; outline:none;
+  padding:0 12px; font-family:'Poppins',sans-serif; font-size:14px; color:#1e1e1e;
+}
+.pf-field input{ height:35px; }
+.pf-field textarea{ height:100px; padding:10px 12px; resize:vertical; }
+.pf-field input:focus, .pf-field textarea:focus{ border-color:#69481b; }
+
+@media (max-width:1000px){
+  .profile-form{ padding:80px 32px 40px 48px; }
+}
+@media (max-width:860px){
+  .profile-section{ grid-template-columns:1fr; }
+  .profile-side{ padding:48px 20px 40px; border-right:0; border-bottom:1px solid #e6e6e6; }
+  .profile-name{ margin-top:28px; }
+  .upload-btn{ margin-top:36px; }
+  .profile-form{ max-width:none; padding:40px 20px 48px; }
+}
+@media (max-width:470px){
+  .pf-head{ flex-direction:column; align-items:flex-start; }
+  .pf-row{ grid-template-columns:1fr; }
+}

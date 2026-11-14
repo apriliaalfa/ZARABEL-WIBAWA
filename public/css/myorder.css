@@ -1,0 +1,1157 @@
+/* =========================================================
+   my-orders.css — Settings > My Orders
+   Panggil SETELAH home.css dan catalog.css
+   ========================================================= */
+
+/* header ikut alur halaman (sama seperti halaman checkout) */
+.site-header.co-header {
+    position: relative;
+    padding-bottom: 10px;
+}
+
+@media (min-width:761px) {
+    header.site-header.co-header nav {
+        flex: 1 1 auto !important;
+        margin: 0 !important;
+        justify-content: center !important;
+        position: static !important;
+        transform: none !important;
+        height: auto !important;
+    }
+
+    header.site-header.co-header .header-actions {
+        margin-left: 0 !important;
+    }
+}
+
+/* ---------- HERO SETTINGS ---------- */
+.settings-hero {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 30px;
+    min-height: 155px;
+    padding: 15px 32px 0 54px;
+    background: #69481b;
+    color: #fef7ee;
+}
+
+.settings-copy h1 {
+    margin: 0 0 17px;
+    color: #fff;
+    font-family: 'Volkhov', serif;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 1.2;
+}
+
+.setting-tabs {
+    display: flex;
+    gap: 46px;
+}
+
+.setting-tabs button,
+.setting-tabs a {
+    position: relative;
+    text-decoration: none;
+    padding: 0 0 17px;
+    cursor: pointer;
+    font-family: 'Abhaya Libre', serif;
+    font-size: 25px;
+    line-height: 1;
+    color: #fef7ee;
+}
+
+.setting-tabs .selected::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 1px;
+    height: 3px;
+    background: #fef7ee;
+}
+
+.logout {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: 228px;
+    margin-bottom: 6px;
+    padding: 7px 10px;
+    border: 2px solid #fef7ee;
+    border-radius: 24px;
+    color: #fff;
+    cursor: pointer;
+    transition: background .16s;
+}
+
+.logout:hover {
+    background: rgb(254 247 238 / 12%);
+}
+
+.logout .avatar {
+    width: 43px;
+    height: 43px;
+    flex: none;
+    overflow: hidden;
+    border-radius: 50%;
+    background: #d4c4ba;
+}
+
+.logout .avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.logout>span:nth-child(2) {
+    flex: 1;
+    text-align: left;
+    font-family: 'Abhaya Libre', serif;
+    font-weight: 700;
+    font-size: 22px;
+}
+
+.logout .ic {
+    width: 17px;
+    height: 17px;
+    opacity: .4;
+}
+
+/* ---------- ORDERS ---------- */
+.orders-section {
+    padding: 40px 16px 28px;
+}
+
+.status-filters {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    margin-bottom: 38px;
+}
+
+.status-filters button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    cursor: pointer;
+    color: #b4b4b4;
+    font-family: 'Lato', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 1.35;
+    text-transform: uppercase;
+}
+
+.status-filters button.selected {
+    color: #8b4513;
+}
+
+.filter-icon {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: .5px solid #b4b4b4;
+    background: #fff;
+}
+
+.selected .filter-icon {
+    border-color: transparent;
+    background: #ede5e1;
+}
+
+.filter-icon .ic {
+    width: 16px;
+    height: 16px;
+}
+
+.table-shell {
+    max-width: 1400px;
+    margin: 0 auto;
+    overflow: hidden;
+    border: .3px solid #b9b9b9;
+    border-radius: 14px;
+}
+
+.order-grid {
+    display: grid;
+    align-items: center;
+    column-gap: 16px;
+    padding: 0 38px;
+    grid-template-columns: 64px minmax(260px, 1.7fr) minmax(110px, .75fr) 100px minmax(150px, .9fr) minmax(150px, .8fr);
+}
+
+.table-head {
+    min-height: 61px;
+    border-bottom: .6px solid #d5d5d5;
+    background: #fcfdfd;
+    color: #202224;
+    font-family: 'Nunito Sans', sans-serif;
+    font-weight: 800;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.order-row {
+    min-height: 97px;
+    border-bottom: .4px solid rgb(185 185 185 / 60%);
+    color: #202224;
+    font-family: 'Nunito Sans', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.order-row:last-child {
+    border-bottom: 0;
+}
+
+.order-row[hidden] {
+    display: none;
+}
+
+.product {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.product-image {
+    flex: none;
+    width: 64px;
+    height: 64px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.product-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.product strong,
+.product small {
+    display: block;
+    font: inherit;
+}
+
+.details-button,
+.download-button {
+    min-width: 138px;
+    padding: 11px 18px;
+    border: .4px solid #fef7ee;
+    border-radius: 6px;
+    background: #69481b;
+    color: #fef7ee;
+    cursor: pointer;
+    font-family: 'Nunito Sans', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .32px;
+    transition: background .16s, transform .16s;
+}
+
+.details-button:hover,
+.download-button:hover {
+    background: #8b5f27;
+    transform: translateY(-1px);
+}
+
+.no-orders,
+.empty-panel {
+    padding: 70px 24px;
+    color: #69481b;
+    text-align: center;
+}
+
+.no-orders[hidden],
+.empty-panel[hidden],
+.orders-panel[hidden] {
+    display: none;
+}
+
+.empty-panel {
+    min-height: 440px;
+}
+
+.empty-panel h2 {
+    margin: 0 0 12px;
+    font-family: 'Volkhov', serif;
+    font-weight: 400;
+    font-size: 36px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    padding: 43px 0 0;
+}
+
+.pagination button {
+    display: grid;
+    place-items: center;
+    width: 43px;
+    height: 40px;
+    border-radius: 999px;
+    color: #000;
+    cursor: pointer;
+    font-family: 'Jost', sans-serif;
+    font-size: 16px;
+}
+
+.pagination button.selected {
+    background: #f3f3f3;
+}
+
+/* kolom Category, Quantity, Price, Receipt: judul & isi rata tengah */
+@media (min-width:761px) {
+    .order-grid> :nth-child(n+3) {
+        text-align: center;
+    }
+}
+
+/* ---------- MODAL STRUK ---------- */
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: none;
+    place-items: center;
+    overflow-y: auto;
+    padding: 24px;
+    background: rgb(30 30 30 / 50%);
+}
+
+.modal-backdrop.open {
+    display: grid;
+}
+
+.receipt-modal {
+    position: relative;
+    width: min(520px, 100%);
+    padding: 34px;
+    border-radius: 18px;
+    background: #fef7ee;
+    box-shadow: 0 28px 70px rgb(0 0 0 / 24%);
+}
+
+.modal-close {
+    position: absolute;
+    top: 14px;
+    right: 18px;
+    cursor: pointer;
+    color: #69481b;
+    font-family: sans-serif;
+    font-size: 30px;
+    line-height: 1;
+}
+
+.receipt-kicker {
+    color: #8b4513;
+    font-family: 'Lato', sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+    text-transform: uppercase;
+}
+
+.receipt-modal h2 {
+    margin: 8px 40px 20px 0;
+    font-family: 'Volkhov', serif;
+    font-weight: 400;
+    font-size: 30px;
+}
+
+.receipt-modal>img {
+    display: block;
+    width: 100%;
+    height: 190px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.receipt-modal dl {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 22px 0;
+}
+
+.receipt-modal dl>div {
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgb(105 72 27 / 20%);
+}
+
+.receipt-modal dt {
+    color: rgb(30 30 30 / 55%);
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.receipt-modal dd {
+    margin: 5px 0 0;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width:1000px) {
+    .settings-hero {
+        padding-left: 28px;
+    }
+
+    .order-grid {
+        grid-template-columns: 58px minmax(220px, 1.5fr) 90px 74px 125px 120px;
+        padding: 0 20px;
+    }
+
+    .details-button {
+        min-width: 110px;
+        padding: 10px;
+    }
+}
+
+@media (max-width:760px) {
+    .settings-hero {
+        flex-direction: column;
+        align-items: stretch;
+        min-height: 190px;
+        padding: 24px 20px 16px;
+    }
+
+    .settings-copy h1 {
+        margin-bottom: 24px;
+        font-size: 34px;
+    }
+
+    .setting-tabs {
+        justify-content: space-between;
+        gap: 15px;
+    }
+
+    .setting-tabs button,
+    .setting-tabs a {
+        font-size: 22px;
+    }
+
+    .logout {
+        width: 180px;
+        align-self: flex-end;
+        margin-top: -6px;
+    }
+
+    .logout>span:nth-child(2) {
+        font-size: 19px;
+    }
+
+    .orders-section {
+        padding: 28px 14px;
+    }
+
+    .status-filters {
+        display: flex;
+        justify-content: flex-start;
+        gap: 24px;
+        overflow-x: auto;
+        margin: 0 -14px 28px 0;
+        padding: 0 14px 12px 0;
+    }
+
+    .status-filters button {
+        flex: none;
+        width: 104px;
+    }
+
+    .table-shell {
+        overflow: visible;
+        border: 0;
+    }
+
+    .table-head {
+        display: none;
+    }
+
+    .order-list {
+        display: grid;
+        gap: 14px;
+    }
+
+    .order-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        min-height: 0;
+        padding: 18px;
+        border: .3px solid #b9b9b9;
+        border-radius: 14px;
+    }
+
+    .order-row>span:not(.order-id)::before {
+        display: block;
+        margin-bottom: 4px;
+        content: attr(data-label);
+        color: rgb(32 34 36 / 55%);
+        font-weight: 800;
+        font-size: 10px;
+        text-transform: uppercase;
+    }
+
+    .order-id {
+        grid-column: 1 / -1;
+        color: #8b4513;
+    }
+
+    .product {
+        grid-column: 1 / -1;
+    }
+
+    .order-row>span:last-child {
+        display: flex;
+        grid-column: 1 / -1;
+    }
+
+    .details-button {
+        width: 100%;
+    }
+
+    .pagination {
+        padding-top: 30px;
+    }
+}
+
+@media (max-width:470px) {
+    .settings-hero {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .setting-tabs {
+        gap: 10px;
+    }
+
+    .setting-tabs button,
+    .setting-tabs a {
+        font-size: 19px;
+    }
+
+    .receipt-modal {
+        padding: 28px 20px 22px;
+    }
+
+    .receipt-modal dl {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ---------- PRINT: hanya struk ---------- */
+@media print {
+
+    .site-header,
+    .settings-hero,
+    .orders-section,
+    footer {
+        display: none !important;
+    }
+
+    .modal-backdrop {
+        position: static;
+        background: none;
+        padding: 0;
+    }
+
+    .modal-close,
+    .download-button {
+        display: none;
+    }
+}
+
+/* =========================================================
+   profile.css — halaman Profile
+   Panggil SETELAH home.css, catalog.css, my-orders.css
+   ========================================================= */
+.profile-section {
+    display: grid;
+    grid-template-columns: minmax(280px, 5fr) minmax(0, 6.5fr);
+    align-items: stretch;
+    min-height: 640px;
+}
+
+.profile-section[hidden] {
+    display: none;
+}
+
+.profile-side {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 120px 24px 60px;
+    border-right: 1px solid #e6e6e6;
+}
+
+.profile-avatar {
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    border-radius: 50%;
+    border: 5px solid #69481b;
+    background: #d4c4ba;
+}
+
+.profile-avatar img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-name {
+    margin: 50px 0 0;
+    color: #000;
+    font-family: 'Volkhov', serif;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 36px;
+}
+
+.profile-role,
+.profile-loc {
+    margin: 0;
+    color: #69481b;
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    font-size: 24px;
+    line-height: 29px;
+}
+
+.profile-loc {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 27px;
+}
+
+.profile-loc .ic {
+    width: 28px;
+    height: 28px;
+}
+
+.upload-btn {
+    margin-top: 70px;
+    padding: 0 26px;
+    height: 50px;
+    border-radius: 10px;
+    cursor: pointer;
+    background: #69481b;
+    color: #fff;
+    font-family: 'Lateef', serif;
+    font-weight: 300;
+    font-size: 36px;
+    line-height: 1;
+    transition: background .16s;
+}
+
+.upload-btn:hover {
+    background: #8b5f27;
+}
+
+.profile-form {
+    display: grid;
+    align-content: start;
+    gap: 22px;
+    max-width: 760px;
+    width: 100%;
+    padding: 120px 60px 50px 87px;
+}
+
+.pf-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #e5e5e5;
+    margin-bottom: 6px;
+}
+
+.pf-head h2 {
+    margin: 0;
+    color: #000;
+    font-family: 'Abhaya Libre', serif;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 35px;
+}
+
+.pf-actions {
+    display: flex;
+    gap: 20px;
+}
+
+.pf-cancel,
+.pf-save {
+    width: 90px;
+    height: 40px;
+    border: 2px solid #69481b;
+    border-radius: 7px;
+    cursor: pointer;
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.pf-cancel {
+    background: #fff;
+    color: #000;
+}
+
+.pf-save {
+    background: #69481b;
+    color: #fff;
+    font-size: 17px;
+}
+
+.pf-save:hover {
+    background: #8b5f27;
+}
+
+.pf-row {
+    display: grid;
+    grid-template-columns: 360fr 265fr;
+    gap: 20px;
+}
+
+.pf-field {
+    display: grid;
+    gap: 10px;
+    min-width: 0;
+}
+
+.pf-field>span {
+    color: #000;
+    font-family: 'Abhaya Libre', serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    text-transform: uppercase;
+}
+
+.pf-field input,
+.pf-field textarea {
+    width: 100%;
+    border: 2px solid #e5e5e5;
+    border-radius: 7px;
+    background: #fff;
+    outline: none;
+    padding: 0 12px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: #1e1e1e;
+}
+
+.pf-field input {
+    height: 35px;
+}
+
+.pf-field textarea {
+    height: 100px;
+    padding: 10px 12px;
+    resize: vertical;
+}
+
+.pf-field input:focus,
+.pf-field textarea:focus {
+    border-color: #69481b;
+}
+
+@media (max-width:1000px) {
+    .profile-form {
+        padding: 80px 32px 40px 48px;
+    }
+}
+
+@media (max-width:860px) {
+    .profile-section {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-side {
+        padding: 48px 20px 40px;
+        border-right: 0;
+        border-bottom: 1px solid #e6e6e6;
+    }
+
+    .profile-name {
+        margin-top: 28px;
+    }
+
+    .upload-btn {
+        margin-top: 36px;
+    }
+
+    .profile-form {
+        max-width: none;
+        padding: 40px 20px 48px;
+    }
+}
+
+@media (max-width:470px) {
+    .pf-head {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .pf-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================================================
+   myorder2.css — Settings > My Orders > Detail Order
+   Panggil SETELAH home.css, catalog.css, myorder.css
+   Ukuran mengikuti desain Figma (frame 1419px) & gaya form Profile
+   ========================================================= */
+
+.detail-section {
+    display: grid;
+    grid-template-columns: 645fr 676fr;
+    gap: 25px;
+    align-items: start;
+    max-width: 1419px;
+    margin: 0 auto;
+    padding: 80px 19px 110px 54px;
+}
+
+/* ---------- KIRI: PAYMENT INFORMATION (gaya sama dengan Profile) ---------- */
+.pay-info h2 {
+    margin: 0;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #e5e5e5;
+    font-family: 'Abhaya Libre', serif;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 35px;
+    color: #000;
+}
+
+.pay-info form {
+    display: grid;
+    gap: 25px;
+    margin-top: 34px;
+}
+
+.pay-field {
+    display: grid;
+    gap: 10px;
+    min-width: 0;
+}
+
+.pay-field>span {
+    font-family: 'Abhaya Libre', serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    text-transform: uppercase;
+    color: #000;
+}
+
+.pay-field input,
+.pay-field textarea {
+    width: 100%;
+    border: 2px solid #e5e5e5;
+    border-radius: 7px;
+    background: #fff;
+    outline: none;
+    padding: 0 12px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: #1e1e1e;
+}
+
+.pay-field input {
+    height: 35px;
+}
+
+.pay-field textarea {
+    height: 100px;
+    padding: 10px 12px;
+    resize: none;
+}
+
+.pay-field input:read-only,
+.pay-field textarea:read-only {
+    cursor: default;
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 30px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: #69481b;
+    text-decoration: none;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+/* ---------- KANAN: ORDER SUMMARY ---------- */
+.summary-card {
+    padding: 17px 40px 44px;
+    border-radius: 30px;
+    background: rgb(254 247 238 / 70%);
+}
+
+.summary-card h2 {
+    margin: 0 0 35px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 1.35;
+    text-transform: uppercase;
+    color: #3e3e3e;
+}
+
+.sum-body {
+    padding: 0 18px;
+}
+
+.sum-item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 112px 1fr;
+    gap: 20px;
+    min-height: 149px;
+    padding-bottom: 32px;
+    margin-bottom: 32px;
+    border-bottom: 1px solid rgb(0 0 0 / 39%);
+    box-sizing: content-box;
+}
+
+.sum-thumb {
+    position: relative;
+    width: 112px;
+    height: 149px;
+}
+
+.sum-thumb img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background: #e6dccd;
+}
+
+.sum-thumb .qty-badge {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #8b4513;
+    color: #fff;
+    font-family: 'Volkhov', serif;
+    font-size: 16px;
+    line-height: 1;
+}
+
+.sum-item:last-child {
+    margin-bottom: 32px;
+}
+
+.sum-info {
+    display: grid;
+    align-content: start;
+    gap: 8px;
+    min-width: 0;
+    font-family: 'Lato', sans-serif;
+}
+
+.sum-info strong {
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 1.35;
+    text-transform: uppercase;
+    color: #3e3e3e;
+}
+
+.sum-info small {
+    font-size: 16px;
+    line-height: 1.35;
+    color: #757575;
+}
+
+.sum-info .note {
+    color: #353535;
+}
+
+.status-pill {
+    position: absolute;
+    left: 50%;
+    bottom: 32px;
+    transform: translateX(-50%);
+    display: grid;
+    place-items: center;
+    width: 198px;
+    height: 48px;
+    border-radius: 10px;
+    background: #8b4513;
+    color: #fff;
+    box-shadow: 0 20px 35px rgb(0 0 0 / 15%);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    font-size: 30px;
+    line-height: 1;
+    cursor: default;
+}
+
+.status-pill.is-wait {
+    background: #c18a2d;
+}
+
+.status-pill.is-ship {
+    background: #69481b;
+}
+
+.status-pill.is-cancel {
+    background: #8a8a8a;
+}
+
+.sum-rows {
+    display: grid;
+    gap: 12px;
+    margin: 0;
+    font-family: 'Lato', sans-serif;
+    font-size: 20px;
+    line-height: 1.35;
+    color: #757575;
+}
+
+.sum-rows>div {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.sum-rows dt,
+.sum-rows dd {
+    margin: 0;
+    text-transform: none;
+}
+
+.sum-rows dd {
+    text-transform: uppercase;
+}
+
+.sum-rows .discount {
+    color: #e90000;
+}
+
+.sum-rows .total {
+    margin-top: 12px;
+    font-weight: 600;
+    color: #3e3e3e;
+}
+
+.sum-logo-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+/* cadangan saja (specificity 0): ukuran asli logo tetap dari home.css seperti header/footer */
+:where(.sum-logo-wrap .brand) {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    text-decoration: none;
+    font-family: 'Playfair Display', serif;
+    font-weight: 500;
+    font-size: 55px;
+    line-height: 1.3;
+    text-transform: uppercase;
+    color: #000;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width:1100px) {
+    .detail-section {
+        padding: 60px 28px 80px 36px;
+        gap: 20px;
+    }
+
+    .summary-card {
+        padding: 17px 24px 36px;
+    }
+
+    .summary-card h2 {
+        font-size: 26px;
+    }
+
+    .sum-body {
+        padding: 0 6px;
+    }
+}
+
+@media (max-width:860px) {
+    .detail-section {
+        grid-template-columns: 1fr;
+        gap: 36px;
+        padding: 40px 20px 60px;
+    }
+
+    .summary-card {
+        order: -1;
+    }
+}
+
+@media (max-width:470px) {
+    .sum-item {
+        grid-template-columns: 88px 1fr;
+        gap: 14px;
+    }
+
+    .sum-thumb {
+        width: 88px;
+        height: 118px;
+    }
+
+    .sum-info strong {
+        font-size: 16px;
+    }
+
+    .sum-info small {
+        font-size: 13px;
+    }
+
+    .sum-rows {
+        font-size: 15px;
+    }
+
+    .status-pill {
+        width: 150px;
+        height: 42px;
+        font-size: 22px;
+    }
+}
+
+@media print {
+
+    .pay-info,
+    .back-link {
+        display: none !important;
+    }
+
+    .detail-section {
+        display: block;
+        padding: 0;
+    }
+}
