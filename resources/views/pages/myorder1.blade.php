@@ -77,22 +77,23 @@
           @php
             $firstItem2 = $order->items->first();
             $imgUrl3 = $firstItem2?->product_image ? asset($firstItem2->product_image) : asset('assets/img/cat1.jpg');
+            $categoryName = $firstItem2?->product?->category_name ?? $firstItem2?->product?->category?->name ?? 'Modest';
             $statusFilter = match($order->status) {
               'pending' => 'Awaiting payment',
               'paid' => 'Payment received',
               'shipped','dispatched' => 'Dispatched',
-              'delivered' => 'Completed',
+              'delivered','completed' => 'Completed',
               'cancelled' => 'Cancelled',
               default => ucfirst($order->status),
             };
           @endphp
           <article class="order-grid order-row" data-status="{{ $statusFilter }}" data-name="{{ $firstItem2?->product_name }}" data-id="{{ $order->order_number }}" data-qty="{{ $order->items->sum('quantity') }}" data-price="IDR {{ number_format($order->total_amount, 0, ',', '.') }}">
-            <span class="order-id" data-label="OrderID">{{ $order->order_number }}</span>
+            <span class="order-id" data-label="OrderID" style="word-break: break-all; font-size:11px;">{{ $order->order_number }}</span>
             <div class="product" data-label="Name">
               <span class="product-image"><img src="{{ $imgUrl3 }}" alt=""></span>
               <span><strong>{{ $firstItem2?->product_name ?? '—' }}</strong>@if($order->items->count() > 1)<small>+{{ $order->items->count()-1 }} item lain</small>@endif</span>
             </div>
-            <span data-label="Category">{{ $firstItem2?->size ?? '—' }}</span>
+            <span data-label="Category">{{ $categoryName }}</span>
             <span data-label="Quantity">{{ $order->items->sum('quantity') }}</span>
             <span data-label="Price">IDR {{ number_format($order->total_amount, 0, ',', '.') }}</span>
             <span data-label="Receipt"><a href="{{ route('myorder.detail', ['id' => $order->order_number]) }}" class="details-button">View Details</a></span>
@@ -145,7 +146,9 @@
         x.setAttribute('aria-selected', x === b);
       });
       rows.forEach(function(r){
-        var ok = f === 'All' || r.dataset.status === f;
+        var rStatus = (r.dataset.status || '').trim().toLowerCase();
+        var filterVal = f.trim().toLowerCase();
+        var ok = (filterVal === 'all') || (rStatus === filterVal);
         r.hidden = !ok;
         if (ok) shown++;
       });

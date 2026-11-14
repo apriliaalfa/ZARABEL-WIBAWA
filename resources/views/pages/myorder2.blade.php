@@ -113,68 +113,79 @@
     toggle.setAttribute('aria-expanded', nav.classList.toggle('open'));
   });
 
-  // Data order (id dikirim lewat ?id=I0001 atau route param). Tiap order bisa berisi beberapa item.
-  var ORDERS = {
-    I0001:{ status:'Payment received', method:'Transfer Bank BCA', date:'12 Mei 2026',
-            items:[ { name:'Sony Alpha A7 IV', qty:1, unit:450000 }, { name:'Lensa Sony 50mm f/1.8', qty:1, unit:150000 } ] },
-    I0002:{ status:'Awaiting payment', method:'Virtual Account', date:'-',
-            items:[ { name:'ALLTREK Tenda Camping 1', qty:2, unit:450000 }, { name:'Matras Camping', qty:2, unit:50000 } ] },
-    I0003:{ status:'Dispatched', method:'QRIS', date:'14 Mei 2026',
-            items:[ { name:'Mobil Fortuner Hitam', qty:1, unit:1000000 }, { name:'Sopir Harian', qty:1, unit:300000 } ] },
-    I0004:{ status:'Completed', method:'Transfer Bank BNI', date:'02 Mei 2026',
-            items:[ { name:'Yamaha Pro Audio Paket', qty:2, unit:750000 }, { name:'Microphone Wireless', qty:2, unit:100000 } ] },
-    I0005:{ status:'Awaiting payment', method:'Virtual Account', date:'-',
-            items:[ { name:'Iphone 17 Air (Hijau)', qty:1, unit:300000 }, { name:'Casing Iphone 17 Air', qty:1, unit:25000 } ] },
-    I0006:{ status:'Completed', method:'GoPay', date:'28 Apr 2026',
-            items:[ { name:'Kebaya Cream (1 Set)', qty:1, unit:630000 }, { name:'Selendang Batik', qty:1, unit:75000 } ] }
-  };
-  var STATUS_UI = {
-    'Payment received':{ label:'PAID',       cls:'' },
-    'Completed':       { label:'PAID',       cls:'' },
-    'Dispatched':      { label:'DISPATCHED', cls:'is-ship' },
-    'Awaiting payment':{ label:'UNPAID',     cls:'is-wait' },
-    'Cancelled':       { label:'CANCELLED',  cls:'is-cancel' }
-  };
-  var VOUCHER = { code:'SDKDISCOUNT', amount:50000 };
+  // Data order dari Database Laravel
+  @if(isset($order) && $order)
+    var dbOrder = {
+      order_number: "{{ $order->order_number }}",
+      customer_name: "{{ $order->customer_name }}",
+      customer_address: "{{ addslashes($order->shipping_address) }}",
+      method: "{{ strtoupper($order->payment?->payment_method ?? 'MIDTRANS') }}",
+      date: "{{ $order->created_at->format('d M Y H:i') }}",
+      status: "{{ $order->status }}",
+      subtotal: {{ (float)$order->subtotal }},
+      discount: {{ (float)$order->discount }},
+      shipping: {{ (float)$order->shipping_cost }},
+      total: {{ (float)$order->total_amount }},
+      items: [
+        @foreach($order->items as $it)
+        {
+          name: "{{ addslashes($it->product_name) }}",
+          qty: {{ $it->quantity }},
+          unit: {{ (float)$it->price }},
+          size: "{{ $it->size ?? 'All Size' }}",
+          notes: "{{ addslashes($it->notes ?? '') }}",
+          img: "{{ $it->product_image ? asset($it->product_image) : asset('assets/img/cart.png') }}"
+        },
+        @endforeach
+      ]
+    };
 
-  function idr(n){ return 'IDR ' + n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
-  function set(id, v){ document.getElementById(id).textContent = v; }
-  function esc(t){ var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
+    function idr(n){ return 'IDR ' + Number(n || 0).toLocaleString('id-ID'); }
+    function set(id, v){ if(document.getElementById(id)) document.getElementById(id).textContent = v; }
+    function esc(t){ var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
 
-  var routeId = "{{ $id ?? '' }}";
-  var id = routeId || new URLSearchParams(location.search).get('id');
-  if (!ORDERS[id]) id = 'I0001';
-  var o = ORDERS[id];
-  var ui = STATUS_UI[o.status] || STATUS_UI['Payment received'];
+    var statusText = dbOrder.status.toLowerCase();
+    var isPaid = (statusText === 'paid' || statusText === 'completed');
+    var statusLabel = isPaid ? 'PAID' : (statusText === 'shipped' ? 'DISPATCHED' : 'AWAITING PAYMENT');
+    var statusCls = isPaid ? '' : (statusText === 'shipped' ? 'is-ship' : 'is-wait');
 
-  var sub = 0;
-  o.items.forEach(function(it){ sub += it.unit * it.qty; });
-  var disc = o.status === 'Awaiting payment' ? 0 : VOUCHER.amount;
+    // Kiri
+    document.getElementById('dName').value    = dbOrder.customer_name;
+    document.getElementById('dTrx').value     = dbOrder.order_number;
+    document.getElementById('dMethod').value  = dbOrder.method;
+    document.getElementById('dDate').value    = dbOrder.date;
+    document.getElementById('dAddress').value = dbOrder.customer_address;
 
-  // kiri
-  document.getElementById('dName').value    = localStorage.getItem('customerName') || 'Aprilia Alfa Gusasti';
-  document.getElementById('dTrx').value     = 'TRX-' + id.replace('I','') + '-2026';
-  document.getElementById('dMethod').value  = o.method;
-  document.getElementById('dDate').value    = o.date;
-  document.getElementById('dAddress').value = localStorage.getItem('customerAddress') || 'Tangerang, Banten';
+    // Kanan
+    document.getElementById('sItems').innerHTML = dbOrder.items.map(function(it){
+      return '<div class="sum-item">' +
+        '<div class="sum-thumb"><img src="' + it.img + '" alt=""><span class="qty-badge">' + it.qty + '</span></div>' +
+        '<div class="sum-info"><strong>' + esc(it.name) + '</strong>' +
+        '<small>' + it.qty + ' x ' + idr(it.unit) + (it.size ? ' (' + it.size + ')' : '') + '</small>' +
+        (it.notes ? '<small class="note">' + esc(it.notes) + '</small>' : '') +
+        '</div>' +
+        '<span class="status-pill ' + statusCls + '">' + statusLabel + '</span>' +
+      '</div>';
+    }).join('');
 
-  // kanan: daftar item
-  var cartImg = "{{ asset('assets/img/cart.png') }}";
-  document.getElementById('sItems').innerHTML = o.items.map(function(it, i){
-    return '<div class="sum-item">' +
-      '<div class="sum-thumb"><img src="' + cartImg + '" alt=""><span class="qty-badge">' + it.qty + '</span></div>' +
-      '<div class="sum-info"><strong>' + esc(it.name) + '</strong>' +
-      '<small>' + it.qty + ' x ' + idr(it.unit) + '/hari</small>' +
-      (i === 0 ? '<small class="note">Please recheck the size before send to me :)</small>' : '') +
-      '</div>' +
-      '<span class="status-pill ' + ui.cls + '">' + ui.label + '</span>' +
-    '</div>';
-  }).join('');
+    set('sSub', idr(dbOrder.subtotal));
+    set('sCode', 'PROMO');
+    set('sVoucher', dbOrder.discount > 0 ? idr(dbOrder.discount) : 'IDR 0');
+    set('sTotal', idr(dbOrder.total));
 
-  set('sSub', idr(sub));
-  set('sCode', VOUCHER.code);
-  set('sVoucher', disc ? idr(disc) : 'IDR -');
-  set('sTotal', idr(sub - disc));
+  @else
+    // Fallback contoh data jika tidak ada order id di URL
+    var idr = function(n){ return 'IDR ' + Number(n || 0).toLocaleString('id-ID'); };
+    function set(id, v){ if(document.getElementById(id)) document.getElementById(id).textContent = v; }
+    document.getElementById('dName').value = 'Customer Zarabel';
+    document.getElementById('dTrx').value = 'ZRB-DEMO';
+    document.getElementById('dMethod').value = 'QRIS';
+    document.getElementById('dDate').value = 'Hari ini';
+    document.getElementById('dAddress').value = 'Indonesia';
+    set('sSub', idr(100000));
+    set('sVoucher', idr(0));
+    set('sTotal', idr(100000));
+  @endif
   // Sync avatar dari profile jika user baru saja upload foto
   try {
     var prof = JSON.parse(localStorage.getItem('profile') || '{}');

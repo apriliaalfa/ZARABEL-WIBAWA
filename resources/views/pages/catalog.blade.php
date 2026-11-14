@@ -201,25 +201,50 @@
   accordion('catBtn', 'catOptions');
   accordion('priceBtn', 'priceOptions');
 
-  // Filter harga
+  // Filter kategori & harga gabungan
   var cards = Array.prototype.slice.call(document.querySelectorAll('.catalog-grid .product-card'));
   var empty = document.getElementById('empty');
   var priceChecks = Array.prototype.slice.call(document.querySelectorAll('#priceOptions input'));
+  var catChecks = Array.prototype.slice.call(document.querySelectorAll('#catOptions input'));
 
-  function applyPrice(){
-    var active = priceChecks.filter(function(c){ return c.checked; });
+  function applyFilters(){
+    var activePrices = priceChecks.filter(function(c){ return c.checked; });
+    var activeCats = catChecks.filter(function(c){ return c.checked; }).map(function(c){ return c.dataset.cat.toLowerCase(); });
+
     var shown = 0;
     cards.forEach(function(card){
       var p = Number(card.dataset.price);
-      var ok = active.length === 0 || active.some(function(c){
-        return p >= Number(c.dataset.min) && p <= Number(c.dataset.max);
+      var c = (card.dataset.category || '').toLowerCase();
+
+      var matchPrice = activePrices.length === 0 || activePrices.some(function(chk){
+        return p >= Number(chk.dataset.min) && p <= Number(chk.dataset.max);
       });
+
+      var matchCat = activeCats.length === 0 || activeCats.includes(c);
+
+      var ok = matchPrice && matchCat;
       card.classList.toggle('hide', !ok);
       if (ok) shown++;
     });
     if (empty) empty.classList.toggle('show', shown === 0);
   }
-  priceChecks.forEach(function(c){ c.addEventListener('change', applyPrice); });
+
+  priceChecks.forEach(function(c){ c.addEventListener('change', applyFilters); });
+  catChecks.forEach(function(c){ c.addEventListener('change', applyFilters); });
+
+  // Auto-check filter dari URL query param (?cat=Pleats)
+  (function(){
+    var urlParams = new URLSearchParams(window.location.search);
+    var catParam = urlParams.get('cat');
+    if (catParam) {
+      catChecks.forEach(function(chk){
+        if (chk.dataset.cat.toLowerCase() === catParam.toLowerCase()) {
+          chk.checked = true;
+        }
+      });
+      applyFilters();
+    }
+  })();
 
   // Add to cart + toast
   var cartCount = 0;
