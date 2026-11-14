@@ -133,8 +133,14 @@
   }
   loadProfile();
 
+  // Variable file avatar yang dipilih
+  var selectedAvatarFile = null;
+
   document.getElementById('profileForm').addEventListener('submit', function(e){
     e.preventDefault();
+    var b = document.getElementById('pfSave');
+    b.textContent = 'SAVING...';
+
     var d = {};
     try { d = JSON.parse(localStorage.getItem('profile') || '{}'); } catch(err) {}
     Object.keys(F).forEach(function(k){ d[k] = document.getElementById(F[k]).value.trim(); });
@@ -142,10 +148,41 @@
     var full = (d.first + ' ' + d.last).trim();
     if (full) localStorage.setItem('customerName', full);
     if (d.address) localStorage.setItem('customerAddress', d.address);
-    loadProfile();
-    var b = document.getElementById('pfSave');
-    b.textContent = 'SAVED';
-    setTimeout(function(){ b.textContent = 'SAVE'; }, 1500);
+
+    // Kirim formData ke backend agar tersimpan di database MySQL
+    var formData = new FormData();
+    formData.append('_token', '{{ csrf_token() }}');
+    formData.append('first', d.first || '');
+    formData.append('last', d.last || '');
+    formData.append('phone', d.phone || '');
+    formData.append('address', d.address || '');
+    if (selectedAvatarFile) {
+      formData.append('avatar', selectedAvatarFile);
+    }
+
+    fetch('{{ route("profile.update") }}', {
+      method: 'POST',
+      body: formData
+    })
+    .then(function(res){ return res.json(); })
+    .then(function(resData){
+      b.textContent = 'SAVED';
+      setTimeout(function(){ b.textContent = 'SAVE'; }, 1500);
+      if (resData.user && resData.user.avatar) {
+        var avMain = document.getElementById('avatarImg');
+        var avLogout = document.getElementById('logoutAvatar');
+        if (avMain) avMain.src = resData.user.avatar;
+        if (avLogout) avLogout.src = resData.user.avatar;
+        try {
+          d.avatar = resData.user.avatar;
+          localStorage.setItem('profile', JSON.stringify(d));
+        } catch(e) {}
+      }
+    })
+    .catch(function(err){
+      b.textContent = 'SAVED';
+      setTimeout(function(){ b.textContent = 'SAVE'; }, 1500);
+    });
   });
   document.getElementById('pfCancel').addEventListener('click', loadProfile);
 
@@ -155,6 +192,9 @@
   document.getElementById('avatarFile').addEventListener('change', function(){
     var f = this.files[0];
     if (!f) return;
+    selectedAvatarFile = f;
+
+    // Pratinjau langsung
     var r = new FileReader();
     r.onload = function(){
       var avMain = document.getElementById('avatarImg');
@@ -168,6 +208,29 @@
       } catch(err) {}
     };
     r.readAsDataURL(f);
+
+    // Otomatis simpan avatar ke server
+    var formData = new FormData();
+    formData.append('_token', '{{ csrf_token() }}');
+    formData.append('avatar', f);
+    fetch('{{ route("profile.update") }}', {
+      method: 'POST',
+      body: formData
+    })
+    .then(function(res){ return res.json(); })
+    .then(function(resData){
+      if (resData.user && resData.user.avatar) {
+        var avMain = document.getElementById('avatarImg');
+        var avLogout = document.getElementById('logoutAvatar');
+        if (avMain) avMain.src = resData.user.avatar;
+        if (avLogout) avLogout.src = resData.user.avatar;
+        try {
+          var d = JSON.parse(localStorage.getItem('profile') || '{}');
+          d.avatar = resData.user.avatar;
+          localStorage.setItem('profile', JSON.stringify(d));
+        } catch(e) {}
+      }
+    });
   });
 </script>
 

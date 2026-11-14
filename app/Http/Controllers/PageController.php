@@ -106,6 +106,50 @@ class PageController extends Controller
     }
 
     /**
+     * Update Profile in database.
+     */
+    public function updateProfile(Request $request)
+    {
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json(['success' => false, 'message' => 'Unauthorized'], 401);
+        }
+
+        $first = trim((string)$request->input('first', ''));
+        $last = trim((string)$request->input('last', ''));
+        $name = trim($first . ' ' . $last);
+        if (!empty($name)) {
+            $user->name = $name;
+        }
+
+        if ($request->has('phone')) {
+            $user->phone = $request->input('phone');
+        }
+
+        if ($request->has('address')) {
+            $user->address = $request->input('address');
+        }
+
+        if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
+            $file = $request->file('avatar');
+            $filename = 'avatar_' . $user->id . '_' . time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/avatars'), $filename);
+            $user->avatar = 'uploads/avatars/' . $filename;
+        }
+
+        $user->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Profil berhasil diperbarui di database!',
+            'user' => [
+                'name' => $user->name,
+                'avatar' => $user->avatar ? asset($user->avatar) : null
+            ]
+        ]);
+    }
+
+    /**
      * Display My Orders list.
      */
     public function myorder(): View

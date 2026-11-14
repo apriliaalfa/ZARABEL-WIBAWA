@@ -42,6 +42,7 @@ Route::middleware('auth')->group(function () {
 
     // Profile & Orders
     Route::get('/profile', [PageController::class, 'profile'])->name('profile');
+    Route::post('/profile/update', [PageController::class, 'updateProfile'])->name('profile.update');
     Route::get('/my-orders', [PageController::class, 'myorder'])->name('myorder');
     Route::get('/my-orders/detail/{id?}', [PageController::class, 'myorderDetail'])->name('myorder.detail');
 });
