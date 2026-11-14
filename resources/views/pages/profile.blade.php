@@ -58,11 +58,13 @@
     <div class="profile-side">
       <div class="profile-avatar">
         @auth
-          @if(auth()->user()->avatar)
-            <img id="avatarImg" src="{{ auth()->user()->avatar }}" alt="Foto profil">
-          @else
-            <img id="avatarImg" src="{{ asset('images/zarabelbg.png') }}" alt="Foto profil">
-          @endif
+          @php
+            $currentAvatar = auth()->user()->avatar;
+            $avatarSrc = !empty($currentAvatar)
+              ? (filter_var($currentAvatar, FILTER_VALIDATE_URL) ? $currentAvatar : asset($currentAvatar))
+              : 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name ?? 'User') . '&background=69481B&color=fef7ee&size=256&bold=true';
+          @endphp
+          <img id="avatarImg" src="{{ $avatarSrc }}" alt="Foto profil">
         @endauth
       </div>
       <h2 class="profile-name" id="profileName">{{ auth()->user()->name ?? 'User' }}</h2>
