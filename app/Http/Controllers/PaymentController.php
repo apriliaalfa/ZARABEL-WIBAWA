@@ -164,6 +164,30 @@ class PaymentController extends Controller
                 'item_details' => $itemDetails,
             ];
 
+            // Filter enabled payment method from user selection
+            $method = strtolower($request->input('payment_method', ''));
+            $channel = strtolower($request->input('payment_channel', ''));
+
+            if ($method === 'qris') {
+                $params['enabled_payments'] = ['qris', 'gopay', 'shopeepay'];
+            } elseif ($method === 'transfer') {
+                if (in_array($channel, ['bca', 'bni', 'bri'])) {
+                    $params['enabled_payments'] = [$channel . '_va', 'bank_transfer', 'other_va'];
+                } elseif ($channel === 'mandiri') {
+                    $params['enabled_payments'] = ['echannel', 'bank_transfer'];
+                } else {
+                    $params['enabled_payments'] = ['bank_transfer', 'bca_va', 'bni_va', 'bri_va', 'echannel', 'other_va'];
+                }
+            } elseif ($method === 'ewallet') {
+                if ($channel === 'gopay') {
+                    $params['enabled_payments'] = ['gopay', 'qris'];
+                } elseif ($channel === 'shopeepay') {
+                    $params['enabled_payments'] = ['shopeepay', 'qris'];
+                } else {
+                    $params['enabled_payments'] = ['gopay', 'shopeepay', 'qris'];
+                }
+            }
+
             $snapToken = $this->midtrans->createSnapToken($params);
 
             DB::commit();

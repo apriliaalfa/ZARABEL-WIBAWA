@@ -454,6 +454,15 @@
     }
 
     var discount = (document.getElementById('promo') && !document.getElementById('promo').hidden) ? 50000 : 0;
+    var payMethod = document.getElementById('paymentMethod') ? document.getElementById('paymentMethod').value : 'qris';
+    var payChannel = '';
+    if (payMethod === 'transfer') {
+      var bankActive = document.querySelector('#ddBank .dd-btn .dd-label');
+      payChannel = bankActive ? bankActive.textContent.trim().toLowerCase() : 'bca';
+    } else if (payMethod === 'ewallet') {
+      var walletActive = document.querySelector('#ddWallet .dd-btn .dd-label');
+      payChannel = walletActive ? walletActive.textContent.trim().toLowerCase() : 'gopay';
+    }
 
     fetch('{{ route("payment.snap") }}', {
       method: 'POST',
@@ -469,6 +478,8 @@
         courier: courierName,
         shipping_cost: shippingPrice,
         discount: discount,
+        payment_method: payMethod,
+        payment_channel: payChannel,
         items: items
       })
     })
