@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -52,6 +53,11 @@ Route::get('/checkout/payment', [PageController::class, 'checkout2'])->name('che
 Route::get('/checkout2', fn () => redirect()->route('checkout.payment'));
 Route::get('/order/confirm', [PageController::class, 'confirm'])->name('order.confirm');
 Route::get('/order/success', [PageController::class, 'success'])->name('order.success');
+
+// Midtrans Payment Endpoints
+Route::post('/payment/snap-token', [PaymentController::class, 'createSnapToken'])->name('payment.snap');
+Route::post('/payment/notification', [PaymentController::class, 'handleNotification'])->name('payment.notification');
+Route::post('/payment/finish', [PaymentController::class, 'finishPayment'])->name('payment.finish');
 
 // Authentication (Sign In & Sign Up)
 Route::middleware('guest')->group(function () {

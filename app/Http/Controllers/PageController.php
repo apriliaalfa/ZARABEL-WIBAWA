@@ -145,10 +145,17 @@ class PageController extends Controller
     /**
      * Display Checkout Step 2 (Shipping & Payment).
      */
-    public function checkout2(): View
+    public function checkout2(Request $request): View
     {
+        $snapJs = config('services.midtrans.is_production', false)
+            ? 'https://app.midtrans.com/snap/snap.js'
+            : 'https://app.sandbox.midtrans.com/snap/snap.js';
+        $clientKey = config('services.midtrans.client_key', env('MIDTRANS_CLIENT_KEY', ''));
+
         return view('pages.checkout2', [
             'user' => Auth::user(),
+            'snapJs' => $snapJs,
+            'clientKey' => $clientKey,
         ]);
     }
 
@@ -165,10 +172,14 @@ class PageController extends Controller
     /**
      * Display Payment Success Receipt.
      */
-    public function success(): View
+    public function success(Request $request): View
     {
+        $orderNumber = $request->query('order');
+        $order = $orderNumber ? Order::where('order_number', $orderNumber)->with(['items', 'payment'])->first() : null;
+
         return view('pages.success', [
             'user' => Auth::user(),
+            'order' => $order,
         ]);
     }
 

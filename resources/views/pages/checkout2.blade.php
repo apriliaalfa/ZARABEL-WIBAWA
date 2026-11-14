@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="{{ asset('css/home.css') }}">
 <link rel="stylesheet" href="{{ asset('css/catalog.css') }}">
 <link rel="stylesheet" href="{{ asset('css/checkout.css') }}">
+<script src="{{ $snapJs ?? 'https://app.sandbox.midtrans.com/snap/snap.js' }}" data-client-key="{{ $clientKey ?? '' }}"></script>
 </head>
 <body>
 
@@ -359,17 +360,113 @@
     });
   });
 
-  // ---------- Submit ----------
+  // ---------- Submit Midtrans Snap ----------
   document.getElementById('payForm').addEventListener('submit', function(e){
+    e.preventDefault();
     var err = document.getElementById('payError');
-    if (!document.querySelector('input[name="courier"]:checked')){
-      e.preventDefault();
+    var courierInp = document.querySelector('input[name="courier"]:checked');
+    if (!courierInp){
       err.classList.add('show');
       document.querySelector('.ship-list').scrollIntoView({ behavior:'smooth', block:'center' });
       return;
     }
     err.classList.remove('show');
-    // Proceeds to route('order.confirm')
+
+    var submitBtn = this.querySelector('button[type="submit"]');
+    var originalText = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Menyiapkan Pembayaran...';
+
+    // Kumpulkan data customer & produk
+    var custName = localStorage.getItem('customerName') || '{{ $user->name ?? "Pelanggan Zarabel" }}';
+    var custEmail = '{{ $user->email ?? "customer@zarabelstudio.com" }}';
+    var custPhone = '{{ $user->phone ?? "081234567890" }}';
+    var custAddress = localStorage.getItem('customerAddress') || 'Alamat Pengiriman Zarabel';
+    var courierName = courierInp.value;
+    var shippingPrice = parseFloat(courierInp.dataset.price || 0);
+
+    // Kumpulkan item dari summary
+    var items = [];
+    document.querySelectorAll('.co-product').forEach(function(el, index){
+      var title = el.querySelector('h3') ? el.querySelector('h3').textContent.trim() : 'Zarabel Item';
+      items.push({
+        product_name: title,
+        price: 100000,
+        quantity: 1
+      });
+    });
+    if (items.length === 0) {
+      items.push({ product_name: 'Zarabel Fashion Item', price: 100000, quantity: 1 });
+    }
+
+    var discount = (document.getElementById('promo') && !document.getElementById('promo').hidden) ? 50000 : 0;
+
+    fetch('{{ route("payment.snap") }}', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+      },
+      body: JSON.stringify({
+        customer_name: custName,
+        customer_email: custEmail,
+        customer_phone: custPhone,
+        shipping_address: custAddress,
+        courier: courierName,
+        shipping_cost: shippingPrice,
+        discount: discount,
+        items: items
+      })
+    })
+    .then(function(res){ return res.json(); })
+    .then(function(data){
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+
+      if (data.status === 'success' && data.snap_token) {
+        if (typeof window.snap !== 'undefined') {
+          window.snap.pay(data.snap_token, {
+            onSuccess: function(result){
+              fetch('{{ route("payment.finish") }}?order_number=' + data.order_number, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                  result_status: 'success',
+                  payment_type: result.payment_type || 'midtrans'
+                })
+              }).then(function(){
+                window.location.href = data.redirect_url;
+              });
+            },
+            onPending: function(result){
+              window.location.href = data.redirect_url;
+            },
+            onError: function(result){
+              alert('Pembayaran gagal atau dibatalkan.');
+            },
+            onClose: function(){
+              // Jika user menutup pop-up
+              window.location.href = '{{ route("order.confirm") }}?order=' + data.order_number;
+            }
+          });
+        } else {
+          // Fallback jika script snap tidak termuat
+          window.location.href = '{{ route("order.confirm") }}?order=' + data.order_number;
+        }
+      } else {
+        alert(data.message || 'Gagal memproses pembayaran. Periksa kredensial Midtrans di .env.');
+      }
+    })
+    .catch(function(err){
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+      console.error(err);
+      // Fallback tetap ke konfirmasi
+      window.location.href = '{{ route("order.confirm") }}';
+    });
   });
 
   // Toggle Notes input
