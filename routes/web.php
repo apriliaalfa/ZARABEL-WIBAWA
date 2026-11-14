@@ -45,6 +45,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile/update', [PageController::class, 'updateProfile'])->name('profile.update');
     Route::get('/my-orders', [PageController::class, 'myorder'])->name('myorder');
     Route::get('/my-orders/detail/{id?}', [PageController::class, 'myorderDetail'])->name('myorder.detail');
+    Route::post('/review-web', [PageController::class, 'storeWebsiteReview'])->name('review-web.store');
 });
 
 // Checkout Flow (Dapat diakses oleh Guest maupun Member)

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Order;
+use App\Models\WebsiteReview;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
@@ -17,9 +18,11 @@ class PageController extends Controller
     public function homepage1(): View
     {
         $products = Product::where('is_active', true)->latest()->get();
+        $reviews = WebsiteReview::latest()->take(10)->get();
         return view('pages.homepage1', [
             'user' => Auth::user(),
             'products' => $products,
+            'reviews' => $reviews,
         ]);
     }
 
@@ -29,10 +32,35 @@ class PageController extends Controller
     public function homepage2(): View
     {
         $products = Product::where('is_active', true)->latest()->get();
+        $reviews = WebsiteReview::latest()->take(10)->get();
         return view('pages.homepage2', [
             'user' => Auth::user(),
             'products' => $products,
+            'reviews' => $reviews,
         ]);
+    }
+
+    /**
+     * Store website review from modal.
+     */
+    public function storeWebsiteReview(Request $request)
+    {
+        $request->validate([
+            'ulasan' => 'required|string|max:1000',
+            'rating' => 'nullable|integer|min:1|max:5',
+        ]);
+
+        $user = Auth::user();
+        WebsiteReview::create([
+            'user_id' => $user?->id,
+            'user_name' => $user?->name ?? 'Customer',
+            'user_role' => $user?->role === 'admin' ? 'Admin' : 'Verified Buyer',
+            'user_avatar' => $user?->avatar,
+            'rating' => (int)$request->input('rating', 5) ?: 5,
+            'comment' => $request->input('ulasan'),
+        ]);
+
+        return redirect()->back()->with('review_success', 'Terima kasih! Ulasan Anda berhasil dikirim.');
     }
 
     /**

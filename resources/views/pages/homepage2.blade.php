@@ -223,36 +223,60 @@
     </div>
 
     <div class="testimonial-stage" id="stage">
-      <article class="testimonial-card">
-        <div class="portrait"><img src="{{ asset('assets/img/testi1.png') }}" alt="Suzan B."></div>
-        <div>
-          <p>“Items That I ordered were the best investment I ever made. I can’t say enough about your quality service.”</p>
-          <svg class="stars"><use href="#i-stars"/></svg>
-          <hr>
-          <h3>Suzan B.</h3>
-          <small>UI Designer</small>
-        </div>
-      </article>
-      <article class="testimonial-card">
-        <div class="portrait"><img src="{{ asset('assets/img/testi1.png') }}" alt="James C."></div>
-        <div>
-          <p>“Motifnya beda dari yang lain, bener-bener kerasa eksklusif. Bahan ceruti-nya juga adem dan nyaman dipakai seharian.”</p>
-          <svg class="stars"><use href="#i-stars"/></svg>
-          <hr>
-          <h3>James C.</h3>
-          <small>Mahasiswa</small>
-        </div>
-      </article>
-      <article class="testimonial-card">
-        <div class="portrait"><img src="{{ asset('assets/img/testi1.png') }}" alt="Megen W."></div>
-        <div>
-          <p>“Just what I was looking for. Thank you for making it painless, pleasant and most of all hassle free!”</p>
-          <svg class="stars"><use href="#i-stars"/></svg>
-          <hr>
-          <h3>Megen W.</h3>
-          <small>UI Designer</small>
-        </div>
-      </article>
+      @if(isset($reviews) && $reviews->count() > 0)
+        @foreach($reviews as $rev)
+        @php
+          $avatarRev = !empty($rev->user_avatar)
+            ? (filter_var($rev->user_avatar, FILTER_VALIDATE_URL) ? $rev->user_avatar : asset($rev->user_avatar))
+            : asset('assets/img/testi1.png');
+        @endphp
+        <article class="testimonial-card">
+          <div class="portrait"><img src="{{ $avatarRev }}" alt="{{ $rev->user_name }}"></div>
+          <div>
+            <p>“{{ $rev->comment }}”</p>
+            <div style="color:#C18A2D; font-size:18px; margin:8px 0; letter-spacing:2px;">
+              @for($s = 1; $s <= 5; $s++)
+                {{ $s <= $rev->rating ? '★' : '☆' }}
+              @endfor
+            </div>
+            <hr>
+            <h3>{{ $rev->user_name }}</h3>
+            <small>{{ $rev->user_role }}</small>
+          </div>
+        </article>
+        @endforeach
+      @else
+        <article class="testimonial-card">
+          <div class="portrait"><img src="{{ asset('assets/img/testi1.png') }}" alt="Suzan B."></div>
+          <div>
+            <p>“Items That I ordered were the best investment I ever made. I can’t say enough about your quality service.”</p>
+            <svg class="stars"><use href="#i-stars"/></svg>
+            <hr>
+            <h3>Suzan B.</h3>
+            <small>UI Designer</small>
+          </div>
+        </article>
+        <article class="testimonial-card">
+          <div class="portrait"><img src="{{ asset('assets/img/testi1.png') }}" alt="James C."></div>
+          <div>
+            <p>“Motifnya beda dari yang lain, bener-bener kerasa eksklusif. Bahan ceruti-nya juga adem dan nyaman dipakai seharian.”</p>
+            <svg class="stars"><use href="#i-stars"/></svg>
+            <hr>
+            <h3>James C.</h3>
+            <small>Mahasiswa</small>
+          </div>
+        </article>
+        <article class="testimonial-card">
+          <div class="portrait"><img src="{{ asset('assets/img/testi1.png') }}" alt="Megen W."></div>
+          <div>
+            <p>“Just what I was looking for. Thank you for making it painless, pleasant and most of all hassle free!”</p>
+            <svg class="stars"><use href="#i-stars"/></svg>
+            <hr>
+            <h3>Megen W.</h3>
+            <small>UI Designer</small>
+          </div>
+        </article>
+      @endif
     </div>
 
     <div class="testimonial-controls">
@@ -264,7 +288,91 @@
   <!-- ================= FOOTER ================= -->
   @include('partials.footer')
 
+  <!-- Floating Action Button: Review Modal -->
+  @auth
+  <div class="floating-actions" style="position:fixed; right:30px; bottom:35px; z-index:998;">
+    <button class="floating-btn" onclick="openReviewModal()" style="width:56px; height:56px; background:#69481B; border:none; border-radius:50%; box-shadow:0 6px 20px rgba(105,72,27,0.4); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:transform 0.2s, background 0.2s;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'" title="Beri Ulasan ZARABEL">
+      <!-- Icon Chat / Bubble SVG -->
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Review Website Modal -->
+  <div id="reviewModal" onclick="if(event.target===this)closeReviewModal()" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(40,28,15,0.6); backdrop-filter:blur(6px); align-items:center; justify-content:center; padding:20px;">
+    <div style="width:100%; max-width:540px; max-height:90vh; overflow-y:auto; background:#FEF7EE; border-radius:24px; padding:36px 32px 30px; box-shadow:0 24px 60px rgba(0,0,0,0.25); position:relative; font-family:'Plus Jakarta Sans',sans-serif;">
+      
+      <button type="button" onclick="closeReviewModal()" style="position:absolute; right:20px; top:20px; width:36px; height:36px; border-radius:50%; border:none; background:#E5DDD2; color:#69481B; font-size:18px; font-weight:bold; cursor:pointer; display:flex; align-items:center; justify-content:center;">✕</button>
+
+      <h2 style="color:#201504; font-family:'Abhaya Libre',serif; font-size:28px; font-weight:800; margin:0 0 8px;">Beri Ulasan untuk Website</h2>
+      <p style="color:#6B5D4F; font-size:14px; margin:0 0 24px; line-height:1.5;">Bagikan pengalaman belanja Anda bersama Zarabel.</p>
+
+      <form method="POST" action="{{ route('review-web.store') }}" id="webReviewFormModal">
+        @csrf
+        <div style="margin-bottom:20px;">
+          <label style="display:block; font-size:13px; font-weight:700; color:#201504; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px;">Rating Anda</label>
+          <div id="ratingStarsModal" style="font-size:32px; color:#C18A2D; cursor:pointer; user-select:none; display:inline-flex; gap:6px;">
+            <span data-val="1">★</span>
+            <span data-val="2">★</span>
+            <span data-val="3">★</span>
+            <span data-val="4">★</span>
+            <span data-val="5">★</span>
+          </div>
+          <input type="hidden" name="rating" id="ratingInputModal" value="5">
+        </div>
+
+        <div style="margin-bottom:24px;">
+          <label style="display:block; font-size:13px; font-weight:700; color:#201504; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px;">Ulasan Anda</label>
+          <textarea name="ulasan" required placeholder="Tulis ulasanmu tentang website, produk, atau pelayanan kami di sini..." style="width:100%; box-sizing:border-box; height:120px; border-radius:14px; border:1.5px solid #D9CBB8; background:#fff; padding:14px 16px; font-family:inherit; font-size:14px; color:#201504; resize:vertical; outline:none; transition:border 0.2s;" onfocus="this.style.borderColor='#69481B'" onblur="this.style.borderColor='#D9CBB8'">{{ old('ulasan') }}</textarea>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:12px;">
+          <button type="button" onclick="closeReviewModal()" style="padding:12px 22px; border-radius:10px; border:1.5px solid #D9CBB8; background:transparent; font-family:inherit; font-size:14px; font-weight:700; color:#69481B; cursor:pointer;">Batal</button>
+          <button type="submit" style="padding:12px 30px; border-radius:10px; border:none; background:#69481B; font-family:inherit; font-size:14px; font-weight:700; color:#fff; cursor:pointer; box-shadow:0 4px 14px rgba(105,72,27,0.35);">Kirim Ulasan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  @endauth
+
 </main>
+
+<script>
+  // Modal Review
+  function openReviewModal() {
+    var m = document.getElementById('reviewModal');
+    if (m) { m.style.display = 'flex'; document.body.style.overflow = 'hidden'; }
+  }
+
+  function closeReviewModal() {
+    var m = document.getElementById('reviewModal');
+    if (m) { m.style.display = 'none'; document.body.style.overflow = ''; }
+  }
+
+  (function () {
+    var wrap = document.getElementById('ratingStarsModal');
+    var input = document.getElementById('ratingInputModal');
+    if (!wrap || !input) return;
+    var stars = wrap.querySelectorAll('span');
+    var paint = function(val){
+      stars.forEach(function(s){
+        s.textContent = (Number(s.dataset.val) <= val) ? '★' : '☆';
+      });
+    };
+    stars.forEach(function(s){
+      s.addEventListener('click', function(){
+        input.value = s.dataset.val;
+        paint(Number(s.dataset.val));
+      });
+      s.addEventListener('mouseenter', function(){
+        paint(Number(s.dataset.val));
+      });
+    });
+    wrap.addEventListener('mouseleave', function(){
+      paint(Number(input.value));
+    });
+  })();
 
 <script>
   // Scroll halus ke section (semua tombol ber-atribut data-scroll)

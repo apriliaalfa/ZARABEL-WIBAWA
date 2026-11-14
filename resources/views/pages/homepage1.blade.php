@@ -253,36 +253,60 @@
     </div>
 
     <div class="testimonial-stage" id="stage">
-      <article class="testimonial-card">
-        <div class="portrait"><img src="{{ asset('assets/img/testi1.png') }}" alt="Suzan B."></div>
-        <div>
-          <p>“Items That I ordered were the best investment I ever made. I can’t say enough about your quality service.”</p>
-          <svg class="stars"><use href="#i-stars"/></svg>
-          <hr>
-          <h3>Suzan B.</h3>
-          <small>UI Designer</small>
-        </div>
-      </article>
-      <article class="testimonial-card">
-        <div class="portrait"><img src="{{ asset('assets/img/testi1.png') }}" alt="James C."></div>
-        <div>
-          <p>“Motifnya beda dari yang lain, bener-bener kerasa eksklusif. Bahan ceruti-nya juga adem dan nyaman dipakai seharian.”</p>
-          <svg class="stars"><use href="#i-stars"/></svg>
-          <hr>
-          <h3>James C.</h3>
-          <small>Mahasiswa</small>
-        </div>
-      </article>
-      <article class="testimonial-card">
-        <div class="portrait"><img src="{{ asset('assets/img/testi1.png') }}" alt="Megen W."></div>
-        <div>
-          <p>“Just what I was looking for. Thank you for making it painless, pleasant and most of all hassle free!”</p>
-          <svg class="stars"><use href="#i-stars"/></svg>
-          <hr>
-          <h3>Megen W.</h3>
-          <small>UI Designer</small>
-        </div>
-      </article>
+      @if(isset($reviews) && $reviews->count() > 0)
+        @foreach($reviews as $rev)
+        @php
+          $avatarRev = !empty($rev->user_avatar)
+            ? (filter_var($rev->user_avatar, FILTER_VALIDATE_URL) ? $rev->user_avatar : asset($rev->user_avatar))
+            : asset('assets/img/testi1.png');
+        @endphp
+        <article class="testimonial-card">
+          <div class="portrait"><img src="{{ $avatarRev }}" alt="{{ $rev->user_name }}"></div>
+          <div>
+            <p>“{{ $rev->comment }}”</p>
+            <div style="color:#C18A2D; font-size:18px; margin:8px 0; letter-spacing:2px;">
+              @for($s = 1; $s <= 5; $s++)
+                {{ $s <= $rev->rating ? '★' : '☆' }}
+              @endfor
+            </div>
+            <hr>
+            <h3>{{ $rev->user_name }}</h3>
+            <small>{{ $rev->user_role }}</small>
+          </div>
+        </article>
+        @endforeach
+      @else
+        <article class="testimonial-card">
+          <div class="portrait"><img src="{{ asset('assets/img/testi1.png') }}" alt="Suzan B."></div>
+          <div>
+            <p>“Items That I ordered were the best investment I ever made. I can’t say enough about your quality service.”</p>
+            <svg class="stars"><use href="#i-stars"/></svg>
+            <hr>
+            <h3>Suzan B.</h3>
+            <small>UI Designer</small>
+          </div>
+        </article>
+        <article class="testimonial-card">
+          <div class="portrait"><img src="{{ asset('assets/img/testi1.png') }}" alt="James C."></div>
+          <div>
+            <p>“Motifnya beda dari yang lain, bener-bener kerasa eksklusif. Bahan ceruti-nya juga adem dan nyaman dipakai seharian.”</p>
+            <svg class="stars"><use href="#i-stars"/></svg>
+            <hr>
+            <h3>James C.</h3>
+            <small>Mahasiswa</small>
+          </div>
+        </article>
+        <article class="testimonial-card">
+          <div class="portrait"><img src="{{ asset('assets/img/testi1.png') }}" alt="Megen W."></div>
+          <div>
+            <p>“Just what I was looking for. Thank you for making it painless, pleasant and most of all hassle free!”</p>
+            <svg class="stars"><use href="#i-stars"/></svg>
+            <hr>
+            <h3>Megen W.</h3>
+            <small>UI Designer</small>
+          </div>
+        </article>
+      @endif
     </div>
 
     <div class="testimonial-controls">
