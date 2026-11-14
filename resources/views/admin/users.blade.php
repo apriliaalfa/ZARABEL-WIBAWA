@@ -87,11 +87,11 @@
     <div class="us-stats">
       <div class="ad-stat" style="--c:#0A5406">
         <div class="ico"><svg class="ic"><use href="#i-st-cust"/></svg></div>
-        <div><div class="val">87</div><div class="lbl">Total Customers</div><div class="chg">+0.5% from yesterday</div></div>
+        <div><div class="val">{{ $totalCustomers }}</div><div class="lbl">Total Customers</div><div class="chg">+0.5% from yesterday</div></div>
       </div>
       <div class="ad-stat" style="--c:#7C3BED">
         <div class="ico"><svg class="ic"><use href="#i-st-cust"/></svg></div>
-        <div><div class="val">7</div><div class="lbl">New Customers</div><div class="chg">+0.5% from yesterday</div></div>
+        <div><div class="val">{{ $newCustomers }}</div><div class="lbl">New Customers</div><div class="chg">+0.5% from yesterday</div></div>
       </div>
     </div>
 
@@ -106,7 +106,11 @@
 
     <div class="us-grid" id="userGrid">
         @forelse($users as $user)
-        @php $avatarUrl = $user->avatar ? asset($user->avatar) : asset('assets/img/zarabelbg.png'); @endphp
+        @php
+          $avatarUrl = !empty($user->avatar)
+            ? (filter_var($user->avatar, FILTER_VALIDATE_URL) ? $user->avatar : asset($user->avatar))
+            : 'https://ui-avatars.com/api/?name=' . urlencode($user->name) . '&background=69481B&color=fef7ee&size=256&bold=true';
+        @endphp
         <article class="us-card" data-name="{{ strtolower($user->name) }}" data-email="{{ strtolower($user->email) }}">
           <div class="us-img"><img src="{{ $avatarUrl }}" alt="{{ $user->name }}"></div>
           <h3 class="us-name">{{ $user->name }}</h3>

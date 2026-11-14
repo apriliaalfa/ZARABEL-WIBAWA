@@ -109,25 +109,34 @@
   <section class="au-content">
     <h1 class="au-title">Users</h1>
 
+    @php
+      $displayUser = $user ?? \App\Models\User::where('role', 'customer')->first();
+      $userOrders = $orders->count() ? $orders : ($displayUser ? \App\Models\Order::where('user_id', $displayUser->id)->orWhere('customer_email', $displayUser->email)->with('items')->latest()->get() : collect());
+      
+      $avatarUrl = !empty($displayUser?->avatar)
+        ? (filter_var($displayUser->avatar, FILTER_VALIDATE_URL) ? $displayUser->avatar : asset($displayUser->avatar))
+        : ($displayUser ? 'https://ui-avatars.com/api/?name=' . urlencode($displayUser->name) . '&background=69481B&color=fef7ee&size=256&bold=true' : asset('assets/img/org.png'));
+    @endphp
+
     <div class="au-card">
-      <div class="au-avatar"><img id="auAvatar" src="{{ asset('assets/img/org.png') }}" alt=""></div>
+      <div class="au-avatar"><img id="auAvatar" src="{{ $avatarUrl }}" alt="{{ $displayUser?->name ?? 'User' }}"></div>
 
       <div class="au-head">
-        <h2 class="au-name" id="auName"></h2>
+        <h2 class="au-name" id="auName">{{ $displayUser?->name ?? 'No User Selected' }}</h2>
         <button class="au-ban" type="button" id="auBan">BAN</button>
       </div>
 
       <div class="au-cols">
         <div class="au-col">
-          <label class="au-field"><span>Nama Lengkap</span><input type="text" id="auFull" readonly></label>
-          <label class="au-field"><span>No. Telephone</span><input type="text" id="auPhone" readonly></label>
-          <label class="au-field"><span>Date of Birth</span><input type="text" id="auDob" readonly></label>
-          <label class="au-field"><span>Jenis Kelamin</span><input type="text" id="auGender" readonly></label>
+          <label class="au-field"><span>Nama Lengkap</span><input type="text" id="auFull" value="{{ $displayUser?->name ?? '-' }}" readonly></label>
+          <label class="au-field"><span>No. Telephone</span><input type="text" id="auPhone" value="{{ $displayUser?->phone ?? '-' }}" readonly></label>
+          <label class="au-field"><span>Date Joined</span><input type="text" id="auDob" value="{{ $displayUser?->created_at ? $displayUser->created_at->timezone('Asia/Jakarta')->translatedFormat('d F Y') : '-' }}" readonly></label>
+          <label class="au-field"><span>Role</span><input type="text" id="auGender" value="{{ ucfirst($displayUser?->role ?? 'customer') }}" readonly></label>
         </div>
         <div class="au-col">
-          <label class="au-field"><span>Email</span><input type="text" id="auEmail" readonly></label>
+          <label class="au-field"><span>Email</span><input type="text" id="auEmail" value="{{ $displayUser?->email ?? '-' }}" readonly></label>
           <label class="au-field"><span>Password</span><input type="password" id="auPass" value="••••••••" readonly></label>
-          <label class="au-field"><span>Address</span><textarea id="auAddress" readonly></textarea></label>
+          <label class="au-field"><span>Address</span><textarea id="auAddress" readonly>{{ $displayUser?->address ?? ($userOrders->first()?->shipping_address ?? '-') }}</textarea></label>
         </div>
       </div>
 
@@ -135,7 +144,34 @@
       <div class="au-tbl-wrap">
         <div class="au-tbl">
           <div class="au-tr th"><span>Order ID</span><span>Product Name</span><span>Amount</span><span>Date</span><span>Payment Method</span><span>Address</span><span>Status</span></div>
-          <div id="auRows"></div>
+          <div id="auRows">
+            @forelse($userOrders as $uo)
+            @php
+              $firstItem = $uo->items->first();
+              $itemImg = $firstItem?->product_image ? asset($firstItem->product_image) : asset('assets/img/cart.png');
+              $statusMap = [
+                'paid' => 's-paid',
+                'completed' => 's-done',
+                'shipped' => 's-ship',
+                'pending' => 's-wait',
+                'cancelled' => 's-cancel'
+              ];
+              $chipClass = $statusMap[strtolower($uo->status)] ?? 's-paid';
+              $payMethod = $uo->payment?->payment_channel ?? ($uo->payment?->payment_method ?? 'Midtrans');
+            @endphp
+            <div class="au-tr" data-id="{{ $uo->order_number }}" tabindex="0" onclick="location.href='{{ route('admin.orders.detail', $uo->order_number) }}'">
+              <span>{{ $uo->order_number }}</span>
+              <div class="au-prod"><span class="th-img"><img src="{{ $itemImg }}" alt=""></span><span class="nm">{{ $firstItem?->product_name ?? 'Item' }}</span></div>
+              <span>IDR {{ number_format($uo->total_amount, 0, ',', '.') }}</span>
+              <span>{{ $uo->created_at->timezone('Asia/Jakarta')->translatedFormat('d M Y, h:i A') }}</span>
+              <span>{{ strtoupper($payMethod) }}</span>
+              <span class="au-addr">{{ $uo->shipping_address }}</span>
+              <span class="au-chip {{ $chipClass }}">{{ ucfirst($uo->status) }}</span>
+            </div>
+            @empty
+            <div style="padding:24px;text-align:center;color:#888;">Belum ada riwayat pesanan untuk pengguna ini.</div>
+            @endforelse
+          </div>
         </div>
       </div>
     </div>
@@ -197,56 +233,25 @@
   function idr(n){ return 'IDR ' + n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
   function esc(t){ var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
 
-  // Data user (diisi dari profil yang tersimpan di halaman Profile bila ada)
-  var P = {};
-  try { P = JSON.parse(localStorage.getItem('profile') || '{}'); } catch(e) {}
-  var full = ((P.first || '') + ' ' + (P.last || '')).trim() || localStorage.getItem('customerName') || 'Aprilia Alfa Gusasti';
-  $('auName').textContent = full;
-  $('auFull').value    = full;
-  $('auEmail').value   = P.email || 'aprilia.alfa@gmail.com';
-  $('auPhone').value   = P.phone || '0853-9017-6483';
-  $('auDob').value     = P.dob || 'Tangerang, 17 September 1995';
-  $('auGender').value  = 'Perempuan';
-  $('auAddress').value = P.address || localStorage.getItem('customerAddress') || 'Tangerang, Banten';
-  if (P.avatar) $('auAvatar').src = P.avatar;
-
-  // Riwayat order (id sama dengan halaman My Orders & Order Detail)
-  var ORDERS = [
-    { id:'I0001', name:'Sony Alpha A7 IV',        status:'Payment received', date:'12 May 2026, 10:24 AM', method:'Transfer Bank BCA', total:550000 },
-    { id:'I0002', name:'ALLTREK Tenda Camping 1', status:'Awaiting payment', date:'13 May 2026, 08:05 PM', method:'Virtual Account',   total:1000000 },
-    { id:'I0003', name:'Mobil Fortuner Hitam',    status:'Dispatched',       date:'14 May 2026, 09:40 AM', method:'QRIS',              total:1250000 },
-    { id:'I0004', name:'Yamaha Pro Audio Paket',  status:'Completed',        date:'02 May 2026, 01:15 PM', method:'Transfer Bank BNI', total:1650000 },
-    { id:'I0005', name:'Iphone 17 Air (Hijau)',   status:'Awaiting payment', date:'15 May 2026, 11:30 AM', method:'Virtual Account',   total:325000 },
-    { id:'I0006', name:'Kebaya Cream (1 Set)',    status:'Completed',        date:'28 Apr 2026, 04:50 PM', method:'GoPay',             total:655000 }
-  ];
-  var STATUS_CLS = {
-    'Payment received':'s-paid', 'Dispatched':'s-ship', 'Completed':'s-done',
-    'Awaiting payment':'s-wait', 'Cancelled':'s-cancel'
-  };
-
-  // status terbaru dari halaman Order Detail admin (bila pernah diubah)
-  var saved = {};
-  try { saved = JSON.parse(localStorage.getItem('orderStatuses') || '{}'); } catch(e) {}
-
-  $('auRows').innerHTML = ORDERS.map(function(o){
-    var st = saved[o.id] || o.status;
-    return '<div class="au-tr" data-id="' + o.id + '" tabindex="0">' +
-      '<span>' + o.id + '</span>' +
-      '<div class="au-prod"><span class="th-img"><img src="{{ asset('assets/img/cart.png') }}" alt=""></span><span class="nm">' + esc(o.name) + '</span></div>' +
-      '<span>' + idr(o.total) + '</span>' +
-      '<span>' + esc(o.date) + '</span>' +
-      '<span>' + esc(o.method) + '</span>' +
-      '<span class="au-addr">' + esc($('auAddress').value) + '</span>' +
-      '<span class="au-chip ' + (STATUS_CLS[st] || 's-paid') + '">' + esc(st) + '</span>' +
-    '</div>';
-  }).join('');
-
-  // klik baris -> detail order admin
-  document.querySelectorAll('#auRows .au-tr').forEach(function(r){
-    function go(){ location.href = '{{ url("admin/orders/detail") }}/' + r.dataset.id; }
-    r.addEventListener('click', go);
-    r.addEventListener('keydown', function(e){ if (e.key === 'Enter') go(); });
-  });
+  // Ban / unban modal toggle
+  var banBtn = $('auBan');
+  var banModal = $('banModal');
+  var isBanned = false;
+  if (banBtn && banModal) {
+    banBtn.addEventListener('click', function(){
+      $('banTitle').textContent = isBanned ? 'Unban this user?' : 'Ban this user?';
+      $('banText').textContent = isBanned ? 'User will regain access to shop.' : 'Are you sure you want to ban this user?';
+      $('banConfirm').textContent = isBanned ? 'Yes, unban' : 'Yes, ban';
+      banModal.classList.add('open');
+    });
+    $('banCancel').addEventListener('click', function(){ banModal.classList.remove('open'); });
+    $('banConfirm').addEventListener('click', function(){
+      isBanned = !isBanned;
+      banBtn.textContent = isBanned ? 'UNBAN' : 'BAN';
+      banBtn.style.background = isBanned ? '#2e7d32' : '';
+      banModal.classList.remove('open');
+    });
+  }
 
   // Tombol BAN (simpan di localStorage)
   var banBtn = $('auBan');

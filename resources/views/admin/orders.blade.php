@@ -159,7 +159,7 @@
             <td><div class="cust"><b>{{ $order->customer_name }}</b><span>{{ $order->customer_email }}</span></div></td>
             <td><div class="prod"><span class="thumb"><img src="{{ $imgUrl2 }}" alt=""></span><span class="pn">{{ $firstItem?->product_name ?? '—' }}</span></div></td>
             <td class="c-amt">IDR {{ number_format($order->total_amount, 0, ',', '.') }}</td>
-            <td><div>{{ $order->created_at->format('d F Y,') }}</div><div>{{ $order->created_at->format('h:i A') }}</div></td>
+            <td><div>{{ $order->created_at->timezone('Asia/Jakarta')->translatedFormat('d F Y,') }}</div><div>{{ $order->created_at->timezone('Asia/Jakarta')->translatedFormat('h:i A') }}</div></td>
             <td>{{ $payMethod }}</td>
             <td class="c-addr">{{ $order->shipping_address }}</td>
             <td><span class="badge {{ $badgeClass }}">{{ ucfirst($order->status) }}</span></td>

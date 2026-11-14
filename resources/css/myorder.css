@@ -1000,8 +1000,13 @@
     transform: translateX(-50%);
     display: grid;
     place-items: center;
-    width: 198px;
+    min-width: 198px;
+    /* sebelumnya width tetap */
+    width: max-content;
+    /* melebar mengikuti teks */
+    max-width: 100%;
     height: 48px;
+    padding: 0 22px;
     border-radius: 10px;
     background: #8b4513;
     color: #fff;
@@ -1010,8 +1015,12 @@
     font-weight: 800;
     font-size: 30px;
     line-height: 1;
+    white-space: nowrap;
+    /* teks tidak boleh turun baris */
     cursor: default;
 }
+
+
 
 .status-pill.is-wait {
     background: #c18a2d;
@@ -1019,6 +1028,13 @@
 
 .status-pill.is-ship {
     background: #69481b;
+}
+
+/* status yang tulisannya panjang: huruf diperkecil supaya muat di kotak */
+.status-pill.is-wait,
+.status-pill.is-ship {
+    font-size: 20px;
+    letter-spacing: .5px;
 }
 
 .status-pill.is-cancel {
@@ -1137,9 +1153,14 @@
     }
 
     .status-pill {
-        width: 150px;
+        min-width: 150px;
         height: 42px;
         font-size: 22px;
+    }
+
+    .status-pill.is-wait,
+    .status-pill.is-ship {
+        font-size: 14px;
     }
 }
 

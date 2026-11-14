@@ -57,7 +57,47 @@ class AdminController extends Controller
         $totalRevenue = Order::where('status', '!=', 'cancelled')->sum('total_amount');
         $totalOrders = Order::count();
         $newCustomers = User::where('role', 'customer')->count();
-        return view('admin.salesreport', compact('totalRevenue', 'totalOrders', 'newCustomers'));
+
+        // Financial Wallets by Payment method
+        $bankTotal = Order::where('status', '!=', 'cancelled')
+            ->whereHas('payment', function($q) {
+                $q->where('payment_method', 'like', '%bank%')
+                  ->orWhere('payment_method', 'like', '%transfer%')
+                  ->orWhere('payment_channel', 'like', '%bca%')
+                  ->orWhere('payment_channel', 'like', '%bni%')
+                  ->orWhere('payment_channel', 'like', '%bri%')
+                  ->orWhere('payment_channel', 'like', '%mandiri%');
+            })->sum('total_amount');
+
+        $ewalletTotal = Order::where('status', '!=', 'cancelled')
+            ->whereHas('payment', function($q) {
+                $q->where('payment_method', 'like', '%wallet%')
+                  ->orWhere('payment_channel', 'like', '%gopay%')
+                  ->orWhere('payment_channel', 'like', '%ovo%')
+                  ->orWhere('payment_channel', 'like', '%dana%')
+                  ->orWhere('payment_channel', 'like', '%shopee%');
+            })->sum('total_amount');
+
+        $qrisTotal = Order::where('status', '!=', 'cancelled')
+            ->whereHas('payment', function($q) {
+                $q->where('payment_method', 'like', '%qris%')
+                  ->orWhere('payment_channel', 'like', '%qris%');
+            })->sum('total_amount');
+
+        // Jika salah satu belum tercatat spesifik tetapi ada order lain
+        if ($bankTotal == 0 && $ewalletTotal == 0 && $qrisTotal == 0 && $totalRevenue > 0) {
+            $qrisTotal = $totalRevenue;
+        }
+
+        // Top Selling Products
+        $topProducts = OrderItem::with('product')
+            ->select('product_id', 'product_name', 'product_image', DB::raw('SUM(subtotal) as revenue'), DB::raw('SUM(quantity) as units_sold'))
+            ->groupBy('product_id', 'product_name', 'product_image')
+            ->orderByDesc('units_sold')
+            ->limit(10)
+            ->get();
+
+        return view('admin.salesreport', compact('totalRevenue', 'totalOrders', 'newCustomers', 'bankTotal', 'ewalletTotal', 'qrisTotal', 'topProducts'));
     }
 
     /**
@@ -89,7 +129,11 @@ class AdminController extends Controller
     public function products()
     {
         $products = Product::latest()->get();
-        return view('admin.productadmin', compact('products'));
+        $totalItems = $products->count();
+        $inventoryValue = $products->sum('price');
+        $lowStock = $products->where('stock', '<=', 5)->where('stock', '>', 0)->count();
+        $outOfStock = $products->where('stock', '<=', 0)->count();
+        return view('admin.productadmin', compact('products', 'totalItems', 'inventoryValue', 'lowStock', 'outOfStock'));
     }
 
     /**
@@ -263,7 +307,9 @@ class AdminController extends Controller
     public function users()
     {
         $users = User::where('role', 'customer')->latest()->get();
-        return view('admin.users', compact('users'));
+        $totalCustomers = $users->count();
+        $newCustomers = User::where('role', 'customer')->where('created_at', '>=', now()->subDays(7))->count();
+        return view('admin.users', compact('users', 'totalCustomers', 'newCustomers'));
     }
 
     /**

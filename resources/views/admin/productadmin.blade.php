@@ -118,19 +118,19 @@
     <h2 class="ad-h">Products Overview</h2>
     <div class="pr-stats">
       <div class="pr-stat" style="--c:#3C83F6">
-        <div><div class="lbl">Total Items</div><div class="val">482</div></div>
+        <div><div class="lbl">Total Items</div><div class="val">{{ $totalItems ?? $products->count() }}</div></div>
         <div class="ico"><svg class="ic"><use href="#i-pr-box"/></svg></div>
       </div>
       <div class="pr-stat" style="--c:#36D399">
-        <div><div class="lbl">Inventory Value</div><div class="val">IDR 45.000</div></div>
+        <div><div class="lbl">Inventory Value</div><div class="val">IDR {{ number_format($inventoryValue ?? $products->sum('price'), 0, ',', '.') }}</div></div>
         <div class="ico"><svg class="ic"><use href="#i-pr-dollar"/></svg></div>
       </div>
       <div class="pr-stat" style="--c:#F67655">
-        <div><div class="lbl">Low Stock</div><div class="val">8</div></div>
+        <div><div class="lbl">Low Stock</div><div class="val">{{ $lowStock ?? $products->where('stock', '<=', 5)->where('stock', '>', 0)->count() }}</div></div>
         <div class="ico"><svg class="ic"><use href="#i-pr-alert"/></svg></div>
       </div>
       <div class="pr-stat" style="--c:#7C3BED">
-        <div><div class="lbl">Growth Rate</div><div class="val">+12%</div></div>
+        <div><div class="lbl">Out of Stock</div><div class="val">{{ $outOfStock ?? $products->where('stock', '<=', 0)->count() }}</div></div>
         <div class="ico"><svg class="ic"><use href="#i-pr-trend"/></svg></div>
       </div>
     </div>

@@ -138,30 +138,30 @@
       <div class="sr-wallets">
 
         <div class="wcard">
-          <div class="top"><div class="lbl">Saldo</div><div class="bal">Rp 2.512.000</div></div>
+          <div class="top"><div class="lbl">Saldo</div><div class="bal">Rp {{ number_format($bankTotal ?? 0, 0, ',', '.') }}</div></div>
           <svg class="chip"><use href="#i-chip"/></svg>
           <div class="info">
-            <div><small>CARD HOLDER</small><b>SEWAIN</b></div>
+            <div><small>CARD HOLDER</small><b>ZARABEL</b></div>
             <div><small>PAYMENT METHOD</small><b>BANK TRANSFER</b></div>
           </div>
           <div class="foot"><span>0978 5634 21196</span><span class="circles"><i></i><i></i></span></div>
         </div>
 
         <div class="wcard">
-          <div class="top"><div class="lbl">Saldo</div><div class="bal">Rp 2.726.000</div></div>
+          <div class="top"><div class="lbl">Saldo</div><div class="bal">Rp {{ number_format($ewalletTotal ?? 0, 0, ',', '.') }}</div></div>
           <svg class="chip"><use href="#i-chip"/></svg>
           <div class="info">
-            <div><small>CARD HOLDER</small><b>SEWAIN</b></div>
+            <div><small>CARD HOLDER</small><b>ZARABEL</b></div>
             <div><small>PAYMENT METHOD</small><b>E-WALLET</b></div>
           </div>
           <div class="foot"><span>0858 4619 7216</span><span class="circles"><i></i><i></i></span></div>
         </div>
 
         <div class="wcard qris">
-          <div class="top"><div class="lbl">Total Transaction Seluruh User</div><div class="bal">Rp 1.050.000</div></div>
+          <div class="top"><div class="lbl">Total Transaction Seluruh User</div><div class="bal">Rp {{ number_format($qrisTotal ?? 0, 0, ',', '.') }}</div></div>
           <div class="qr"><img src="{{ asset('assets/img/qris kode.webp') }}" alt="QRIS"></div>
           <div class="info">
-            <div><small>CARD HOLDER</small><b>SEWAIN</b></div>
+            <div><small>CARD HOLDER</small><b>ZARABEL</b></div>
             <div><small>PAYMENT METHOD</small><b>QRIS</b></div>
           </div>
         </div>
@@ -174,66 +174,39 @@
       <div class="tbl-wrap">
         <div class="tbl tbl-products">
           <div class="tr th"><span>Rank</span><span>ID</span><span>Product Name</span><span>Category</span><span>Revenue</span><span>Units Sold</span><span>Popularity</span><span>Sale</span></div>
+        @php
+          $colors = ['#463ACB', '#36D399', '#7C3BED', '#F67655', '#EBF655', '#F18AA0'];
+          $maxSold = isset($topProducts) && $topProducts->count() ? ($topProducts->max('units_sold') ?: 1) : 1;
+        @endphp
+        @forelse($topProducts ?? [] as $index => $tp)
+        @php
+          $c = $colors[$index % count($colors)];
+          $pct = min(100, max(5, round(($tp->units_sold / $maxSold) * 100)));
+          $tpImg = $tp->product_image ? asset($tp->product_image) : asset('assets/img/cat1.jpg');
+        @endphp
         <div class="tr">
-          <span class="rank"><svg class="ic"><use href="#i-medal-1"/></svg></span>
-          <span>0001</span>
-          <div class="who"><div class="av"><img src="{{ asset('assets/img/bg25.png') }}" alt=""></div><span class="nm">ALLTREK Tenda Camping 1 Bedroom + 1 Guest Room</span></div>
-          <span>Dress</span>
-          <span class="money">IDR 450.000</span>
-          <span>1.710</span>
-          <div class="bar" style="--c:#463ACB"><i data-w="58"></i></div>
-          <span class="pct" style="--c:#463ACB">58%</span>
+          <span class="rank">
+            @if($index == 0)
+              <svg class="ic"><use href="#i-medal-1"/></svg>
+            @elseif($index == 1)
+              <svg class="ic"><use href="#i-medal-2"/></svg>
+            @elseif($index == 2)
+              <svg class="ic"><use href="#i-medal-3"/></svg>
+            @else
+              #{{ $index + 1 }}
+            @endif
+          </span>
+          <span>{{ str_pad($index + 1, 4, '0', STR_PAD_LEFT) }}</span>
+          <div class="who"><div class="av"><img src="{{ $tpImg }}" alt=""></div><span class="nm">{{ $tp->product_name }}</span></div>
+          <span>{{ $tp->product?->category_name ?? 'Collection' }}</span>
+          <span class="money">IDR {{ number_format($tp->revenue, 0, ',', '.') }}</span>
+          <span>{{ number_format($tp->units_sold, 0, ',', '.') }}</span>
+          <div class="bar" style="--c:{{ $c }}"><i data-w="{{ $pct }}"></i></div>
+          <span class="pct" style="--c:{{ $c }}">{{ $pct }}%</span>
         </div>
-        <div class="tr">
-          <span class="rank"><svg class="ic"><use href="#i-medal-2"/></svg></span>
-          <span>0002</span>
-          <div class="who"><div class="av"><img src="{{ asset('assets/img/bg26.png') }}" alt=""></div><span class="nm">ALLTREK Tenda Camping 1 Bedroom + 1 Guest Room</span></div>
-          <span>Dress</span>
-          <span class="money">IDR 450.000</span>
-          <span>690</span>
-          <div class="bar" style="--c:#36D399"><i data-w="42"></i></div>
-          <span class="pct" style="--c:#36D399">42%</span>
-        </div>
-        <div class="tr">
-          <span class="rank"><svg class="ic"><use href="#i-medal-3"/></svg></span>
-          <span>0003</span>
-          <div class="who"><div class="av"><img src="{{ asset('assets/img/bg27.png') }}" alt=""></div><span class="nm">Mobil Fortuner Hitam</span></div>
-          <span>Dress</span>
-          <span class="money">IDR 1.000.000</span>
-          <span>525</span>
-          <div class="bar" style="--c:#7C3BED"><i data-w="30"></i></div>
-          <span class="pct" style="--c:#7C3BED">30%</span>
-        </div>
-        <div class="tr">
-          <span class="rank">#4</span>
-          <span>0004</span>
-          <div class="who"><div class="av"><img src="{{ asset('assets/img/bg28.png') }}" alt=""></div><span class="nm">Yamaha Pro Audio Rated 32P Pukat Sound System</span></div>
-          <span>Outer</span>
-          <span class="money">IDR 750.000</span>
-          <span>430</span>
-          <div class="bar" style="--c:#F67655"><i data-w="22"></i></div>
-          <span class="pct" style="--c:#F67655">22%</span>
-        </div>
-        <div class="tr">
-          <span class="rank">#5</span>
-          <span>0005</span>
-          <div class="who"><div class="av"><img src="{{ asset('assets/img/bg29.png') }}" alt=""></div><span class="nm">Iphone 17 Air (Hijau)</span></div>
-          <span>Hijab</span>
-          <span class="money">IDR 300.000</span>
-          <span>111</span>
-          <div class="bar" style="--c:#EBF655"><i data-w="15"></i></div>
-          <span class="pct" style="--c:#EBF655">15%</span>
-        </div>
-        <div class="tr">
-          <span class="rank">#6</span>
-          <span>0006</span>
-          <div class="who"><div class="av"><img src="{{ asset('assets/img/bg30.png') }}" alt=""></div><span class="nm">Kebaya Cream (1 Set)</span></div>
-          <span>Outer</span>
-          <span class="money">IDR 630.000</span>
-          <span>62</span>
-          <div class="bar" style="--c:#F18AA0"><i data-w="7"></i></div>
-          <span class="pct" style="--c:#F18AA0">7%</span>
-        </div>
+        @empty
+        <div style="padding:20px;text-align:center;color:#888;">Belum ada data penjualan produk.</div>
+        @endforelse
         </div>
       </div>
     </div>

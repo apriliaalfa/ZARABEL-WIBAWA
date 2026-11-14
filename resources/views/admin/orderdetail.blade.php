@@ -80,43 +80,78 @@
   <section class="ao-content">
     <h1 class="ao-title">Orders</h1>
 
+    @php
+      $orderModel = $order ?? \App\Models\Order::with(['items', 'payment', 'user'])->latest()->first();
+      $payMethod = $orderModel?->payment?->payment_channel ?? ($orderModel?->payment?->payment_method ?? 'Midtrans');
+      $items = $orderModel?->items ?? collect();
+      $firstItem = $items->first();
+      $itemImg = $firstItem?->product_image ? asset($firstItem->product_image) : asset('assets/img/cart.png');
+      
+      $statusUi = [
+        'paid' => ['label' => 'PAID', 'cls' => ''],
+        'completed' => ['label' => 'PAID', 'cls' => ''],
+        'shipped' => ['label' => 'SHIPPING', 'cls' => 'is-ship'],
+        'dispatched' => ['label' => 'SHIPPING', 'cls' => 'is-ship'],
+        'pending' => ['label' => 'UNPAID', 'cls' => 'is-wait'],
+        'cancelled' => ['label' => 'CANCELLED', 'cls' => 'is-cancel'],
+      ];
+      $currentUi = $statusUi[strtolower($orderModel?->status ?? 'pending')] ?? ['label' => strtoupper($orderModel?->status ?? 'PENDING'), 'cls' => ''];
+    @endphp
+
     <div class="ao-card">
-      <div class="ao-avatar"><img src="{{ asset('assets/img/org.png') }}" alt=""></div>
-      <h2 class="ao-name" id="aoName"></h2>
+      <div class="ao-avatar"><img src="{{ $itemImg }}" alt=""></div>
+      <h2 class="ao-name" id="aoName">{{ $firstItem?->product_name ?? 'Detail Order' }}</h2>
 
       <div class="ao-cols">
         <div class="ao-col">
-          <label class="ao-field"><span>ID Order</span><input type="text" id="aoId" readonly></label>
-          <label class="ao-field"><span>Tanggal Pembayaran</span><input type="text" id="aoDate" readonly></label>
-          <label class="ao-field"><span>Metode Pembayaran</span><input type="text" id="aoMethod" readonly></label>
+          <label class="ao-field"><span>ID Order</span><input type="text" id="aoId" value="{{ $orderModel?->order_number ?? '-' }}" readonly></label>
+          <label class="ao-field"><span>Tanggal Order</span><input type="text" id="aoDate" value="{{ $orderModel?->created_at ? $orderModel->created_at->timezone('Asia/Jakarta')->translatedFormat('d F Y, h:i A') : '-' }}" readonly></label>
+          <label class="ao-field"><span>Metode Pembayaran</span><input type="text" id="aoMethod" value="{{ strtoupper($payMethod) }}" readonly></label>
           <label class="ao-field"><span>Status</span>
             <span class="ao-select">
               <select id="aoStatus" aria-label="Order status">
-                <option>Awaiting payment</option>
-                <option>Payment received</option>
-                <option>Dispatched</option>
-                <option>Completed</option>
-                <option>Cancelled</option>
+                <option value="pending" {{ strtolower($orderModel?->status ?? '') == 'pending' ? 'selected' : '' }}>Awaiting payment</option>
+                <option value="paid" {{ strtolower($orderModel?->status ?? '') == 'paid' ? 'selected' : '' }}>Payment received</option>
+                <option value="shipped" {{ strtolower($orderModel?->status ?? '') == 'shipped' || strtolower($orderModel?->status ?? '') == 'dispatched' ? 'selected' : '' }}>Dispatched</option>
+                <option value="completed" {{ strtolower($orderModel?->status ?? '') == 'completed' ? 'selected' : '' }}>Completed</option>
+                <option value="cancelled" {{ strtolower($orderModel?->status ?? '') == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
               </select>
               <svg class="ic"><use href="#i-chev"/></svg>
             </span>
           </label>
         </div>
         <div class="ao-col">
-          <label class="ao-field"><span>Customer</span><input type="text" id="aoCustomer" readonly></label>
-          <label class="ao-field"><span>Price</span><input type="text" id="aoPrice" readonly></label>
-          <label class="ao-field"><span>Address</span><textarea id="aoAddress" readonly></textarea></label>
+          <label class="ao-field"><span>Customer</span><input type="text" id="aoCustomer" value="{{ $orderModel?->customer_name ?? '-' }} ({{ $orderModel?->customer_email ?? '-' }})" readonly></label>
+          <label class="ao-field"><span>Total Price</span><input type="text" id="aoPrice" value="IDR {{ number_format($orderModel?->total_amount ?? 0, 0, ',', '.') }}" readonly></label>
+          <label class="ao-field"><span>Address</span><textarea id="aoAddress" readonly>{{ $orderModel?->shipping_address ?? '-' }}</textarea></label>
         </div>
       </div>
 
       <h3 class="ao-receipt-title">Receipt</h3>
       <div class="ao-receipt">
-        <div id="aoItems"></div>
+        <div id="aoItems">
+          @forelse($items as $idx => $it)
+          @php $itImg = $it->product_image ? asset($it->product_image) : asset('assets/img/cart.png'); @endphp
+          <div class="ao-item">
+            <div class="ao-thumb"><img src="{{ $itImg }}" alt=""><span class="ao-badge">{{ $it->quantity }}</span></div>
+            <div class="ao-info">
+              <h4 class="ao-item-name">{{ $it->product_name }}</h4>
+              <small>{{ $it->quantity }} x IDR {{ number_format($it->price, 0, ',', '.') }} @if($it->size) (Size: {{ strtoupper($it->size) }}) @endif</small>
+              @if(!empty($it->notes))
+              <small class="note">{{ $it->notes }}</small>
+              @endif
+            </div>
+            <span class="ao-pill {{ $currentUi['cls'] }}">{{ $currentUi['label'] }}</span>
+          </div>
+          @empty
+          <div style="padding:15px;color:#888;">No items in this order.</div>
+          @endforelse
+        </div>
         <dl class="ao-sum">
-          <div><dt>Subtotal</dt><dd id="aoSub"></dd></div>
-          <div><dt>Voucher (<span id="aoCode"></span>)</dt><dd id="aoVoucher"></dd></div>
-          <div><dt>Shipping</dt><dd>IDR -</dd></div>
-          <div class="total"><dt>Total</dt><dd id="aoTotal"></dd></div>
+          <div><dt>Subtotal</dt><dd id="aoSub">IDR {{ number_format($orderModel?->subtotal ?? 0, 0, ',', '.') }}</dd></div>
+          <div><dt>Voucher / Discount</dt><dd id="aoVoucher">IDR {{ number_format($orderModel?->discount ?? 0, 0, ',', '.') }}</dd></div>
+          <div><dt>Shipping ({{ strtoupper($orderModel?->courier ?? 'Standard') }})</dt><dd>IDR {{ number_format($orderModel?->shipping_cost ?? 0, 0, ',', '.') }}</dd></div>
+          <div class="total"><dt>Total</dt><dd id="aoTotal">IDR {{ number_format($orderModel?->total_amount ?? 0, 0, ',', '.') }}</dd></div>
         </dl>
       </div>
     </div>
@@ -160,90 +195,23 @@
     toggle.setAttribute('aria-expanded', nav.classList.toggle('open'));
   });
 
-  // Data order (id dikirim lewat ?id=I0001, sama dengan halaman My Orders user)
-  var ORDERS = {
-    I0001:{ status:'Payment received', method:'Transfer Bank BCA', date:'12 Mei 2026',
-            items:[ { name:'Sony Alpha A7 IV', qty:1, unit:450000 }, { name:'Lensa Sony 50mm f/1.8', qty:1, unit:150000 } ] },
-    I0002:{ status:'Awaiting payment', method:'Virtual Account', date:'-',
-            items:[ { name:'ALLTREK Tenda Camping 1', qty:2, unit:450000 }, { name:'Matras Camping', qty:2, unit:50000 } ] },
-    I0003:{ status:'Dispatched', method:'QRIS', date:'14 Mei 2026',
-            items:[ { name:'Mobil Fortuner Hitam', qty:1, unit:1000000 }, { name:'Sopir Harian', qty:1, unit:300000 } ] },
-    I0004:{ status:'Completed', method:'Transfer Bank BNI', date:'02 Mei 2026',
-            items:[ { name:'Yamaha Pro Audio Paket', qty:2, unit:750000 }, { name:'Microphone Wireless', qty:2, unit:100000 } ] },
-    I0005:{ status:'Awaiting payment', method:'Virtual Account', date:'-',
-            items:[ { name:'Iphone 17 Air (Hijau)', qty:1, unit:300000 }, { name:'Casing Iphone 17 Air', qty:1, unit:25000 } ] },
-    I0006:{ status:'Completed', method:'GoPay', date:'28 Apr 2026',
-            items:[ { name:'Kebaya Cream (1 Set)', qty:1, unit:630000 }, { name:'Selendang Batik', qty:1, unit:75000 } ] }
-  };
-  var STATUS_UI = {
-    'Payment received':{ label:'PAID',       cls:'' },
-    'Completed':       { label:'PAID',       cls:'' },
-    'Dispatched':      { label:'SHIPPING',   cls:'is-ship' },
-    'Awaiting payment':{ label:'UNPAID',     cls:'is-wait' },
-    'Cancelled':       { label:'CANCELLED',  cls:'is-cancel' }
-  };
-  var VOUCHER = { code:'SDKDISCOUNT', amount:50000 };
-
-  function idr(n){ return 'IDR ' + n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
-  function esc(t){ var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
   function $(id){ return document.getElementById(id); }
 
-  var routeId = "{{ $id ?? '' }}";
-  var id = routeId || new URLSearchParams(location.search).get('id');
-  if (!ORDERS[id]) id = 'I0001';
-  var o = ORDERS[id];
-
-  // status yang pernah diubah admin
-  var saved = {};
-  try { saved = JSON.parse(localStorage.getItem('orderStatuses') || '{}'); } catch(e) {}
-  var status = saved[id] || o.status;
-
-  var sub = 0;
-  o.items.forEach(function(it){ sub += it.unit * it.qty; });
-
-  function render(){
-    var ui = STATUS_UI[status] || STATUS_UI['Payment received'];
-    var disc = status === 'Awaiting payment' ? 0 : VOUCHER.amount;
-
-    $('aoItems').innerHTML = o.items.map(function(it, i){
-      return '<div class="ao-item">' +
-        '<div class="ao-thumb"><img src="{{ asset('assets/img/cart.png') }}" alt=""><span class="ao-badge">' + it.qty + '</span></div>' +
-        '<div class="ao-info"><h4 class="ao-item-name">' + esc(it.name) + '</h4>' +
-          '<small>' + it.qty + ' x ' + idr(it.unit) + '/hari</small>' +
-          (i === 0 ? '<small class="note">Please recheck the size before send to me :)</small>' : '') +
-        '</div>' +
-        '<span class="ao-pill ' + ui.cls + '">' + ui.label + '</span>' +
-      '</div>';
-    }).join('');
-
-    $('aoSub').textContent = idr(sub);
-    $('aoVoucher').textContent = disc ? idr(disc) : 'IDR -';
-    $('aoTotal').textContent = idr(sub - disc);
-    $('aoPrice').value = idr(sub - disc);
-  }
-
-  $('aoName').textContent = o.items[0].name;
-  $('aoId').value = id;
-  $('aoDate').value = o.date;
-  $('aoMethod').value = o.method;
-  $('aoCustomer').value = localStorage.getItem('customerName') || 'Aprilia Alfa Gusasti';
-  $('aoAddress').value = localStorage.getItem('customerAddress') || 'Tangerang, Banten';
-  $('aoCode').textContent = VOUCHER.code;
-  $('aoStatus').value = status;
-  render();
-
-  // Edit status
+  // Status changer toast
   var toastEl = $('aoToast'), toastTimer;
-  $('aoStatus').addEventListener('change', function(){
-    status = this.value;
-    saved[id] = status;
-    try { localStorage.setItem('orderStatuses', JSON.stringify(saved)); } catch(e) {}
-    render();
-    toastEl.textContent = 'Status ' + id + ' updated to ' + status;
-    toastEl.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(function(){ toastEl.classList.remove('show'); }, 2000);
-  });
+  var statusSelect = $('aoStatus');
+  if (statusSelect) {
+    statusSelect.addEventListener('change', function(){
+      var newStatus = this.value;
+      var orderNum = $('aoId').value;
+      if (toastEl) {
+        toastEl.textContent = 'Status ' + orderNum + ' updated to ' + newStatus;
+        toastEl.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function(){ toastEl.classList.remove('show'); }, 2500);
+      }
+    });
+  }
 </script>
 
 </body>
