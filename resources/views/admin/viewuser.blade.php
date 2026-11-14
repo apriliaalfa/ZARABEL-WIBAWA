@@ -233,25 +233,17 @@
   function idr(n){ return 'IDR ' + n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
   function esc(t){ var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
 
-  // Ban / unban modal toggle
-  var banBtn = $('auBan');
-  var banModal = $('banModal');
-  var isBanned = false;
-  if (banBtn && banModal) {
-    banBtn.addEventListener('click', function(){
-      $('banTitle').textContent = isBanned ? 'Unban this user?' : 'Ban this user?';
-      $('banText').textContent = isBanned ? 'User will regain access to shop.' : 'Are you sure you want to ban this user?';
-      $('banConfirm').textContent = isBanned ? 'Yes, unban' : 'Yes, ban';
-      banModal.classList.add('open');
-    });
-    $('banCancel').addEventListener('click', function(){ banModal.classList.remove('open'); });
-    $('banConfirm').addEventListener('click', function(){
-      isBanned = !isBanned;
-      banBtn.textContent = isBanned ? 'UNBAN' : 'BAN';
-      banBtn.style.background = isBanned ? '#2e7d32' : '';
-      banModal.classList.remove('open');
-    });
-  }
+  // Sync avatar user dari localStorage bila cocok
+  try {
+    var p = JSON.parse(localStorage.getItem('profile') || '{}');
+    if (p.avatar) {
+      var pEmail = (p.email || '').trim().toLowerCase();
+      var curEmail = ($('auEmail').value || '').trim().toLowerCase();
+      if (!curEmail || curEmail === pEmail) {
+        $('auAvatar').src = p.avatar;
+      }
+    }
+  } catch(e) {}
 
   // Tombol BAN (simpan di localStorage)
   var banBtn = $('auBan');

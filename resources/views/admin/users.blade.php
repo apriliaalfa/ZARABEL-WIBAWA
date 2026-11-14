@@ -160,6 +160,23 @@
     toggle.setAttribute('aria-expanded', nav.classList.toggle('open'));
   });
 
+  // ---------- Sync avatar dari localStorage bila ada ----------
+  try {
+    var p = JSON.parse(localStorage.getItem('profile') || '{}');
+    if (p.avatar) {
+      var pName = ((p.first || '') + ' ' + (p.last || '')).trim().toLowerCase();
+      var pEmail = (p.email || '').trim().toLowerCase();
+      document.querySelectorAll('.us-card').forEach(function(card){
+        var cName = (card.dataset.name || '').toLowerCase();
+        var cEmail = (card.dataset.email || '').toLowerCase();
+        if ((pEmail && cEmail === pEmail) || (pName && cName.indexOf(pName) > -1) || (pName && pName.indexOf(cName) > -1)) {
+          var img = card.querySelector('.us-img img');
+          if (img) img.src = p.avatar;
+        }
+      });
+    }
+  } catch(e) {}
+
   // ---------- View More -> halaman detail user ----------
   // TODO: sesuaikan nama file halaman detail user
   var USER_DETAIL_PAGE = "{{ url('admin/users/view') }}";

@@ -93,6 +93,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/sales-report', [AdminController::class, 'salesReport'])->name('sales');
     Route::get('/orders', [AdminController::class, 'orders'])->name('orders');
     Route::get('/orders/detail/{id?}', [AdminController::class, 'orderDetail'])->name('orders.detail');
+    Route::post('/orders/update-status/{id}', [AdminController::class, 'updateOrderStatus'])->name('orders.updateStatus');
     Route::get('/products', [AdminController::class, 'products'])->name('products');
     Route::get('/products/add', [AdminController::class, 'addItem'])->name('products.add');
     Route::post('/products/store', [AdminController::class, 'storeProduct'])->name('products.store');

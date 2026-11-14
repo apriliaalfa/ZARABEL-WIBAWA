@@ -124,6 +124,36 @@ class AdminController extends Controller
     }
 
     /**
+     * Update Order Status in database
+     */
+    public function updateOrderStatus(Request $request, $id)
+    {
+        $order = Order::where('order_number', $id)->orWhere('id', $id)->firstOrFail();
+        $status = strtolower($request->input('status'));
+
+        $validStatuses = ['pending', 'paid', 'processing', 'shipped', 'dispatched', 'completed', 'cancelled'];
+        if (in_array($status, $validStatuses)) {
+            // standarisasi shipped / dispatched
+            $dbStatus = ($status === 'dispatched') ? 'shipped' : $status;
+            $order->status = $dbStatus;
+            $order->save();
+
+            // sinkron status pembayaran jika statusnya paid / completed
+            if (in_array($dbStatus, ['paid', 'shipped', 'completed']) && $order->payment) {
+                $order->payment->update(['payment_status' => 'paid']);
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Status pesanan berhasil diubah menjadi ' . ucfirst($status),
+                'status' => $order->status
+            ]);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Status tidak valid'], 422);
+    }
+
+    /**
      * Display Products list
      */
     public function products()

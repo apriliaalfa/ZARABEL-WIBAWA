@@ -197,19 +197,39 @@
 
   function $(id){ return document.getElementById(id); }
 
-  // Status changer toast
+  // Status changer AJAX ke database
   var toastEl = $('aoToast'), toastTimer;
   var statusSelect = $('aoStatus');
   if (statusSelect) {
     statusSelect.addEventListener('change', function(){
       var newStatus = this.value;
       var orderNum = $('aoId').value;
-      if (toastEl) {
-        toastEl.textContent = 'Status ' + orderNum + ' updated to ' + newStatus;
-        toastEl.classList.add('show');
-        clearTimeout(toastTimer);
-        toastTimer = setTimeout(function(){ toastEl.classList.remove('show'); }, 2500);
-      }
+
+      fetch('{{ url("admin/orders/update-status") }}/' + encodeURIComponent(orderNum), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body: JSON.stringify({ status: newStatus })
+      })
+      .then(function(res){ return res.json(); })
+      .then(function(data){
+        if (toastEl) {
+          toastEl.textContent = data.message || ('Status ' + orderNum + ' updated to ' + newStatus);
+          toastEl.classList.add('show');
+          clearTimeout(toastTimer);
+          toastTimer = setTimeout(function(){ toastEl.classList.remove('show'); }, 2500);
+        }
+      })
+      .catch(function(err){
+        if (toastEl) {
+          toastEl.textContent = 'Gagal memperbarui status ke database';
+          toastEl.classList.add('show');
+          clearTimeout(toastTimer);
+          toastTimer = setTimeout(function(){ toastEl.classList.remove('show'); }, 2500);
+        }
+      });
     });
   }
 </script>
