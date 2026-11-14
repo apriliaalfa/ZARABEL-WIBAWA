@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\WebsiteReview;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\View\View;
 
 class PageController extends Controller
@@ -18,7 +19,7 @@ class PageController extends Controller
     public function homepage1(): View
     {
         $products = Product::where('is_active', true)->latest()->get();
-        $reviews = WebsiteReview::latest()->take(10)->get();
+        $reviews = Schema::hasTable('website_reviews') ? WebsiteReview::latest()->take(10)->get() : collect();
         return view('pages.homepage1', [
             'user' => Auth::user(),
             'products' => $products,
@@ -32,7 +33,7 @@ class PageController extends Controller
     public function homepage2(): View
     {
         $products = Product::where('is_active', true)->latest()->get();
-        $reviews = WebsiteReview::latest()->take(10)->get();
+        $reviews = Schema::hasTable('website_reviews') ? WebsiteReview::latest()->take(10)->get() : collect();
         return view('pages.homepage2', [
             'user' => Auth::user(),
             'products' => $products,
