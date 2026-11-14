@@ -19,7 +19,7 @@ class PageController extends Controller
     public function homepage1(): View
     {
         $products = Product::where('is_active', true)->latest()->get();
-        $reviews = Schema::hasTable('website_reviews') ? WebsiteReview::latest()->take(10)->get() : collect();
+        $reviews = Schema::hasTable('website_reviews') ? WebsiteReview::with('user')->latest()->take(10)->get() : collect();
         return view('pages.homepage1', [
             'user' => Auth::user(),
             'products' => $products,
@@ -33,7 +33,7 @@ class PageController extends Controller
     public function homepage2(): View
     {
         $products = Product::where('is_active', true)->latest()->get();
-        $reviews = Schema::hasTable('website_reviews') ? WebsiteReview::latest()->take(10)->get() : collect();
+        $reviews = Schema::hasTable('website_reviews') ? WebsiteReview::with('user')->latest()->take(10)->get() : collect();
         return view('pages.homepage2', [
             'user' => Auth::user(),
             'products' => $products,
@@ -42,7 +42,7 @@ class PageController extends Controller
     }
 
     /**
-     * Store website review from modal.
+     * Store website review from modal (bisa kirim berkali-kali atau update ulasan sebelumnya).
      */
     public function storeWebsiteReview(Request $request)
     {
@@ -52,11 +52,14 @@ class PageController extends Controller
         ]);
 
         $user = Auth::user();
+        $avatar = $user?->avatar;
+
+        // Mendukung review berulang kali tanpa batasan atau error
         WebsiteReview::create([
             'user_id' => $user?->id,
             'user_name' => $user?->name ?? 'Customer',
             'user_role' => $user?->role === 'admin' ? 'Admin' : 'Verified Buyer',
-            'user_avatar' => $user?->avatar,
+            'user_avatar' => $avatar,
             'rating' => (int)$request->input('rating', 5) ?: 5,
             'comment' => $request->input('ulasan'),
         ]);

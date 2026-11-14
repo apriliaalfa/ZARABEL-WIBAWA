@@ -226,12 +226,15 @@
       @if(isset($reviews) && $reviews->count() > 0)
         @foreach($reviews as $rev)
         @php
-          $avatarRev = !empty($rev->user_avatar)
-            ? (filter_var($rev->user_avatar, FILTER_VALIDATE_URL) ? $rev->user_avatar : asset($rev->user_avatar))
-            : asset('assets/img/testi1.png');
+          $authorUser = $rev->user;
+          $userPhoto = $authorUser?->avatar ?? $rev->user_avatar;
+          $authorName = $authorUser?->name ?? $rev->user_name;
+          $avatarRev = !empty($userPhoto)
+            ? (filter_var($userPhoto, FILTER_VALIDATE_URL) ? $userPhoto : asset($userPhoto))
+            : 'https://ui-avatars.com/api/?name=' . urlencode($authorName) . '&background=69481B&color=fef7ee&size=160&bold=true';
         @endphp
         <article class="testimonial-card">
-          <div class="portrait"><img src="{{ $avatarRev }}" alt="{{ $rev->user_name }}"></div>
+          <div class="portrait"><img src="{{ $avatarRev }}" alt="{{ $authorName }}"></div>
           <div>
             <p>“{{ $rev->comment }}”</p>
             <div style="color:#C18A2D; font-size:18px; margin:8px 0; letter-spacing:2px;">
@@ -240,7 +243,7 @@
               @endfor
             </div>
             <hr>
-            <h3>{{ $rev->user_name }}</h3>
+            <h3>{{ $authorName }}</h3>
             <small>{{ $rev->user_role }}</small>
           </div>
         </article>
