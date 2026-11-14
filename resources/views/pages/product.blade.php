@@ -99,7 +99,7 @@
               <button type="button" id="qPlus" aria-label="Increase"><svg class="ic"><use href="#i-plus"/></svg></button>
             </div>
             <button type="button" class="pd-btn add" id="addBtn">Add to cart <svg class="ic"><use href="#i-addcart"/></svg></button>
-            <button type="button" class="pd-btn checkout" onclick="location.href='{{ route('cart') }}'">Checkout</button>
+            <button type="button" class="pd-btn checkout" id="directCheckoutBtn">Checkout</button>
           </div>
         </div>
 
@@ -235,17 +235,30 @@
     var quantity = Number(qty.textContent) || 1;
     var currentPhoto = document.getElementById('mainPhoto');
 
+    var cartItem = {
+      id: '{{ $product->id ?? "prod-1" }}',
+      code: '{{ $product->code ?? "ZRB-PROD" }}',
+      nama: '{{ addslashes($pName) }}',
+      harga: {{ (int)($product->price ?? 100000) }},
+      qty: quantity,
+      img: currentPhoto ? currentPhoto.src : '{{ asset($product->main_image ?? "assets/img/bg35.png") }}',
+      size: selectedSize
+    };
+
     if (window.ZarabelCart) {
-      window.ZarabelCart.add({
-        id: 'celia-shirt-01',
-        nama: 'White casual t-shirt',
-        harga: 100000,
-        qty: quantity,
-        img: currentPhoto ? currentPhoto.src : '{{ asset('assets/img/bg35.png') }}',
-        size: selectedSize
-      }, currentPhoto || document.getElementById('addBtn'));
+      window.ZarabelCart.add(cartItem, currentPhoto || document.getElementById('addBtn'));
     } else {
-      toast.textContent = quantity + ' x White casual t-shirt (' + selectedSize + ') added to cart';
+      var currentCart = [];
+      try { currentCart = JSON.parse(localStorage.getItem('cart') || '[]'); } catch(e){}
+      var existing = currentCart.find(function(x){ return x.id == cartItem.id && x.size == cartItem.size; });
+      if (existing) {
+        existing.qty += quantity;
+      } else {
+        currentCart.push(cartItem);
+      }
+      localStorage.setItem('cart', JSON.stringify(currentCart));
+
+      toast.textContent = quantity + ' x ' + '{{ addslashes($pName) }}' + ' (' + selectedSize + ') added to cart';
       toast.classList.add('show');
       clearTimeout(timer);
       timer = setTimeout(function(){ toast.classList.remove('show'); }, 2200);
@@ -263,12 +276,33 @@
     });
   });
 
-  // Read more
-  var more = document.getElementById('moreText');
-  var rm = document.getElementById('readMore');
-  rm.addEventListener('click', function(){
-    more.hidden = !more.hidden;
-    rm.textContent = more.hidden ? 'Read more' : 'Read less';
+  // Direct Checkout button
+  document.getElementById('directCheckoutBtn').addEventListener('click', function(){
+    var size = document.querySelector('#sizes button.on');
+    var selectedSize = size ? size.textContent.toUpperCase() : 'M';
+    var quantity = Number(qty.textContent) || 1;
+    var currentPhoto = document.getElementById('mainPhoto');
+
+    var cartItem = {
+      id: '{{ $product->id ?? "prod-1" }}',
+      code: '{{ $product->code ?? "ZRB-PROD" }}',
+      nama: '{{ addslashes($pName) }}',
+      harga: {{ (int)($product->price ?? 100000) }},
+      qty: quantity,
+      img: currentPhoto ? currentPhoto.src : '{{ asset($product->main_image ?? "assets/img/bg35.png") }}',
+      size: selectedSize
+    };
+
+    var currentCart = [];
+    try { currentCart = JSON.parse(localStorage.getItem('cart') || '[]'); } catch(e){}
+    var existing = currentCart.find(function(x){ return x.id == cartItem.id && x.size == cartItem.size; });
+    if (existing) {
+      existing.qty += quantity;
+    } else {
+      currentCart.push(cartItem);
+    }
+    localStorage.setItem('cart', JSON.stringify(currentCart));
+    window.location.href = "{{ route('checkout') }}";
   });
 </script>
 <script src="{{ asset('js/minicart.js') }}"></script>

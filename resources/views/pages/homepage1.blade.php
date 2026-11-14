@@ -59,7 +59,7 @@
     <img class="hero-image" src="{{ asset('assets/img/hero2.jpeg') }}" alt="Woman wearing Zarabel modest fashion">
     <div class="hero-copy">
       <p>made in Indonesia, dedicated to Indonesia</p>
-      <h1>Discover the Art of Dressing Up</h1>
+      <h1>Artistic Printed Wonderful Indonesian Textile Design</h1>
     </div>
     <div class="customer-stack" aria-label="23,000 plus customers">
       <div>
@@ -78,8 +78,8 @@
   <!-- ================= MARQUEE ================= -->
   <div class="marquee" aria-label="Product categories">
     <div>
-      <span>Jabs</span><span>Outwears</span><span>Modest Clothing</span><span>Hijabs</span><span>Trending</span><span>Jabs</span><span>Outwears</span>
-      <span>Jabs</span><span>Outwears</span><span>Modest Clothing</span><span>Hijabs</span><span>Trending</span><span>Jabs</span><span>Outwears</span>
+      <span>Pleats</span><span>Pashmina</span><span>Shirt</span><span>Outer</span><span>Dress</span><span>Pleats</span><span>Pashmina</span>
+      <span>Pleats</span><span>Pashmina</span><span>Shirt</span><span>Outer</span><span>Dress</span><span>Pleats</span><span>Pashmina</span>
     </div>
   </div>
 

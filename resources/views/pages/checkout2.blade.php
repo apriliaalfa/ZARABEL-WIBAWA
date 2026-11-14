@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -272,15 +272,62 @@
     toggle.setAttribute('aria-expanded', nav.classList.toggle('open'));
   });
 
-  // ---------- Hitung total ----------
+  // ---------- Hitung total & Muat Item dari Cart ----------
   var SUBTOTAL = 300000;
   var VOUCHER  = 50000;
   var shipping = 0;
 
   function rp(n){ return 'IDR ' + n.toLocaleString('id-ID'); }
 
+  var cart = [];
+  try { cart = JSON.parse(localStorage.getItem('cart') || '[]'); } catch(e){}
+  var container = document.querySelector('.co-products');
+  if (cart.length > 0 && container) {
+    container.innerHTML = '';
+    SUBTOTAL = 0;
+    cart.forEach(function(item, idx){
+      var price = Number(item.harga || 100000);
+      var q = Number(item.qty || 1);
+      SUBTOTAL += (price * q);
+      var art = document.createElement('article');
+      art.className = 'co-product';
+      art.dataset.productId = item.id || '';
+      art.dataset.productCode = item.code || '';
+      art.dataset.productName = item.nama || '';
+      art.dataset.price = price;
+      art.dataset.qty = q;
+      art.dataset.size = item.size || 'All Size';
+      art.dataset.notes = item.notes || '';
+      art.dataset.img = item.img || '';
+
+      art.innerHTML = `
+        <div class="co-img-wrap">
+          <img class="photo" src="${item.img || '{{ asset('assets/img/cart.png') }}'}" alt="${item.nama}">
+          <span class="qty-badge">${q}</span>
+        </div>
+        <div class="co-copy">
+          <h3>${item.nama}</h3>
+          <p class="co-price">${q}&nbsp; X&nbsp; ${rp(price)} ${item.size ? '<small style="color:#8B4513; font-weight:600;">(' + item.size + ')</small>' : ''}</p>
+          ${item.notes ? '<p class="co-note">' + item.notes + '</p>' : ''}
+        </div>
+      `;
+      container.appendChild(art);
+      if (idx < cart.length - 1) {
+        var hr = document.createElement('hr');
+        hr.className = 'sep';
+        container.appendChild(hr);
+      }
+    });
+
+    var totalsEl = document.querySelector('.totals');
+    if (totalsEl) {
+      var subtotalEl = totalsEl.querySelector('div:first-child dd');
+      if (subtotalEl) subtotalEl.textContent = rp(SUBTOTAL);
+    }
+  }
+
   function render(){
-    var total = SUBTOTAL - VOUCHER + shipping;
+    var total = Math.max(0, SUBTOTAL - VOUCHER + shipping);
     document.getElementById('shippingVal').textContent = shipping ? rp(shipping) : 'IDR -';
     document.getElementById('grandTotal').textContent = rp(total);
     document.querySelectorAll('[data-nominal]').forEach(function(el){ el.textContent = rp(total); });
@@ -379,8 +426,8 @@
 
     // Kumpulkan data customer & produk
     var custName = localStorage.getItem('customerName') || '{{ $user->name ?? "Pelanggan Zarabel" }}';
-    var custEmail = '{{ $user->email ?? "customer@zarabelstudio.com" }}';
-    var custPhone = '{{ $user->phone ?? "081234567890" }}';
+    var custEmail = localStorage.getItem('customerEmail') || '{{ $user->email ?? "customer@zarabelstudio.com" }}';
+    var custPhone = localStorage.getItem('customerPhone') || '{{ $user->phone ?? "081234567890" }}';
     var custAddress = localStorage.getItem('customerAddress') || 'Alamat Pengiriman Zarabel';
     var courierName = courierInp.value;
     var shippingPrice = parseFloat(courierInp.dataset.price || 0);
@@ -388,15 +435,22 @@
     // Kumpulkan item dari summary
     var items = [];
     document.querySelectorAll('.co-product').forEach(function(el, index){
-      var title = el.querySelector('h3') ? el.querySelector('h3').textContent.trim() : 'Zarabel Item';
+      var title = el.dataset.productName || (el.querySelector('h3') ? el.querySelector('h3').textContent.trim() : 'Zarabel Item');
+      var itemPrice = parseFloat(el.dataset.price) || 100000;
+      var itemQty = parseInt(el.dataset.qty) || 1;
       items.push({
+        product_id: el.dataset.productId ? parseInt(el.dataset.productId) : null,
+        product_code: el.dataset.productCode || 'ZRB-PROD-' + index,
         product_name: title,
-        price: 100000,
-        quantity: 1
+        product_image: el.dataset.img || '',
+        price: itemPrice,
+        quantity: itemQty,
+        size: el.dataset.size || 'All Size',
+        notes: el.dataset.notes || ''
       });
     });
     if (items.length === 0) {
-      items.push({ product_name: 'Zarabel Fashion Item', price: 100000, quantity: 1 });
+      items.push({ product_code: 'ZRB-001', product_name: 'Zarabel Fashion Item', price: 100000, quantity: 1, size: 'All Size' });
     }
 
     var discount = (document.getElementById('promo') && !document.getElementById('promo').hidden) ? 50000 : 0;
@@ -427,6 +481,7 @@
         if (typeof window.snap !== 'undefined') {
           window.snap.pay(data.snap_token, {
             onSuccess: function(result){
+              try { localStorage.removeItem('cart'); } catch(e){}
               fetch('{{ route("payment.finish") }}?order_number=' + data.order_number, {
                 method: 'POST',
                 headers: {
@@ -442,6 +497,7 @@
               });
             },
             onPending: function(result){
+              try { localStorage.removeItem('cart'); } catch(e){}
               window.location.href = data.redirect_url;
             },
             onError: function(result){

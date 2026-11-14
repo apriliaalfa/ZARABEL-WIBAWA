@@ -85,9 +85,17 @@ class PaymentController extends Controller
             // Generate unique Order Number
             $orderNumber = 'ZRB-' . strtoupper(Str::random(4)) . '-' . date('ymdHis');
 
+            $userId = Auth::id();
+            if (!$userId && !empty($request->customer_email)) {
+                $userByEmail = \App\Models\User::where('email', $request->customer_email)->first();
+                if ($userByEmail) {
+                    $userId = $userByEmail->id;
+                }
+            }
+
             $order = Order::create([
                 'order_number' => $orderNumber,
-                'user_id' => Auth::id(),
+                'user_id' => $userId,
                 'customer_name' => $request->customer_name,
                 'customer_email' => $request->customer_email,
                 'customer_phone' => $request->customer_phone,
@@ -102,12 +110,29 @@ class PaymentController extends Controller
             ]);
 
             foreach ($request->items as $item) {
+                $prodCode = $item['product_code'] ?? null;
+                $prodImage = $item['product_image'] ?? null;
+                if (!empty($item['product_id'])) {
+                    $prodObj = Product::find($item['product_id']);
+                    if ($prodObj) {
+                        $prodCode = $prodObj->code;
+                        $prodImage = $prodObj->main_image;
+                    }
+                }
+                if (!$prodCode) {
+                    $prodCode = 'ZRB-' . strtoupper(Str::random(6));
+                }
+
                 OrderItem::create([
                     'order_id' => $order->id,
                     'product_id' => $item['product_id'] ?? null,
+                    'product_code' => $prodCode,
                     'product_name' => $item['product_name'],
+                    'product_image' => $prodImage,
                     'price' => $item['price'],
                     'quantity' => $item['quantity'],
+                    'size' => $item['size'] ?? 'All Size',
+                    'notes' => $item['notes'] ?? null,
                     'subtotal' => $item['price'] * $item['quantity'],
                 ]);
             }
@@ -261,3 +286,4 @@ class PaymentController extends Controller
         ]);
     }
 }
+

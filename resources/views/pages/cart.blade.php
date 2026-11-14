@@ -34,89 +34,7 @@
       <!-- DAFTAR PRODUK -->
       <section class="cart-list" id="cartList" aria-label="Cart items">
 
-        <article class="cart-product" data-price="100000">
-          <div class="product-main">
-            <img class="cp-image" src="{{ asset('assets/img/cart.png') }}" alt="Man wearing a white casual t-shirt">
-            <div class="cp-details">
-              <div class="cp-copy">
-                <h2>White casual t-shirt</h2>
-                <p>IDR 100.000</p>
-              </div>
-              <div class="cp-controls">
-                <div class="quantity">
-                  <button type="button" class="minus" aria-label="Decrease quantity" disabled><svg class="ic"><use href="#i-minus"/></svg></button>
-                  <span class="qty">1</span>
-                  <button type="button" class="plus" aria-label="Increase quantity"><svg class="ic"><use href="#i-plus"/></svg></button>
-                </div>
-                <button type="button" class="delete-button"><svg class="ic"><use href="#i-trash"/></svg><span>Delete</span></button>
-              </div>
-            </div>
-          </div>
-          <div class="cart-notes-wrapper" style="margin-top: 12px;">
-            <div class="cart-notes-bar" style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-              <button type="button" class="add-notes">Notes</button>
-              <em class="notes-hint" style="font-size: 13px; color: #7a6e65; font-style: italic;">// Klik untuk menambahkan pesan</em>
-            </div>
-            <label class="notes-field" hidden style="margin-top: 8px;"><span>Notes:</span><input placeholder="Eg: Please double check before packing."></label>
-          </div>
-        </article>
-
-        <article class="cart-product" data-price="100000">
-          <div class="product-main">
-            <img class="cp-image" src="{{ asset('assets/img/cart.png') }}" alt="Man wearing a white casual t-shirt">
-            <div class="cp-details">
-              <div class="cp-copy">
-                <h2>White casual t-shirt</h2>
-                <p>IDR 100.000</p>
-              </div>
-              <div class="cp-controls">
-                <div class="quantity">
-                  <button type="button" class="minus" aria-label="Decrease quantity" disabled><svg class="ic"><use href="#i-minus"/></svg></button>
-                  <span class="qty">1</span>
-                  <button type="button" class="plus" aria-label="Increase quantity"><svg class="ic"><use href="#i-plus"/></svg></button>
-                </div>
-                <button type="button" class="delete-button"><svg class="ic"><use href="#i-trash"/></svg><span>Delete</span></button>
-              </div>
-            </div>
-          </div>
-          <div class="cart-notes-wrapper" style="margin-top: 12px;">
-            <div class="cart-notes-bar" style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-              <button type="button" class="add-notes">Notes</button>
-              <em class="notes-hint" style="font-size: 13px; color: #7a6e65; font-style: italic;">// Klik untuk menambahkan pesan</em>
-            </div>
-            <label class="notes-field" hidden style="margin-top: 8px;"><span>Notes:</span><input placeholder="Eg: Please double check before packing."></label>
-          </div>
-        </article>
-
-        <article class="cart-product big" data-price="100000">
-          <div class="product-main">
-            <img class="cp-image" src="{{ asset('assets/img/cart.png') }}" alt="Man wearing a white casual t-shirt">
-            <div class="cp-details">
-              <div class="cp-copy">
-                <h2>White casual t-shirt</h2>
-                <div class="discount-price">
-                  <div><span class="old-price">IDR 200.000</span><span class="discount-pill">50%</span></div>
-                  <span class="sale-price">IDR 100.000</span>
-                </div>
-              </div>
-              <div class="cp-controls">
-                <div class="quantity">
-                  <button type="button" class="minus" aria-label="Decrease quantity" disabled><svg class="ic"><use href="#i-minus"/></svg></button>
-                  <span class="qty">1</span>
-                  <button type="button" class="plus" aria-label="Increase quantity"><svg class="ic"><use href="#i-plus"/></svg></button>
-                </div>
-                <button type="button" class="delete-button"><svg class="ic"><use href="#i-trash"/></svg><span>Delete</span></button>
-              </div>
-            </div>
-          </div>
-          <div class="cart-notes-wrapper" style="margin-top: 12px;">
-            <div class="cart-notes-bar" style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-              <button type="button" class="add-notes">Notes</button>
-              <em class="notes-hint" style="font-size: 13px; color: #7a6e65; font-style: italic;">// Klik untuk menambahkan pesan</em>
-            </div>
-            <label class="notes-field" hidden style="margin-top: 8px;"><span>Notes:</span><input placeholder="Eg: Please double check before packing."></label>
-          </div>
-        </article>
+        <div id="dynamicCartItems"></div>
 
         <div class="empty-cart" id="emptyCart">
           <h2>Your cart is empty</h2>
@@ -177,56 +95,130 @@
   var notice = document.getElementById('notice');
   var checkoutBtn = document.getElementById('checkoutBtn');
 
-  function money(n){ return 'IDR ' + n.toLocaleString('id-ID'); }
-  function items(){ return Array.prototype.slice.call(list.querySelectorAll('.cart-product')); }
+  function money(n){ return 'IDR ' + Number(n || 0).toLocaleString('id-ID'); }
 
-  function update(){
-    var subtotal = 0, count = items().length;
-    items().forEach(function(it){
-      subtotal += Number(it.dataset.price) * Number(it.querySelector('.qty').textContent);
-    });
-    var total = Math.max(0, subtotal - (promoApplied && count ? PROMO : 0));
-    document.getElementById('subtotal').textContent = money(subtotal);
-    document.getElementById('total').textContent = money(total);
-    emptyBox.classList.toggle('show', count === 0);
-    checkoutBtn.disabled = count === 0;
+  function getCartData() {
+    try {
+      var data = JSON.parse(localStorage.getItem('cart') || '[]');
+      return Array.isArray(data) ? data : [];
+    } catch(e) {
+      return [];
+    }
   }
 
-  items().forEach(function(it){
-    var qty = it.querySelector('.qty');
-    var minus = it.querySelector('.minus');
-    it.querySelector('.plus').addEventListener('click', function(){
-      qty.textContent = Number(qty.textContent) + 1;
-      minus.disabled = false; update();
-    });
-    minus.addEventListener('click', function(){
-      var n = Math.max(1, Number(qty.textContent) - 1);
-      qty.textContent = n; minus.disabled = n === 1; update();
-    });
-    it.querySelector('.delete-button').addEventListener('click', function(){
-      it.remove(); update();
-    });
-    var field = it.querySelector('.notes-field');
-    var addNotes = it.querySelector('.add-notes');
-    if (addNotes && field) {
-      addNotes.addEventListener('click', function(){
-        field.hidden = !field.hidden;
-        if (!field.hidden) {
-          var inp = field.querySelector('input');
-          if (inp) inp.focus();
+  function saveCartData(data) {
+    localStorage.setItem('cart', JSON.stringify(data));
+  }
+
+  function renderCart() {
+    var cart = getCartData();
+    var container = document.getElementById('dynamicCartItems');
+    container.innerHTML = '';
+
+    if (cart.length === 0) {
+      emptyBox.classList.add('show');
+      checkoutBtn.disabled = true;
+      document.getElementById('subtotal').textContent = money(0);
+      document.getElementById('total').textContent = money(0);
+      return;
+    }
+
+    emptyBox.classList.remove('show');
+    checkoutBtn.disabled = false;
+
+    var subtotal = 0;
+
+    cart.forEach(function(item, index) {
+      var itemPrice = Number(item.harga || 100000);
+      var itemQty = Number(item.qty || 1);
+      subtotal += (itemPrice * itemQty);
+
+      var art = document.createElement('article');
+      art.className = 'cart-product';
+      art.dataset.price = itemPrice;
+      art.innerHTML = `
+        <div class="product-main">
+          <img class="cp-image" src="${item.img || '{{ asset('assets/img/cart.png') }}'}" alt="${item.nama}">
+          <div class="cp-details">
+            <div class="cp-copy">
+              <h2>${item.nama}</h2>
+              <p>${money(itemPrice)} ${item.size ? '<small style="color:#8B4513; margin-left:6px; font-weight:600;">(' + item.size + ')</small>' : ''}</p>
+            </div>
+            <div class="cp-controls">
+              <div class="quantity">
+                <button type="button" class="minus" aria-label="Decrease quantity" ${itemQty <= 1 ? 'disabled' : ''}><svg class="ic"><use href="#i-minus"/></svg></button>
+                <span class="qty">${itemQty}</span>
+                <button type="button" class="plus" aria-label="Increase quantity"><svg class="ic"><use href="#i-plus"/></svg></button>
+              </div>
+              <button type="button" class="delete-button"><svg class="ic"><use href="#i-trash"/></svg><span>Delete</span></button>
+            </div>
+          </div>
+        </div>
+        <div class="cart-notes-wrapper" style="margin-top: 12px;">
+          <div class="cart-notes-bar" style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+            <button type="button" class="add-notes">Notes</button>
+            <em class="notes-hint" style="font-size: 13px; color: #7a6e65; font-style: italic;">// Klik untuk menambahkan pesan</em>
+          </div>
+          <label class="notes-field" ${item.notes ? '' : 'hidden'} style="margin-top: 8px;">
+            <span>Notes:</span>
+            <input class="note-inp" placeholder="Eg: Please double check before packing." value="${item.notes || ''}">
+          </label>
+        </div>
+      `;
+
+      art.querySelector('.plus').addEventListener('click', function(){
+        cart[index].qty = (cart[index].qty || 1) + 1;
+        saveCartData(cart);
+        renderCart();
+      });
+
+      art.querySelector('.minus').addEventListener('click', function(){
+        if (cart[index].qty > 1) {
+          cart[index].qty -= 1;
+          saveCartData(cart);
+          renderCart();
         }
       });
-    }
-  });
+
+      art.querySelector('.delete-button').addEventListener('click', function(){
+        cart.splice(index, 1);
+        saveCartData(cart);
+        renderCart();
+      });
+
+      var addNotes = art.querySelector('.add-notes');
+      var notesField = art.querySelector('.notes-field');
+      var noteInp = art.querySelector('.note-inp');
+      if (addNotes && notesField) {
+        addNotes.addEventListener('click', function(){
+          notesField.hidden = !notesField.hidden;
+          if (!notesField.hidden) noteInp.focus();
+        });
+        noteInp.addEventListener('input', function(){
+          cart[index].notes = noteInp.value;
+          saveCartData(cart);
+        });
+      }
+
+      container.appendChild(art);
+    });
+
+    var total = Math.max(0, subtotal - (promoApplied && cart.length ? PROMO : 0));
+    document.getElementById('subtotal').textContent = money(subtotal);
+    document.getElementById('total').textContent = money(total);
+  }
 
   // Promo
   usePromo.addEventListener('click', function(){
     promoApplied = true;
     promoText.textContent = 'Hooray! Your promo is applied!';
-    usePromo.hidden = true; update();
+    usePromo.hidden = true;
+    renderCart();
   });
   document.getElementById('closePromo').addEventListener('click', function(){
-    promo.hidden = true; promoApplied = false; update();
+    promo.hidden = true;
+    promoApplied = false;
+    renderCart();
   });
 
   // Checkout
@@ -234,7 +226,7 @@
     window.location.href = "{{ route('checkout') }}";
   });
 
-  update();
+  renderCart();
 </script>
 
 </body>

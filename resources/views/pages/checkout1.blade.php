@@ -214,14 +214,61 @@
     }
   });
 
+  // Render Dynamic Cart Summary in Checkout 1
+  function money(n){ return 'IDR ' + Number(n || 0).toLocaleString('id-ID'); }
+  (function(){
+    var cart = [];
+    try { cart = JSON.parse(localStorage.getItem('cart') || '[]'); } catch(e){}
+    var container = document.querySelector('.co-products');
+    if (cart.length > 0 && container) {
+      container.innerHTML = '';
+      var subtotal = 0;
+      cart.forEach(function(item, idx){
+        var price = Number(item.harga || 100000);
+        var q = Number(item.qty || 1);
+        subtotal += (price * q);
+        var art = document.createElement('article');
+        art.className = 'co-product';
+        art.innerHTML = `
+          <div class="co-img-wrap">
+            <img class="photo" src="${item.img || '{{ asset('assets/img/cart.png') }}'}" alt="${item.nama}">
+            <span class="qty-badge">${q}</span>
+          </div>
+          <div class="co-copy">
+            <h3>${item.nama}</h3>
+            <p class="co-price">${q}&nbsp; X&nbsp; ${money(price)} ${item.size ? '<small style="color:#8B4513; font-weight:600;">(' + item.size + ')</small>' : ''}</p>
+            ${item.notes ? '<p class="co-note">' + item.notes + '</p>' : ''}
+          </div>
+        `;
+        container.appendChild(art);
+        if (idx < cart.length - 1) {
+          var hr = document.createElement('hr');
+          hr.className = 'sep';
+          container.appendChild(hr);
+        }
+      });
+
+      var disc = (document.getElementById('promo') && !document.getElementById('promo').hidden) ? 50000 : 0;
+      var totalsEl = document.querySelector('.totals');
+      if (totalsEl) {
+        var subtotalEl = totalsEl.querySelector('div:first-child dd');
+        if (subtotalEl) subtotalEl.textContent = money(subtotal);
+        var grandEl = document.getElementById('grandTotal');
+        if (grandEl) grandEl.textContent = money(Math.max(0, subtotal - disc));
+      }
+    }
+  })();
+
   // Submit form: simpan data customer ke localStorage & lanjut ke step 2
   document.getElementById('coForm').addEventListener('submit', function(e){
     var name = document.getElementById('name').value;
+    var phone = document.getElementById('phone') ? document.getElementById('phone').value : '';
+    var email = document.getElementById('email') ? document.getElementById('email').value : '';
     var address = document.getElementById('address').value;
     if(name) localStorage.setItem('customerName', name);
+    if(phone) localStorage.setItem('customerPhone', phone);
+    if(email) localStorage.setItem('customerEmail', email);
     if(address) localStorage.setItem('customerAddress', address);
-    
-    // allow standard form navigation to checkout.payment or handle
   });
 </script>
 

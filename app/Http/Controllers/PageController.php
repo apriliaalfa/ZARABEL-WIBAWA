@@ -110,9 +110,15 @@ class PageController extends Controller
      */
     public function myorder(): View
     {
-        $orders = Auth::check()
-            ? Order::where('user_id', Auth::id())->with('items')->latest()->get()
-            : collect();
+        $orders = collect();
+        if (Auth::check()) {
+            $user = Auth::user();
+            $orders = Order::where(function ($q) use ($user) {
+                $q->where('user_id', $user->id)
+                  ->orWhere('customer_email', $user->email);
+            })->with('items')->latest()->get();
+        }
+
         return view('pages.myorder1', [
             'user' => Auth::user(),
             'orders' => $orders,
