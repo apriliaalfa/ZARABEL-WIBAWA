@@ -57,11 +57,11 @@
   <section id="categories" class="category-section section-pad">
     <h2>Explore<br>Our Category</h2>
     <div class="category-grid">
-      <button class="category-card" onclick="location.href='{{ route('catalog') }}?cat=Pleats'"><img src="{{ asset('assets/img/cat1.jpg') }}" alt="Pleats collection"><span>Pleats</span></button>
-      <button class="category-card" onclick="location.href='{{ route('catalog') }}?cat=Pashmina'"><img src="{{ asset('assets/img/cat2.jpg') }}" alt="Pashmina collection"><span>Pashmina</span></button>
-      <button class="category-card" onclick="location.href='{{ route('catalog') }}?cat=Shirt'"><img src="{{ asset('assets/img/cat3.jpg') }}" alt="Shirt collection"><span>Shirt</span></button>
-      <button class="category-card category-wide" onclick="location.href='{{ route('catalog') }}?cat=Outer'"><img src="{{ asset('assets/img/cat4.jpg') }}" alt="Outer collection"><span>Outer</span></button>
-      <button class="category-card" onclick="location.href='{{ route('catalog') }}?cat=Dress'"><img src="{{ asset('assets/img/cat5.jpg') }}" alt="Dress collection"><span>Dress</span></button>
+      <button class="category-card" onclick="location.href='{{ route('catalog') }}?cat=Pleats'"><img src="{{ asset('assets/img/Kirana1.jpg') }}" alt="Pleats collection"><span>Pleats</span></button>
+      <button class="category-card" onclick="location.href='{{ route('catalog') }}?cat=Pashmina'"><img src="{{ asset('assets/img/Luna1.jpg') }}" alt="Pashmina collection"><span>Pashmina</span></button>
+      <button class="category-card" onclick="location.href='{{ route('catalog') }}?cat=Shirt'"><img src="{{ asset('assets/img/Pinkbella1.jpg') }}" alt="Shirt collection"><span>Shirt</span></button>
+      <button class="category-card category-wide" onclick="location.href='{{ route('catalog') }}?cat=Outer'"><img src="{{ asset('assets/img/Sena1.jpg') }}" alt="Outer collection"><span>Outer</span></button>
+      <button class="category-card" onclick="location.href='{{ route('catalog') }}?cat=Dress'"><img src="{{ asset('assets/img/Artic1.jpg') }}" alt="Dress collection"><span>Dress</span></button>
     </div>
   </section>
 
@@ -101,7 +101,7 @@
       <div class="product-grid">
         @foreach($dressProducts as $prod)
           @php
-            $imgUrl = Str::startsWith($prod->main_image, ["http://", "https://", "assets/", "storage/", "uploads/"]) ? asset($prod->main_image) : asset("assets/img/cat1.jpg");
+            $imgUrl = Str::startsWith($prod->main_image, ["http://", "https://", "assets/", "storage/", "uploads/"]) ? asset($prod->main_image) : asset("assets/img/Kirana1.jpg");
             $discountPrice = $prod->discount_price ? 'IDR ' . number_format($prod->discount_price, 0, ',', '.') : 'IDR ' . number_format($prod->price * 1.25, 0, ',', '.');
           @endphp
           <article class="product-card">
@@ -123,7 +123,7 @@
       <div class="product-grid">
         @foreach($outfitProducts as $prod)
           @php
-            $imgUrl = Str::startsWith($prod->main_image, ["http://", "https://", "assets/", "storage/", "uploads/"]) ? asset($prod->main_image) : asset("assets/img/cat1.jpg");
+            $imgUrl = Str::startsWith($prod->main_image, ["http://", "https://", "assets/", "storage/", "uploads/"]) ? asset($prod->main_image) : asset("assets/img/Kirana1.jpg");
             $discountPrice = $prod->discount_price ? 'IDR ' . number_format($prod->discount_price, 0, ',', '.') : 'IDR ' . number_format($prod->price * 1.25, 0, ',', '.');
           @endphp
           <article class="product-card">

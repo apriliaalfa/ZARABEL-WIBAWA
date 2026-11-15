@@ -93,11 +93,11 @@
     $pDesc = $product->description ?? "Koleksi busana lipit artistik khas Zarabel.";
     $pInfo = $product->additional_information ?? "-";
     
-    $mainImg = "assets/img/cat1.jpg";
+    $mainImg = "assets/img/Kirana1.jpg";
     if (!empty($product->main_image)) {
         $mainImg = $product->main_image;
     }
-    $mainImgUrl = Str::startsWith($mainImg, ["http://", "https://", "assets/", "storage/", "uploads/"]) ? asset($mainImg) : asset("assets/img/cat1.jpg");
+    $mainImgUrl = Str::startsWith($mainImg, ["http://", "https://", "assets/", "storage/", "uploads/"]) ? asset($mainImg) : asset("assets/img/Kirana1.jpg");
     
     $gallery = is_array($product->gallery_images ?? null) ? $product->gallery_images : [];
     // Masukkan foto utama ke urutan pertama galeri jika belum ada
@@ -118,7 +118,7 @@
           <div class="pd-thumbs" id="thumbs">
             @foreach($gallery as $i => $gImg)
               @php
-                $gUrl = Str::startsWith($gImg, ["http://", "https://", "assets/", "storage/", "uploads/"]) ? asset($gImg) : asset("assets/img/cat1.jpg");
+                $gUrl = Str::startsWith($gImg, ["http://", "https://", "assets/", "storage/", "uploads/"]) ? asset($gImg) : asset("assets/img/Kirana1.jpg");
               @endphp
               <button class="{{ $i === 0 ? "on" : "" }}" data-src="{{ $gUrl }}"><img src="{{ $gUrl }}" alt="" style="object-fit:cover;"></button>
             @endforeach

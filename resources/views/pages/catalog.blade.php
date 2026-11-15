@@ -114,6 +114,7 @@
           @forelse($products as $prod)
             @php
               $rawImg = $prod->main_image ?? '';
+              $imgUrl = '';
               if (Str::startsWith($rawImg, ['http://', 'https://'])) {
                   $imgUrl = $rawImg;
               } elseif (!empty($rawImg) && file_exists(public_path($rawImg))) {
@@ -122,16 +123,17 @@
                   $imgUrl = asset('uploads/products/' . basename($rawImg));
               } elseif (!empty($rawImg) && file_exists(public_path('assets/img/' . basename($rawImg)))) {
                   $imgUrl = asset('assets/img/' . basename($rawImg));
-              } else {
-                  $catMap = ['pleats' => 'cat1.jpg', 'pashmina' => 'cat2.jpg', 'shirt' => 'cat3.jpg', 'outer' => 'cat4.jpg', 'dress' => 'cat5.jpg'];
-                  $defaultCat = $catMap[strtolower($prod->category_name ?? '')] ?? 'cat1.jpg';
+              }
+              if (empty($imgUrl)) {
+                  $catMap = ['pleats' => 'Kirana1.jpg', 'pashmina' => 'Luna1.jpg', 'shirt' => 'Pinkbella1.jpg', 'outer' => 'Sena1.jpg', 'dress' => 'Artic1.jpg'];
+                  $defaultCat = $catMap[strtolower($prod->category_name ?? '')] ?? 'Kirana1.jpg';
                   $imgUrl = asset('assets/img/' . $defaultCat);
               }
               $discountPrice = $prod->discount_price ? 'IDR ' . number_format($prod->discount_price, 0, ',', '.') : 'IDR ' . number_format($prod->price * 1.25, 0, ',', '.');
             @endphp
             <article class="product-card" data-price="{{ (int)$prod->price }}" data-category="{{ $prod->category_name }}">
               <button class="product-image add-cart" aria-label="Add {{ $prod->name }} to cart" onclick="location.href='{{ route('product', $prod->code) }}'">
-                <img src="{{ $imgUrl }}" alt="{{ $prod->name }}" style="object-fit:cover;" onerror="this.onerror=null;this.src='{{ asset('assets/img/cat1.jpg') }}'">
+                <img src="{{ $imgUrl }}" alt="{{ $prod->name }}" style="object-fit:cover;" onerror="this.onerror=null;this.src='{{ asset('assets/img/Kirana1.jpg') }}'">
                 <span class="rating"><svg class="ic"><use href="#i-star"/></svg> {{ number_format($prod->rating ?? 4.95, 2) }}</span>
                 <span class="quick-add">View Product</span>
               </button>

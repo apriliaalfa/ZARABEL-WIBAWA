@@ -141,7 +141,7 @@
         @php
           $pct = $maxUnits > 0 ? round(($prod->units_sold / $maxUnits) * 100) : 0;
           $color = $colors[$i] ?? '#888';
-          $imgUrl = $prod->product_image ? asset($prod->product_image) : asset('assets/img/cat1.jpg');
+          $imgUrl = $prod->product_image ? asset($prod->product_image) : asset('assets/img/Kirana1.jpg');
         @endphp
         <div class="tr">
           <span class="rank">@if($i < 3)<svg class="ic"><use href="#{{ $medals[$i] }}"/></svg>@else #{{ $i+1 }}@endif</span>

@@ -87,11 +87,11 @@
     $pDesc = $product->description ?? "";
     $pInfo = $product->additional_information ?? "";
     
-    $mainImg = "assets/img/cat1.jpg";
+    $mainImg = "assets/img/Kirana1.jpg";
     if (!empty($product->main_image)) {
         $mainImg = $product->main_image;
     }
-    $mainImgUrl = Str::startsWith($mainImg, ["http://", "https://", "assets/", "storage/", "uploads/"]) ? asset($mainImg) : asset("assets/img/cat1.jpg");
+    $mainImgUrl = Str::startsWith($mainImg, ["http://", "https://", "assets/", "storage/", "uploads/"]) ? asset($mainImg) : asset("assets/img/Kirana1.jpg");
     
     $gallery = is_array($product->gallery_images ?? null) ? $product->gallery_images : [];
     $a2 = $gallery[0] ?? null;

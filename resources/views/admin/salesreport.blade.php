@@ -182,7 +182,7 @@
         @php
           $c = $colors[$index % count($colors)];
           $pct = min(100, max(5, round(($tp->units_sold / $maxSold) * 100)));
-          $tpImg = $tp->product_image ? asset($tp->product_image) : asset('assets/img/cat1.jpg');
+          $tpImg = $tp->product_image ? asset($tp->product_image) : asset('assets/img/Kirana1.jpg');
         @endphp
         <div class="tr">
           <span class="rank">

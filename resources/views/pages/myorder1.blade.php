@@ -76,7 +76,7 @@
           @forelse($orders as $order)
           @php
             $firstItem2 = $order->items->first();
-            $imgUrl3 = $firstItem2?->product_image ? asset($firstItem2->product_image) : asset('assets/img/cat1.jpg');
+            $imgUrl3 = $firstItem2?->product_image ? asset($firstItem2->product_image) : asset('assets/img/Kirana1.jpg');
             $categoryName = $firstItem2?->product?->category_name ?? $firstItem2?->product?->category?->name ?? 'Modest';
             $statusFilter = match($order->status) {
               'pending' => 'Awaiting payment',

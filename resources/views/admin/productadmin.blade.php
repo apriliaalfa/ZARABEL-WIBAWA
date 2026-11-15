@@ -164,7 +164,7 @@
               @php
                 $statusClass = $prod->stock > 5 ? "b-in" : ($prod->stock > 0 ? "b-low" : "b-out");
                 $statusText  = $prod->stock > 5 ? "In Stock" : ($prod->stock > 0 ? "Low Stock" : "Out of Stock");
-                $imgUrl = Str::startsWith($prod->main_image, ["http://", "https://", "assets/", "storage/", "uploads/"]) ? asset($prod->main_image) : asset("assets/img/cat1.jpg");
+                $imgUrl = Str::startsWith($prod->main_image, ["http://", "https://", "assets/", "storage/", "uploads/"]) ? asset($prod->main_image) : asset("assets/img/Kirana1.jpg");
               @endphp
               <tr data-id="{{ $prod->code }}" data-cat="{{ $prod->category_name }}" data-q="{{ strtolower($prod->code . " " . $prod->name . " " . $prod->category_name) }}">
                 <td class="c-id">{{ $prod->code }}</td>

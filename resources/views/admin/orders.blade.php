@@ -149,7 +149,7 @@
           @foreach($orders as $order)
           @php
             $firstItem = $order->items->first();
-            $imgUrl2 = $firstItem?->product_image ? asset($firstItem->product_image) : asset('assets/img/cat1.jpg');
+            $imgUrl2 = $firstItem?->product_image ? asset($firstItem->product_image) : asset('assets/img/Kirana1.jpg');
             $statusMap = ['pending'=>'b-pending','paid'=>'b-paid','shipped'=>'b-shipped','delivered'=>'b-delivered','cancelled'=>'b-cancelled'];
             $badgeClass = $statusMap[$order->status] ?? 'b-pending';
             $payMethod = $order->payment?->payment_channel ?? ($order->payment?->payment_method ?? 'N/A');

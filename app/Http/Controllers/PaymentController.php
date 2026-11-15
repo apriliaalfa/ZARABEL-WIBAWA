@@ -270,6 +270,8 @@ class PaymentController extends Controller
         $payment->payment_channel = $payload['bank'] ?? $payload['channel'] ?? $paymentType;
         $payment->amount = (float) $grossAmount;
 
+        $wasPending = $order->status !== 'paid'; // track if this is the first time being marked paid
+
         if ($transactionStatus == 'capture') {
             if ($fraudStatus == 'accept') {
                 $order->status = 'paid';
@@ -291,6 +293,18 @@ class PaymentController extends Controller
         $order->save();
         $payment->save();
 
+        // Reduce stock when payment is successful (only once)
+        if ($wasPending && $order->status === 'paid') {
+            foreach ($order->items as $orderItem) {
+                if ($orderItem->product_id) {
+                    $product = Product::find($orderItem->product_id);
+                    if ($product && $product->stock >= $orderItem->quantity) {
+                        $product->decrement('stock', $orderItem->quantity);
+                    }
+                }
+            }
+        }
+
         return response()->json(['message' => 'Notification handled successfully']);
     }
 
@@ -311,6 +325,7 @@ class PaymentController extends Controller
 
         // Mark as paid if user succeeded via Snap popup
         if ($request->input('result_status') === 'success' || $request->input('result_status') === 'settlement') {
+            $wasPending = $order->status !== 'paid';
             $order->update(['status' => 'paid']);
             $existingPayment = Payment::where('order_id', $order->id)->first();
             $paymentMethod = $existingPayment && !empty($existingPayment->payment_method) && $existingPayment->payment_method !== 'midtrans'
@@ -326,6 +341,18 @@ class PaymentController extends Controller
                     'amount' => $order->total_amount,
                 ]
             );
+
+            // Reduce stock when payment confirmed (only once)
+            if ($wasPending) {
+                foreach ($order->items as $orderItem) {
+                    if ($orderItem->product_id) {
+                        $product = Product::find($orderItem->product_id);
+                        if ($product && $product->stock >= $orderItem->quantity) {
+                            $product->decrement('stock', $orderItem->quantity);
+                        }
+                    }
+                }
+            }
         }
 
         return response()->json([
