@@ -232,9 +232,10 @@
           $avatarRev = !empty($userPhoto)
             ? (filter_var($userPhoto, FILTER_VALIDATE_URL) ? $userPhoto : asset($userPhoto))
             : 'https://ui-avatars.com/api/?name=' . urlencode($authorName) . '&background=69481B&color=fef7ee&size=160&bold=true';
+          $defaultAvatar = 'https://ui-avatars.com/api/?name=' . urlencode($authorName) . '&background=69481B&color=fef7ee&size=160&bold=true';
         @endphp
         <article class="testimonial-card">
-          <div class="portrait"><img src="{{ $avatarRev }}" alt="{{ $authorName }}"></div>
+          <div class="portrait"><img src="{{ $avatarRev }}" alt="{{ $authorName }}" onerror="this.onerror=null;this.src='{{ $defaultAvatar }}'"></div>
           <div>
             <p>“{{ $rev->comment }}”</p>
             <div style="color:#C18A2D; font-size:18px; margin:8px 0; letter-spacing:2px;">

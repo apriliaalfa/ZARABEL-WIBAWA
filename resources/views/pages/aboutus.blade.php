@@ -117,7 +117,7 @@
         <div><h3>100% Satisfaction Guaranteed</h3><p>Setiap produk ZARABEL diproduksi dengan standar kualitas terjaga. Jika ada kendala pada pesananmu, tim kami siap membantu proses komplain dan retur dengan mudah.</p></div>
       </article>
       <article class="ab-service">
-        <span class="ab-service-icon"><svg><use href="#i-phone-w"/></svg></span>
+        <span class="ab-service-icon"><svg><use href="#i-phone"/></svg></span>
         <div><h3>24/7 Online Service</h3><p>Punya pertanyaan seputar produk, ukuran, atau pengiriman? Hubungi kami kapan saja melalui WhatsApp dan media sosial, kami siap merespons dengan cepat.</p></div>
       </article>
       <article class="ab-service">
@@ -125,7 +125,7 @@
         <div><h3>Fast Delivery</h3><p>Pesanan diproses dan dikirim secara cepat setelah pembayaran dikonfirmasi, agar koleksi limited edition favoritmu sampai tepat waktu.</p></div>
       </article>
       <article class="ab-service">
-        <span class="ab-service-icon"><svg><use href="#i-card-w"/></svg></span>
+        <span class="ab-service-icon"><svg><use href="#i-card"/></svg></span>
         <div><h3>Payment With Secure System</h3><p>Nikmati kemudahan bertransaksi melalui berbagai metode pembayaran yang aman dan terpercaya di Shopee, TikTok Shop, dan platform resmi ZARABEL lainnya.</p></div>
       </article>
   </section>
