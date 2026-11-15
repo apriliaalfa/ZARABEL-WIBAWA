@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 
 class PasswordResetController extends Controller
@@ -31,11 +33,45 @@ class PasswordResetController extends Controller
             'email.email' => 'Format email tidak valid.',
         ]);
 
-        $code = '1234'; // Default 4-digit verification code for demo / prototype
-        $request->session()->put('reset_email', $request->input('email'));
+        $recipientEmail = trim($request->input('email'));
+        $code = str_pad((string)random_int(1000, 9999), 4, '0', STR_PAD_LEFT);
+
+        $request->session()->put('reset_email', $recipientEmail);
         $request->session()->put('reset_code', $code);
 
-        return redirect()->route('password.confirm')->with('status', 'Kode konfirmasi telah dikirim ke email Anda. (Gunakan kode: 1234)');
+        // Kirim email OTP nyata ke email pengguna
+        try {
+            Mail::send([], [], function ($message) use ($recipientEmail, $code) {
+                $htmlBody = "
+                <div style='font-family: Arial, sans-serif; max-width: 500px; margin: auto; padding: 24px; border: 1px solid #e0d5c1; border-radius: 12px; background-color: #fefcf9;'>
+                    <div style='text-align: center; margin-bottom: 20px;'>
+                        <h2 style='color: #69481B; margin: 0;'>ZARABEL STUDIO</h2>
+                        <p style='color: #8c7b6c; font-size: 13px; margin: 4px 0 0 0;'>Permintaan Reset Password</p>
+                    </div>
+                    <p style='color: #333; font-size: 15px;'>Halo,</p>
+                    <p style='color: #555; line-height: 1.5;'>Kami menerima permintaan untuk mereset kata sandi akun Zarabel Anda. Gunakan 4 digit kode OTP berikut untuk melanjutkan:</p>
+                    <div style='text-align: center; margin: 25px 0;'>
+                        <span style='display: inline-block; font-size: 32px; font-weight: 800; letter-spacing: 8px; color: #69481B; background: #f5ebe1; padding: 12px 28px; border-radius: 8px; border: 2px dashed #69481B;'>
+                            {$code}
+                        </span>
+                    </div>
+                    <p style='color: #777; font-size: 13px;'>Kode ini bersifat rahasia dan berlaku selama 15 menit. Jika Anda tidak merasa melakukan permintaan ini, silakan abaikan email ini.</p>
+                    <hr style='border: none; border-top: 1px solid #eee; margin: 20px 0;'>
+                    <p style='color: #aaa; font-size: 11px; text-align: center;'>&copy; " . date('Y') . " Zarabel Studio. All rights reserved.</p>
+                </div>";
+
+                $message->to($recipientEmail)
+                        ->subject('Kode Verifikasi Reset Password Zarabel: ' . $code)
+                        ->html($htmlBody);
+            });
+            $statusMessage = 'Kode OTP verifikasi telah dikirim ke email Anda (' . $recipientEmail . '). Silakan periksa inbox / spam.';
+        } catch (\Throwable $e) {
+            Log::error('Gagal mengirim email OTP reset password: ' . $e->getMessage());
+            // Fallback jika SMTP belum disetting di .env
+            $statusMessage = 'Kode OTP telah dibuat: ' . $code . ' (Catatan: Jika email belum masuk ke inbox, silakan cek pengaturan SMTP di server atau gunakan kode tersebut).';
+        }
+
+        return redirect()->route('password.confirm')->with('status', $statusMessage);
     }
 
     /**
