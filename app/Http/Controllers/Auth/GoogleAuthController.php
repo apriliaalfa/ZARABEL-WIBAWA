@@ -53,11 +53,14 @@ class GoogleAuthController extends Controller
                 ->first();
 
             if ($user) {
-                // Update Google ID and avatar if not set
-                $user->update([
+                // Jangan timpa avatar custom yang sudah pernah diupload pengguna
+                $updateData = [
                     'google_id' => $user->google_id ?: $googleId,
-                    'avatar' => $avatar ?: $user->avatar,
-                ]);
+                ];
+                if (empty($user->avatar)) {
+                    $updateData['avatar'] = $avatar;
+                }
+                $user->update($updateData);
             } else {
                 $user = User::create([
                     'name' => $name,

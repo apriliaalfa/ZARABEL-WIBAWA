@@ -119,7 +119,7 @@
       order_number: "{{ $order->order_number }}",
       customer_name: "{{ $order->customer_name }}",
       customer_address: "{{ addslashes($order->shipping_address) }}",
-      method: "{{ strtoupper($order->payment?->payment_method ?? 'MIDTRANS') }}",
+      method: "{{ $order->payment?->payment_method ? ucwords(str_replace('_', ' ', $order->payment->payment_method)) : 'QRIS' }}",
       date: "{{ $order->created_at->format('d M Y H:i') }}",
       status: "{{ $order->status }}",
       subtotal: {{ (float)$order->subtotal }},

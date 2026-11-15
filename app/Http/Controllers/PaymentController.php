@@ -137,10 +137,25 @@ class PaymentController extends Controller
                 ]);
             }
 
-            // Create initial Payment record
+            // Filter enabled payment method from user selection
+            $method = strtolower($request->input('payment_method', ''));
+            $channel = strtolower($request->input('payment_channel', ''));
+
+            // Tentukan label metode pembayaran yang ramah pengguna
+            $displayPaymentMethod = 'QRIS';
+            if ($method === 'transfer') {
+                $displayPaymentMethod = 'Bank Transfer - ' . strtoupper($channel ?: 'BCA');
+            } elseif ($method === 'ewallet') {
+                $displayPaymentMethod = 'E-Wallet - ' . ucfirst($channel ?: 'GoPay');
+            } elseif ($method === 'qris') {
+                $displayPaymentMethod = 'QRIS';
+            }
+
+            // Create initial Payment record dengan metode yang dipilih user
             Payment::create([
                 'order_id' => $order->id,
-                'payment_method' => 'midtrans',
+                'payment_method' => $displayPaymentMethod,
+                'payment_channel' => $channel ?: null,
                 'amount' => $totalAmount,
                 'payment_status' => 'unpaid',
             ]);
@@ -297,10 +312,15 @@ class PaymentController extends Controller
         // Mark as paid if user succeeded via Snap popup
         if ($request->input('result_status') === 'success' || $request->input('result_status') === 'settlement') {
             $order->update(['status' => 'paid']);
+            $existingPayment = Payment::where('order_id', $order->id)->first();
+            $paymentMethod = $existingPayment && !empty($existingPayment->payment_method) && $existingPayment->payment_method !== 'midtrans'
+                ? $existingPayment->payment_method
+                : strtoupper($request->input('payment_type', 'QRIS'));
+
             Payment::updateOrCreate(
                 ['order_id' => $order->id],
                 [
-                    'payment_method' => $request->input('payment_type', 'midtrans'),
+                    'payment_method' => $paymentMethod,
                     'payment_status' => 'paid',
                     'paid_at' => now(),
                     'amount' => $order->total_amount,
