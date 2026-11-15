@@ -114,13 +114,13 @@
       <!-- KIRI: galeri + tab -->
       <div class="av-left">
         <div class="pd-gallery">
-          <img class="pd-photo" id="mainPhoto" src="{{ $mainImgUrl }}" alt="{{ $pName }}" style="object-fit:cover;">
+          <img class="pd-photo" id="mainPhoto" src="{{ $mainImgUrl }}" alt="{{ $pName }}" style="object-fit:cover;" onerror="this.onerror=null;this.src='{{ asset('assets/img/Kirana1.jpg') }}'">
           <div class="pd-thumbs" id="thumbs">
             @foreach($gallery as $i => $gImg)
               @php
                 $gUrl = Str::startsWith($gImg, ["http://", "https://", "assets/", "storage/", "uploads/"]) ? asset($gImg) : asset("assets/img/Kirana1.jpg");
               @endphp
-              <button class="{{ $i === 0 ? "on" : "" }}" data-src="{{ $gUrl }}"><img src="{{ $gUrl }}" alt="" style="object-fit:cover;"></button>
+              <button class="{{ $i === 0 ? "on" : "" }}" data-src="{{ $gUrl }}"><img src="{{ $gUrl }}" alt="" style="object-fit:cover;" onerror="this.closest('button').remove();"></button>
             @endforeach
           </div>
         </div>
