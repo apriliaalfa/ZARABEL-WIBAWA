@@ -60,7 +60,7 @@
       <button class="category-card" onclick="location.href='{{ route('catalog') }}?cat=Pleats'"><img src="{{ asset('assets/img/Kirana1.jpg') }}" alt="Pleats collection"><span>Pleats</span></button>
       <button class="category-card" onclick="location.href='{{ route('catalog') }}?cat=Pashmina'"><img src="{{ asset('assets/img/Luna1.jpg') }}" alt="Pashmina collection"><span>Pashmina</span></button>
       <button class="category-card" onclick="location.href='{{ route('catalog') }}?cat=Shirt'"><img src="{{ asset('assets/img/Pinkbella1.jpg') }}" alt="Shirt collection"><span>Shirt</span></button>
-      <button class="category-card category-wide" onclick="location.href='{{ route('catalog') }}?cat=Outer'"><img src="{{ asset('assets/img/Sena1.jpg') }}" alt="Outer collection" style="object-position: center 85%;"><span>Outer</span></button>
+      <button class="category-card category-wide" onclick="location.href='{{ route('catalog') }}?cat=Outer'"><img src="{{ asset('assets/img/Sena1.jpg') }}" alt="Outer collection" style="object-position: center 70%;"><span>Outer</span></button>
       <button class="category-card" onclick="location.href='{{ route('catalog') }}?cat=Dress'"><img src="{{ asset('assets/img/Artic1.jpg') }}" alt="Dress collection"><span>Dress</span></button>
     </div>
   </section>
