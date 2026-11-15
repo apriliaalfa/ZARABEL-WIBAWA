@@ -164,29 +164,30 @@ class PaymentController extends Controller
                 'item_details' => $itemDetails,
             ];
 
-            // Filter enabled payment method from user selection agar langsung otomatis ke channel pilihan
+            // Filter enabled payment method from user selection
             $method = strtolower($request->input('payment_method', ''));
             $channel = strtolower($request->input('payment_channel', ''));
 
             if ($method === 'qris') {
-                $params['enabled_payments'] = ['qris'];
+                // Berikan opsi qris bersama gopay & shopeepay sebagai fallback jika QRIS merchant belum diapprove
+                $params['enabled_payments'] = ['qris', 'gopay', 'shopeepay'];
             } elseif ($method === 'transfer') {
                 if ($channel === 'bca') {
-                    $params['enabled_payments'] = ['bca_va'];
+                    $params['enabled_payments'] = ['bca_va', 'bank_transfer', 'other_va'];
                 } elseif ($channel === 'bni') {
-                    $params['enabled_payments'] = ['bni_va'];
+                    $params['enabled_payments'] = ['bni_va', 'bank_transfer', 'other_va'];
                 } elseif ($channel === 'bri') {
-                    $params['enabled_payments'] = ['bri_va'];
+                    $params['enabled_payments'] = ['bri_va', 'bank_transfer', 'other_va'];
                 } elseif ($channel === 'mandiri') {
-                    $params['enabled_payments'] = ['echannel'];
+                    $params['enabled_payments'] = ['echannel', 'bank_transfer'];
                 } else {
-                    $params['enabled_payments'] = ['bank_transfer', 'bca_va', 'bni_va', 'bri_va', 'echannel'];
+                    $params['enabled_payments'] = ['bank_transfer', 'bca_va', 'bni_va', 'bri_va', 'echannel', 'other_va'];
                 }
             } elseif ($method === 'ewallet') {
                 if (str_contains($channel, 'gopay')) {
-                    $params['enabled_payments'] = ['gopay'];
+                    $params['enabled_payments'] = ['gopay', 'qris'];
                 } elseif (str_contains($channel, 'shopee')) {
-                    $params['enabled_payments'] = ['shopeepay'];
+                    $params['enabled_payments'] = ['shopeepay', 'qris'];
                 } else {
                     $params['enabled_payments'] = ['gopay', 'shopeepay', 'qris'];
                 }
