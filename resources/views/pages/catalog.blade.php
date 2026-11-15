@@ -10,7 +10,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@400;700&family=Playfair+Display:wght@400;500&family=Poppins:wght@400;500;600;700&family=Volkhov&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;500;700&family=Montserrat:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Tenor+Sans&family=Volkhov:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset('css/home.css') }}">
 <link rel="stylesheet" href="{{ asset('css/catalog.css') }}">
 </head>
@@ -22,61 +22,7 @@
 <main>
 
   <!-- ================= HEADER ================= -->
-  <header class="site-header logged catalog-header">
-    <a class="brand" href="{{ Auth::check() ? route('homepage2') : route('homepage1') }}" aria-label="Zarabel home">
-      <img src="{{ asset('assets/img/zarabelbg.png') }}" alt="">
-      <span>arabel</span>
-    </a>
-
-    <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation" aria-expanded="false">
-      <span></span><span></span>
-    </button>
-
-    <nav id="mainNav" aria-label="Main navigation">
-      <button onclick="location.href='{{ Auth::check() ? route('homepage2') : route('homepage1') }}'">Home</button>
-      <div class="catalog-control">
-        <button class="active" id="catalogBtn" aria-expanded="false">
-          Catalog <svg class="ic"><use href="#i-chev"/></svg>
-        </button>
-        <div class="catalog-menu" id="catalogMenu">
-          <button onclick="location.href='{{ route('catalog') }}?cat=Pleats'">Pleats</button>
-          <button onclick="location.href='{{ route('catalog') }}?cat=Pashmina'">Pashmina</button>
-          <button onclick="location.href='{{ route('catalog') }}?cat=Shirt'">Shirt</button>
-          <button onclick="location.href='{{ route('catalog') }}?cat=Outer'">Outer</button>
-          <button onclick="location.href='{{ route('catalog') }}?cat=Dress'">Dress</button>
-        </div>
-      </div>
-      <button onclick="location.href='{{ route('catalog') }}'">New Arrival</button>
-      <button onclick="location.href='{{ route('about') }}'">About Us</button>
-    </nav>
-
-    <div class="header-actions">
-      <button aria-label="Search"><svg class="ic"><use href="#i-search"/></svg></button>
-      @auth
-        @if(Auth::user()->role === 'admin')
-          <button aria-label="Admin Dashboard" onclick="location.href='{{ route('admin.dashboard') }}'">
-            <svg class="ic"><use href="#i-user"/></svg>
-          </button>
-        @else
-          <button aria-label="Account" onclick="location.href='{{ route('profile') }}'">
-            <svg class="ic"><use href="#i-user"/></svg>
-          </button>
-          <button class="cart-button" aria-label="Cart" onclick="location.href='{{ route('cart') }}'">
-            <svg class="ic"><use href="#i-cart"/></svg>
-            <span id="cartCount">0</span>
-          </button>
-        @endif
-      @else
-        <button aria-label="Sign In" onclick="location.href='{{ route('login') }}'">
-          <svg class="ic"><use href="#i-user"/></svg>
-        </button>
-        <button class="cart-button" aria-label="Cart" onclick="location.href='{{ route('cart') }}'">
-          <svg class="ic"><use href="#i-cart"/></svg>
-          <span id="cartCount">0</span>
-        </button>
-      @endauth
-    </div>
-  </header>
+  @include('partials.header-user', ['active' => 'catalog'])
 
   <!-- ================= ISI CATALOG ================= -->
   <section class="catalog-main">
@@ -185,23 +131,6 @@
       if (mNav) mNav.classList.remove('open');
     });
   });
-
-  // Mobile menu toggle + dropdown Catalog
-  var nav = document.getElementById('mainNav');
-  var toggle = document.getElementById('menuToggle');
-  if (toggle && nav) {
-    toggle.addEventListener('click', function(){
-      toggle.setAttribute('aria-expanded', nav.classList.toggle('open'));
-    });
-  }
-
-  var catalogMenu = document.getElementById('catalogMenu');
-  var catalogBtn = document.getElementById('catalogBtn');
-  if (catalogBtn && catalogMenu) {
-    catalogBtn.addEventListener('click', function(){
-      catalogBtn.setAttribute('aria-expanded', catalogMenu.classList.toggle('open'));
-    });
-  }
 
   // Accordion filter Category & Price
   function accordion(btnId, boxId){

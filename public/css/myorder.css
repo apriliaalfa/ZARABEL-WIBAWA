@@ -30,18 +30,19 @@
     align-items: flex-end;
     justify-content: space-between;
     gap: 30px;
-    min-height: 155px;
-    padding: 15px 32px 0 54px;
+    min-height: 140px;
+    padding: 15px clamp(20px, 4vw, 54px) 0;
     background: #69481b;
     color: #fef7ee;
+    width: 100%;
 }
 
 .settings-copy h1 {
     margin: 0 0 17px;
     color: #fff;
-    font-family: 'Volkhov', serif;
-    font-weight: 400;
-    font-size: 40px;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 500;
+    font-size: clamp(28px, 3.2vw, 36px);
     line-height: 1.2;
 }
 
@@ -56,8 +57,9 @@
     text-decoration: none;
     padding: 0 0 17px;
     cursor: pointer;
-    font-family: 'Abhaya Libre', serif;
-    font-size: 25px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
     line-height: 1;
     color: #fef7ee;
 }
@@ -122,7 +124,10 @@
 
 /* ---------- ORDERS ---------- */
 .orders-section {
-    padding: 40px 16px 28px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px clamp(16px, 2.5vw, 32px) 80px;
 }
 
 .status-filters {
@@ -577,6 +582,9 @@
     grid-template-columns: minmax(280px, 5fr) minmax(0, 6.5fr);
     align-items: stretch;
     min-height: 640px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .profile-section[hidden] {

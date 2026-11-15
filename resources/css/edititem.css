@@ -22,8 +22,8 @@
 
 .ai-angles {
   display: grid;
-  grid-template-columns: repeat(2, 271px);
-  gap: 55px 64px;
+  grid-template-columns: repeat(2, minmax(0, 271px));
+  gap: clamp(16px, 3vw, 55px) clamp(16px, 3.5vw, 64px);
 }
 
 .up-box {

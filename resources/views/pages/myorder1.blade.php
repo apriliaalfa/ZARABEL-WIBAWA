@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Zarabel — My Orders</title>
 
-<link rel="icon" type="image/png" href="{{ asset('images/zarabelbg.png') }}">
-<link rel="apple-touch-icon" href="{{ asset('images/zarabelbg.png') }}">
+<link rel="icon" type="image/png" href="{{ asset('assets/img/zarabelbg.png') }}">
+<link rel="apple-touch-icon" href="{{ asset('assets/img/zarabelbg.png') }}">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@400;700&family=Jost:wght@400&family=Lateef:wght@300&family=Lato:wght@400;500;700&family=Nunito+Sans:wght@600;700;800&family=Playfair+Display:wght@400;500&family=Poppins:wght@300;400;500;600;700&family=Volkhov&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@400;700&family=Lato:wght@400;500;700&family=Montserrat:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Tenor+Sans&family=Volkhov:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset('css/home.css') }}">
 <link rel="stylesheet" href="{{ asset('css/catalog.css') }}">
 <link rel="stylesheet" href="{{ asset('css/myorder.css') }}">

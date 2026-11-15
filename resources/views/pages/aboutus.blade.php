@@ -10,11 +10,11 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&family=Lato:wght@400;500;700&family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@400;500&family=Poppins:wght@300;400;500;600;700&family=Volkhov&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ asset('assets/css/home.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/css/catalog.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/css/about.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/css/minicart.css') }}">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&family=Lato:wght@400;500;700&family=Montserrat:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Tenor+Sans&family=Volkhov:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ asset('css/home.css') }}">
+<link rel="stylesheet" href="{{ asset('css/catalog.css') }}">
+<link rel="stylesheet" href="{{ asset('css/about.css') }}">
+<link rel="stylesheet" href="{{ asset('css/minicart.css') }}">
 </head>
 <body>
 

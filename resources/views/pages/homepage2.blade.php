@@ -10,7 +10,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@400;700&family=Playfair+Display:wght@400;500&family=Poppins:wght@400;500;600;700&family=Volkhov&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;500;700&family=Montserrat:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Tenor+Sans&family=Volkhov:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset('css/home.css') }}">
 <link rel="stylesheet" href="{{ asset('css/minicart.css') }}">
 </head>
@@ -26,19 +26,11 @@
 
   <!-- ================= HERO ================= -->
   <section id="home" class="hero">
-    <img class="hero-image" src="{{ asset('assets/img/hero2.jpeg') }}" alt="Woman wearing Zarabel modest fashion">
+    <img class="hero-image" src="{{ asset('assets/img/hero2.jpeg') }}" alt="Woman wearing Zarabel modest fashion" loading="eager">
     <div class="hero-copy">
       <p>made in Indonesia, dedicated to Indonesia</p>
       <h1>Artistic Printed Wonderful Indonesian Textile Design</h1>
-    </div>
-    <div class="customer-stack" aria-label="23,000 plus customers">
-      <div>
-        <img src="{{ asset('assets/img/model1.png') }}" alt="">
-        <img src="{{ asset('assets/img/model2.png') }}" alt="">
-        <img src="{{ asset('assets/img/model3.png') }}" alt="">
-      </div>
-      <strong>23000+</strong>
-      <span>our customers</span>
+      <a href="{{ route('catalog') }}" class="hero-cta">Shop the Collection</a>
     </div>
     <button class="scroll-down" data-scroll="categories">
       scroll down <svg class="ic"><use href="#i-chev2"/></svg>
@@ -393,12 +385,49 @@
   // Menu HP
   var nav = document.getElementById('mainNav');
   var toggle = document.getElementById('menuToggle');
-  if (nav && toggle) {
-    toggle.addEventListener('click', function(){
-      var open = nav.classList.toggle('open');
-      toggle.setAttribute('aria-expanded', open);
+  var closeNavBtn = document.getElementById('navClose');
+
+  function openNav() {
+    if (nav) nav.classList.add('open');
+    if (toggle) toggle.setAttribute('aria-expanded', 'true');
+    document.body.classList.add('drawer-open');
+  }
+
+  function closeNav() {
+    if (nav) nav.classList.remove('open');
+    if (toggle) toggle.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('drawer-open');
+  }
+
+  if (toggle && nav) {
+    toggle.addEventListener('click', function(e){
+      e.stopPropagation();
+      if (nav.classList.contains('open')) {
+        closeNav();
+      } else {
+        openNav();
+      }
     });
   }
+
+  if (closeNavBtn) {
+    closeNavBtn.addEventListener('click', function(e){
+      e.stopPropagation();
+      closeNav();
+    });
+  }
+
+  document.addEventListener('click', function(e){
+    if (nav && nav.classList.contains('open') && !nav.contains(e.target) && (!toggle || !toggle.contains(e.target))) {
+      closeNav();
+    }
+  });
+
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && nav && nav.classList.contains('open')) {
+      closeNav();
+    }
+  });
 
   // Dropdown Catalog (hanya jika ada di header)
   var catalogMenu = document.getElementById('catalogMenu');

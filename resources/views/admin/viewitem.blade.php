@@ -14,7 +14,6 @@
 <link rel="stylesheet" href="{{ asset('css/home.css') }}">
 <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
 <link rel="stylesheet" href="{{ asset('css/product.css') }}">
-<link rel="stylesheet" href="{{ asset('css/admin.css') }}">
 </head>
 <body>
 
@@ -48,25 +47,7 @@
 <main>
 
   <!-- ================= HEADER ADMIN ================= -->
-  <header class="site-header ad-header">
-    <a class="brand" href="{{ route('homepage2') }}" aria-label="Zarabel home">
-      <img src="{{ asset('assets/img/zarabelbg.png') }}" alt="">
-      <span>arabel</span>
-    </a>
-
-    <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation" aria-expanded="false">
-      <span></span><span></span>
-    </button>
-
-    <nav id="mainNav" aria-label="Main navigation">
-      <button onclick="location.href='{{ route('homepage2') }}'">Home</button>
-      <button class="active" onclick="location.href='{{ route('admin.dashboard') }}'">Admin</button>
-    </nav>
-
-    <div class="header-actions">
-      <button aria-label="Search"><svg class="ic"><use href="#i-search"/></svg></button>
-    </div>
-  </header>
+  @include('partials.header-user', ['active' => 'admin', 'headerClass' => 'ad-header'])
 
   <!-- ================= BANNER ADMIN ================= -->
   <section class="ad-banner">
@@ -231,41 +212,11 @@
   </section>
 
   <!-- ================= FOOTER ================= -->
-  <footer id="about">
-    <div class="footer-brand">
-      <div class="brand footer-logo">
-        <img src="{{ asset('assets/img/zarabelbg.png') }}" alt="">
-        <span>arabel</span>
-      </div>
-      <p>Artistic Printed Wonderful Indonesian Textile Design</p>
-      <div class="socials">
-        <button aria-label="Instagram"><svg class="ic"><use href="#i-ig"/></svg></button>
-        <button aria-label="Phone"><svg class="ic"><use href="#i-call"/></svg></button>
-        <button aria-label="Email"><svg class="ic"><use href="#i-mail"/></svg></button>
-        <button aria-label="Shop"><svg class="ic"><use href="#i-bag"/></svg></button>
-        <button aria-label="Website"><svg class="ic"><use href="#i-globe"/></svg></button>
-      </div>
-    </div>
-
-    <div class="footer-links">
-      <div><strong>Information</strong><button>About Us</button><button>Contact</button><button>Blog</button></div>
-      <div><strong>Company</strong><button>Community</button><button>Career</button><button>Our story</button></div>
-      <div><strong>Contact</strong><button>Getting Started</button><button>Pricing</button><button>Resources</button></div>
-    </div>
-
-    <p class="copyright">Copyright Â© 2026 Xpro. All Rights Reserved Â· Terms of use ZARABEL</p>
-  </footer>
+  @include('partials.footer')
 
 </main>
 
 <script>
-  // ---------- Menu HP ----------
-  var nav = document.getElementById('mainNav');
-  var toggle = document.getElementById('menuToggle');
-  toggle.addEventListener('click', function(){
-    toggle.setAttribute('aria-expanded', nav.classList.toggle('open'));
-  });
-
   // ---------- Data item (opsional) ----------
   // Buka dengan ?id=0 untuk menampilkan item ke-0 dari localStorage 'zarabelProducts'.
   // Tanpa ?id, halaman menampilkan contoh produk di atas.
