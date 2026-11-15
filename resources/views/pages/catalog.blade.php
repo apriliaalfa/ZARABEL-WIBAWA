@@ -113,12 +113,25 @@
         <div class="catalog-grid" id="grid">
           @forelse($products as $prod)
             @php
-              $imgUrl = Str::startsWith($prod->main_image, ["http://", "https://", "assets/", "storage/", "uploads/"]) ? asset($prod->main_image) : asset("assets/img/cat1.jpg");
+              $rawImg = $prod->main_image ?? '';
+              if (Str::startsWith($rawImg, ['http://', 'https://'])) {
+                  $imgUrl = $rawImg;
+              } elseif (!empty($rawImg) && file_exists(public_path($rawImg))) {
+                  $imgUrl = asset($rawImg);
+              } elseif (!empty($rawImg) && file_exists(public_path('uploads/products/' . basename($rawImg)))) {
+                  $imgUrl = asset('uploads/products/' . basename($rawImg));
+              } elseif (!empty($rawImg) && file_exists(public_path('assets/img/' . basename($rawImg)))) {
+                  $imgUrl = asset('assets/img/' . basename($rawImg));
+              } else {
+                  $catMap = ['pleats' => 'cat1.jpg', 'pashmina' => 'cat2.jpg', 'shirt' => 'cat3.jpg', 'outer' => 'cat4.jpg', 'dress' => 'cat5.jpg'];
+                  $defaultCat = $catMap[strtolower($prod->category_name ?? '')] ?? 'cat1.jpg';
+                  $imgUrl = asset('assets/img/' . $defaultCat);
+              }
               $discountPrice = $prod->discount_price ? 'IDR ' . number_format($prod->discount_price, 0, ',', '.') : 'IDR ' . number_format($prod->price * 1.25, 0, ',', '.');
             @endphp
             <article class="product-card" data-price="{{ (int)$prod->price }}" data-category="{{ $prod->category_name }}">
               <button class="product-image add-cart" aria-label="Add {{ $prod->name }} to cart" onclick="location.href='{{ route('product', $prod->code) }}'">
-                <img src="{{ $imgUrl }}" alt="{{ $prod->name }}" style="object-fit:cover;">
+                <img src="{{ $imgUrl }}" alt="{{ $prod->name }}" style="object-fit:cover;" onerror="this.onerror=null;this.src='{{ asset('assets/img/cat1.jpg') }}'">
                 <span class="rating"><svg class="ic"><use href="#i-star"/></svg> {{ number_format($prod->rating ?? 4.95, 2) }}</span>
                 <span class="quick-add">View Product</span>
               </button>

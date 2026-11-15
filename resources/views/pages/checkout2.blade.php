@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -105,10 +105,10 @@
             <div class="dd" id="ddMethod">
               <button type="button" class="dd-btn" aria-haspopup="listbox" aria-expanded="false">
                 <span class="dd-label">QRIS</span>
-                <span class="right"><span class="chip"><img src="{{ asset('assets/img/logo qris.png') }}" alt="QRIS"></span><svg class="ic"><use href="#i-chev"/></svg></span>
+                <span class="right"><span class="chip"><img src="{{ asset('assets/img/logo-qris.png') }}" alt="QRIS"></span><svg class="ic"><use href="#i-chev"/></svg></span>
               </button>
               <ul class="dd-list" role="listbox">
-                <li class="dd-item" role="option" data-value="qris" data-label="QRIS" aria-selected="true">QRIS <span class="chip"><img src="{{ asset('assets/img/logo qris.png') }}" alt="QRIS"></span></li>
+                <li class="dd-item" role="option" data-value="qris" data-label="QRIS" aria-selected="true">QRIS <span class="chip"><img src="{{ asset('assets/img/logo-qris.png') }}" alt="QRIS"></span></li>
                 <li class="dd-item" role="option" data-value="transfer" data-label="Transfer Bank">Transfer Bank <span class="chip"><img src="{{ asset('assets/img/logo bank tf.png') }}" alt="BANK"></span></li>
                 <li class="dd-item" role="option" data-value="ewallet" data-label="E-Wallet">E-Wallet <span class="chip"><img src="{{ asset('assets/img/logo e-wallet.png') }}" alt="E-WALLET"></span></li>
               </ul>
