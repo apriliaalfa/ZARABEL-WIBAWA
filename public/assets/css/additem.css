@@ -1,0 +1,398 @@
+/* =========================================================
+   admin-add-item.css — Admin: Add New Item
+   Panggil SETELAH home.css dan admin.css
+   (header, banner, .ad-content, .ad-title dipakai dari admin.css)
+   ========================================================= */
+
+.ai-content {
+  padding-bottom: 160px;
+}
+
+.ai-title {
+  margin-bottom: 85px;
+}
+
+/* ---------- FOTO ---------- */
+.ai-photos {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 56px;
+}
+
+.ai-angles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 271px));
+  gap: clamp(16px, 3vw, 55px) clamp(16px, 3.5vw, 64px);
+}
+
+.up-box {
+  position: relative;
+  box-sizing: border-box;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  width: 271px;
+  height: 274px;
+  background: rgb(255 255 255 / 63%);
+  border-radius: 10px;
+  box-shadow: 0 40px 90px rgb(0 0 0 / 6%);
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 20px;
+  letter-spacing: -.01em;
+  color: #484848;
+  text-align: center;
+  transition: box-shadow .18s, transform .18s;
+}
+
+.up-box:hover {
+  box-shadow: 0 40px 90px rgb(0 0 0 / 12%);
+  transform: translateY(-2px);
+}
+
+.up-box .up-ic {
+  width: 48px;
+  height: 48px;
+  color: #1e1e1e;
+}
+
+/* kotak foto utama (386 x 428, turun 125px dari baris atas angle) */
+.up-box.ai-big {
+  width: 386px;
+  height: 428px;
+  margin-top: 125px;
+  gap: 14px;
+}
+
+.up-box.ai-big .up-ic {
+  width: 50px;
+  height: 50px;
+}
+
+/* area gambar di dalam kotak (Figma: 336x373 / 235.9x238.8) */
+.up-preview {
+  position: absolute;
+  inset: 13px 17px;
+  width: calc(100% - 34px);
+  height: calc(100% - 26px);
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
+}
+
+.ai-big .up-preview {
+  inset: 20px 25px;
+  width: calc(100% - 50px);
+  height: calc(100% - 40px);
+}
+
+.up-box.has-img .up-ic,
+.up-box.has-img .up-label {
+  display: none;
+}
+
+/* ---------- ITEM DETAILS ---------- */
+.ai-card {
+  box-sizing: border-box;
+  max-width: 1194px;
+  margin: 50px auto 0;
+  padding: 12px 15px 19px 26px;
+  background: rgb(255 255 255 / 65%);
+  border-radius: 10px;
+  box-shadow: 0 40px 90px rgb(0 0 0 / 6%);
+}
+
+.ai-card-title {
+  margin: 0 0 28px;
+  font-family: 'Volkhov', Georgia, serif;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 42px;
+  color: #000;
+  text-transform: capitalize;
+}
+
+.ai-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 639fr) minmax(0, 480fr);
+  gap: 34px;
+}
+
+.ai-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.fld {
+  display: flex;
+  flex-direction: column;
+  --g: 10px;
+}
+
+.fld>label,
+.fld>.lbl {
+  margin-bottom: var(--g);
+  font-family: 'Volkhov', Georgia, serif;
+  font-weight: 700;
+  font-size: 25px;
+  line-height: 24px;
+  color: #000;
+}
+
+.fld-info {
+  --g: 2px;
+}
+
+.fld-stock {
+  --g: 19px;
+}
+
+.ai-col-r {
+  gap: 19px;
+}
+
+.fld input[type="text"],
+.fld select,
+.fld textarea {
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  background: rgb(255 255 255 / 50%);
+  border: 1px solid #8a8a8a;
+  border-radius: 0;
+  outline: 0;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 23px;
+  line-height: 34px;
+  color: #000;
+  transition: border-color .15s, box-shadow .15s;
+}
+
+.fld input[type="text"] {
+  height: 59px;
+  padding: 0 15px;
+}
+
+.fld select {
+  height: 71px;
+  padding: 0 52px 0 17px;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M1 1.2L6 6.5L11 1.2' stroke='%23000' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 24px center;
+  background-size: 12px 8px;
+}
+
+.fld textarea {
+  display: block;
+  resize: vertical;
+}
+
+.fld .ta-desc {
+  height: 171px;
+  padding: 10px;
+}
+
+.fld .ta-info {
+  height: 427px;
+  padding: 18px 8px;
+}
+
+.fld input::placeholder,
+.fld textarea::placeholder {
+  color: rgb(0 0 0 / 60%);
+  opacity: 1;
+}
+
+.fld input:focus,
+.fld select:focus,
+.fld textarea:focus {
+  border-color: var(--brown, #69481b);
+  box-shadow: 0 0 0 3px rgb(105 72 27 / 15%);
+}
+
+/* stock quantity */
+.qty {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 119px;
+  height: 41.3px;
+  padding: 0 9px;
+  border: 1px solid #8a8a8a;
+  border-radius: 3.5px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 25px;
+  line-height: 38px;
+  color: #000;
+}
+
+.qty button {
+  width: 18px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.qty .num {
+  font-weight: 400;
+  color: #8a8a8a;
+}
+
+/* ---------- PUBLISH ---------- */
+.ai-publish {
+  display: block;
+  width: 220px;
+  height: 66px;
+  margin: 28px auto 0;
+  border: 0;
+  border-radius: 10px;
+  background: #69481b;
+  color: #fff;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 800;
+  font-size: 25px;
+  line-height: 1;
+  box-shadow: 0 20px 35px rgb(0 0 0 / 15%);
+  transition: transform .15s, opacity .15s;
+}
+
+.ai-publish:hover {
+  transform: translateY(-2px);
+  opacity: .94;
+}
+
+.ai-msg {
+  min-height: 24px;
+  margin: 16px 0 0;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.ai-msg.err {
+  color: #cd0909;
+}
+
+.ai-msg.ok {
+  color: #1d6b35;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width:1100px) {
+  .ai-photos {
+    flex-wrap: wrap;
+  }
+
+  .up-box.ai-big {
+    margin-top: 0;
+  }
+}
+
+@media (max-width:900px) {
+  .ai-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .fld .ta-info {
+    height: 300px;
+  }
+}
+
+@media (max-width:760px) {
+  .ai-content {
+    padding-bottom: 80px;
+  }
+
+  .ai-title {
+    margin-bottom: 28px;
+  }
+
+  .ai-photos {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+  }
+
+  .up-box.ai-big {
+    width: 100%;
+    height: 300px;
+  }
+
+  .ai-angles {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .ai-angles .up-box {
+    width: 100%;
+    height: 170px;
+    font-size: 16px;
+  }
+
+  .up-box {
+    font-size: 18px;
+  }
+
+  .ai-card {
+    margin-top: 28px;
+    padding: 12px 16px 20px;
+  }
+
+  .ai-card-title {
+    font-size: 24px;
+    margin-bottom: 18px;
+  }
+
+  .fld>label,
+  .fld>.lbl {
+    font-size: 18px;
+  }
+
+  .fld input[type="text"],
+  .fld select,
+  .fld textarea {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .fld input[type="text"] {
+    height: 48px;
+  }
+
+  .fld select {
+    height: 52px;
+  }
+
+  .fld .ta-desc {
+    height: 130px;
+  }
+
+  .qty {
+    font-size: 20px;
+  }
+
+  .ai-publish {
+    width: 200px;
+    height: 56px;
+    font-size: 20px;
+  }
+}
