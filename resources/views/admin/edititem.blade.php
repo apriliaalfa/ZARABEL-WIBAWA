@@ -101,7 +101,8 @@
 
     $getUrl = function($img) {
         if (!$img) return null;
-        return Str::startsWith($img, ["http://", "https://", "assets/", "storage/", "uploads/"]) ? asset($img) : asset($img);
+        if (Str::startsWith($img, ["http://", "https://"])) return $img;
+        return asset($img);
     };
     $a2Url = $getUrl($a2);
     $a3Url = $getUrl($a3);
@@ -127,7 +128,7 @@
         <div class="ai-angles">
           <label class="up-box is-photo {{ $a2Url ? 'has-img' : '' }}" for="upA2">
             @if($a2Url)
-              <img class="up-preview" src="{{ $a2Url }}" alt="Angle 2" style="object-fit:cover;">
+              <img class="up-preview" src="{{ $a2Url }}" alt="Angle 2" style="object-fit:cover;" onerror="this.onerror=null;this.closest('.up-box').classList.remove('has-img');this.remove();">
             @endif
             <svg class="ic up-ic"><use href="#i-image"/></svg>
             <span class="up-label">{{ $a2Url ? 'Change Angle 2' : 'Angle 2' }}</span>
@@ -135,7 +136,7 @@
           </label>
           <label class="up-box is-photo {{ $a3Url ? 'has-img' : '' }}" for="upA3">
             @if($a3Url)
-              <img class="up-preview" src="{{ $a3Url }}" alt="Angle 3" style="object-fit:cover;">
+              <img class="up-preview" src="{{ $a3Url }}" alt="Angle 3" style="object-fit:cover;" onerror="this.onerror=null;this.closest('.up-box').classList.remove('has-img');this.remove();">
             @endif
             <svg class="ic up-ic"><use href="#i-image"/></svg>
             <span class="up-label">{{ $a3Url ? 'Change Angle 3' : 'Angle 3' }}</span>
@@ -143,7 +144,7 @@
           </label>
           <label class="up-box is-photo {{ $a4Url ? 'has-img' : '' }}" for="upA4">
             @if($a4Url)
-              <img class="up-preview" src="{{ $a4Url }}" alt="Angle 4" style="object-fit:cover;">
+              <img class="up-preview" src="{{ $a4Url }}" alt="Angle 4" style="object-fit:cover;" onerror="this.onerror=null;this.closest('.up-box').classList.remove('has-img');this.remove();">
             @endif
             <svg class="ic up-ic"><use href="#i-image"/></svg>
             <span class="up-label">{{ $a4Url ? 'Change Angle 4' : 'Angle 4' }}</span>
@@ -151,7 +152,7 @@
           </label>
           <label class="up-box is-photo {{ $a5Url ? 'has-img' : '' }}" for="upA5">
             @if($a5Url)
-              <img class="up-preview" src="{{ $a5Url }}" alt="Angle 5" style="object-fit:cover;">
+              <img class="up-preview" src="{{ $a5Url }}" alt="Angle 5" style="object-fit:cover;" onerror="this.onerror=null;this.closest('.up-box').classList.remove('has-img');this.remove();">
             @endif
             <svg class="ic up-ic"><use href="#i-image"/></svg>
             <span class="up-label">{{ $a5Url ? 'Change Angle 5' : 'Angle 5' }}</span>
